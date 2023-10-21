@@ -28,7 +28,7 @@ public class Jugador {
     private int alcanceMano;
     private int alcanceBloqueo;
 
-    @OneToMany(mappedBy = "jugador_id")
+    @OneToMany(mappedBy = "jugador")
     private List<JugadorPartido> partidos;
 
     public Jugador(){}

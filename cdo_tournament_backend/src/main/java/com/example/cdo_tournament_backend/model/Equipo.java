@@ -13,32 +13,32 @@ public class Equipo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_Equipo;
+    private int idEquipo;
 
     private String nombreEquipo;
     private String nombreEntrenador;
 
-    @OneToMany(mappedBy = "equipo")
+    @OneToMany(mappedBy = "equipo") // Corregido el mappedBy
     private List<ListaJugadoresPartido> listaJugadoresPartidos;
 
     // Constructor
     public Equipo() {}
 
     // Constructor con parámetros
-    public Equipo( int id_Equipo, String nombreEquipo, String nombreEntrenador) {
+    public Equipo(int idEquipo, String nombreEquipo, String nombreEntrenador) {
         super();
-        this.id_Equipo = id_Equipo;
+        this.idEquipo = idEquipo;
         this.nombreEquipo = nombreEquipo;
         this.nombreEntrenador = nombreEntrenador;
     }
 
     // Getters y Setters
     public int getIdEquipo() {
-        return id_Equipo;
+        return idEquipo;
     }
 
     public void setIdEquipo(int idEquipo) {
-        this.id_Equipo = idEquipo;
+        this.idEquipo = idEquipo;
     }
 
     public String getNombreEquipo() {

@@ -24,7 +24,7 @@ public class Evento {
     private int rondaServicio;
 
     @ManyToOne
-    @JoinColumn(name = "jugador_partido_id")
+    @JoinColumn(name = "jugador_partido_id") // Esta es la corrección
     private JugadorPartido jugadorPartido;
 
     @ManyToOne

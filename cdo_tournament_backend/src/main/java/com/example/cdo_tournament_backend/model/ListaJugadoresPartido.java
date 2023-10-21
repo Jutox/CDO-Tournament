@@ -1,7 +1,5 @@
 package com.example.cdo_tournament_backend.model;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class ListaJugadoresPartido {
@@ -19,13 +18,13 @@ public class ListaJugadoresPartido {
 
     @ManyToOne
     @JoinColumn(name = "equipo_id")
-    private Equipo equipoId;
+    private Equipo equipo;
 
     @ManyToOne
     @JoinColumn(name = "partido_id")
-    private Partido partidoId;
+    private Partido partido;
 
-    @OneToMany(mappedBy = "jugadoresPartido")
+    @OneToMany(mappedBy = "listaJugadoresPartido") // Esta es la corrección
     private List<JugadorPartido> jugadoresPartidos;
 
     private int numeroCamiseta;
@@ -51,20 +50,20 @@ public class ListaJugadoresPartido {
         this.id_JugadorPartido = id_JugadorPartido;
     }
 
-    public Equipo getEquipoId() {
-        return equipoId;
+    public Equipo getEquipo() {
+        return equipo;
     }
 
-    public void setEquipoId(Equipo equipoId) {
-        this.equipoId = equipoId;
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
     }
 
-    public Partido getPartidoId() {
-        return partidoId;
+    public Partido getPartido() {
+        return partido;
     }
 
-    public void setPartidoId(Partido partidoId) {
-        this.partidoId = partidoId;
+    public void setPartido(Partido partido) {
+        this.partido = partido;
     }
 
     public List<JugadorPartido> getJugadoresPartidos() {

@@ -22,10 +22,10 @@ public class JugadorPartido {
     private Jugador jugador;
 
     @ManyToOne
-    @JoinColumn(name = "lista_jugadores_partido_id")
-    private ListaJugadoresPartido listaJugadoresPartidos;
+    @JoinColumn(name = "jugadorPartido_id") // Esta es la corrección
+    private ListaJugadoresPartido listaJugadoresPartido;
 
-    @OneToMany(mappedBy = "evento")
+    @OneToMany(mappedBy = "jugadorPartido") // Esta es la corrección
     private List<Evento> eventos;
 
     private int numeroCamiseta;
@@ -55,13 +55,6 @@ public class JugadorPartido {
         this.jugador = jugador;
     }
 
-    public ListaJugadoresPartido getListaJugadoresPartido() {
-        return listaJugadoresPartidos;
-    }
-
-    public void setListaJugadoresPartido(ListaJugadoresPartido listaJugadoresPartido) {
-        this.listaJugadoresPartidos = listaJugadoresPartido;
-    }
 
     public int getNumeroCamiseta() {
         return numeroCamiseta;

@@ -19,12 +19,12 @@ public class Set {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Set;
 
-    @OneToMany(mappedBy = "eventos")
+    @OneToMany(mappedBy = "set")
     private List<Evento> eventos;
 
     @ManyToOne
-    @JoinColumn(name = "partido_id")
-    private Partido partido_id;
+    @JoinColumn(name = "partido_id") // Asegúrate de que coincida con la columna real en la tabla
+    private Partido partido;
 
     // Otros atributos de la clase Set
 
@@ -65,12 +65,12 @@ public class Set {
         this.eventos = eventos;
     }
 
-    public Partido getPartido_id() {
-        return partido_id;
+    public Partido getPartido() {
+        return partido;
     }
 
-    public void setPartido_id(Partido partido_id) {
-        this.partido_id = partido_id;
+    public void setPartido_id(Partido partido) {
+        this.partido = partido;
     }
 
     public int getNumeroSet() {

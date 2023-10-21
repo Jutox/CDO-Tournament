@@ -18,10 +18,10 @@ public class Partido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_Partido;
 
-    @OneToMany(mappedBy = "listaJugadoresPartidos")
+    @OneToMany(mappedBy = "partido")
     private List<ListaJugadoresPartido> listaJugadoresPartidos;
 
-    @OneToMany(mappedBy = "sets")
+    @OneToMany(mappedBy = "partido")
     private List<Set> sets;
 
     @ManyToOne
