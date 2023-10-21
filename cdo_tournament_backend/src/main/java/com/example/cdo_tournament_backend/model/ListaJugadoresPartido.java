@@ -27,8 +27,6 @@ public class ListaJugadoresPartido {
     @OneToMany(mappedBy = "listaJugadoresPartido") // Esta es la corrección
     private List<JugadorPartido> jugadoresPartidos;
 
-    private int numeroCamiseta;
-    private boolean capitan;
 
     // Constructor
     public ListaJugadoresPartido() {
@@ -37,8 +35,6 @@ public class ListaJugadoresPartido {
      // Constructor completo
      public ListaJugadoresPartido(int id_JugadorPartido, int numeroCamiseta, boolean capitan) {
         this.id_JugadorPartido = id_JugadorPartido;
-        this.numeroCamiseta = numeroCamiseta;
-        this.capitan = capitan;
     }
 
     // Getters y Setters
@@ -72,21 +68,5 @@ public class ListaJugadoresPartido {
 
     public void setJugadoresPartidos(List<JugadorPartido> jugadoresPartidos) {
         this.jugadoresPartidos = jugadoresPartidos;
-    }
-
-    public int getNumeroCamiseta() {
-        return numeroCamiseta;
-    }
-
-    public void setNumeroCamiseta(int numeroCamiseta) {
-        this.numeroCamiseta = numeroCamiseta;
-    }
-
-    public boolean isCapitan() {
-        return capitan;
-    }
-
-    public void setCapitan(boolean capitan) {
-        this.capitan = capitan;
     }
 }

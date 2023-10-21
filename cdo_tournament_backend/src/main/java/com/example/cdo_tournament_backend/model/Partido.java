@@ -22,7 +22,7 @@ public class Partido {
     private List<ListaJugadoresPartido> listaJugadoresPartidos;
 
     @OneToMany(mappedBy = "partido")
-    private List<Set> sets;
+    private List<SetPartido> sets;
 
     @ManyToOne
     @JoinColumn(name = "torneo_id")
@@ -76,11 +76,11 @@ public class Partido {
         this.listaJugadoresPartidos = listaJugadoresPartidos;
     }
 
-    public List<Set> getSets() {
+    public List<SetPartido> getSets() {
         return sets;
     }
 
-    public void setSets(List<Set> sets) {
+    public void setSets(List<SetPartido> sets) {
         this.sets = sets;
     }
 

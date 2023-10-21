@@ -17,7 +17,8 @@ public class Jugador {
     private int id_Jugador;
 
     private String nombres;
-    private String apellidos;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
     private String rut;
     private Date fechaNacimiento;
     private String sexo;
@@ -33,11 +34,12 @@ public class Jugador {
 
     public Jugador(){}
 
-    public Jugador(int id_Jugador, String nombres, String apellidos, String rut, Date fechaNacimiento, String sexo, String telefono, String email, int estatura, int peso, int alcanceMano, int alcanceBloqueo) {
+    public Jugador(int id_Jugador, String nombres, String apellidoPaterno, String apellidoMaterno, String rut, Date fechaNacimiento, String sexo, String telefono, String email, int estatura, int peso, int alcanceMano, int alcanceBloqueo) {
         super();
         this.id_Jugador = id_Jugador;
         this.nombres = nombres;
-        this.apellidos = apellidos;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
         this.rut = rut;
         this.fechaNacimiento = fechaNacimiento;
         this.sexo = sexo;
@@ -66,11 +68,11 @@ public class Jugador {
     }
 
     public String getApellidos() {
-        return apellidos;
+        return apellidoPaterno;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setApellidos(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
     }
 
     public String getRut() {

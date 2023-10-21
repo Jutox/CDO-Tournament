@@ -29,7 +29,7 @@ public class Evento {
 
     @ManyToOne
     @JoinColumn(name = "set_Id")
-    private Set set;
+    private SetPartido set;
 
     // Constructor, getters y setters
     public Evento() {}

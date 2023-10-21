@@ -22,7 +22,7 @@ public class JugadorPartido {
     private Jugador jugador;
 
     @ManyToOne
-    @JoinColumn(name = "jugadorPartido_id") // Esta es la corrección
+    @JoinColumn(name = "listaJugadoresPartido_id") // Esta es la corrección
     private ListaJugadoresPartido listaJugadoresPartido;
 
     @OneToMany(mappedBy = "jugadorPartido") // Esta es la corrección

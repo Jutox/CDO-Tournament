@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Set {
+public class SetPartido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +35,11 @@ public class Set {
     private int puntajeB;
 
     // Constructor
-    public Set() {
+    public SetPartido() {
     }
 
     // Constructor completo
-    public Set(int id_Set, int numeroSet, Date horaInicio, Date horaTermino, int puntajeA, int puntajeB) {
+    public SetPartido(int id_Set, int numeroSet, Date horaInicio, Date horaTermino, int puntajeA, int puntajeB) {
         this.id_Set = id_Set;
         this.numeroSet = numeroSet;
         this.horaInicio = horaInicio;

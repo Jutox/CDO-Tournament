@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface SetRepository extends JpaRepository<Set, Integer>{
+public interface SetPartidoRepository extends JpaRepository<SetPartido, Integer>{
 
     
 
