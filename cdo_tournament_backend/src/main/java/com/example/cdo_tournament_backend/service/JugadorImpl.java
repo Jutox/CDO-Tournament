@@ -20,8 +20,13 @@ public class JugadorImpl implements JugadorService{
     private JugadorRepository jugadorRepository;
 
    @Override
-   public List<Jugador> getAlljugadores(){
+    public List<Jugador> getAlljugadores(){
     return jugadorRepository.findAll();
     }
+    
+    @Override
+    public void createJugador(Jugador jugador){
+       jugadorRepository.save(jugador);
+    }   
 
 }

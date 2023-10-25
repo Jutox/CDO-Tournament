@@ -7,4 +7,5 @@ import com.example.cdo_tournament_backend.model.Jugador;
 public interface JugadorService {
 
    List<Jugador> getAlljugadores();
+   void createJugador(Jugador jugador);
 }

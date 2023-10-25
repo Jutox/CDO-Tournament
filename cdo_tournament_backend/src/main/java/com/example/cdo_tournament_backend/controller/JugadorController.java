@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +29,16 @@ public class JugadorController {
         try{
             List<Jugador> list = jugadorService.getAlljugadores();
             return  new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        }catch (Exception ev){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping()
+    public ResponseEntity<Jugador> createJugador(@RequestBody Jugador jugador){
+        try{
+            jugadorService.createJugador(jugador);
+            return  new ResponseEntity<>(jugador, HttpStatus.ACCEPTED);
         }catch (Exception ev){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
