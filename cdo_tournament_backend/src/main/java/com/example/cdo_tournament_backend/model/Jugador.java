@@ -19,6 +19,8 @@ public class Jugador {
     private String nombres;
     private String apellidoPaterno;
     private String apellidoMaterno;
+
+
     private String rut;
     private Date fechaNacimiento;
     private String sexo;
@@ -67,12 +69,20 @@ public class Jugador {
         this.nombres = nombres;
     }
 
-    public String getApellidos() {
+    public String getApellidosPaterno() {
         return apellidoPaterno;
     }
 
-    public void setApellidos(String apellidoPaterno) {
+    public void setApellidosPaterno(String apellidoPaterno) {
         this.apellidoPaterno = apellidoPaterno;
+    }
+
+     public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
     }
 
     public String getRut() {
