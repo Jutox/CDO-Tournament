@@ -3,6 +3,7 @@ package com.example.cdo_tournament_backend.service;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,31 @@ public class EquipoImpl implements EquipoService{
     }
 
     @Override
-    public void createEquipo(Equipo equipo) {
-        equipoRepository.save(equipo);
+    public Equipo createEquipo(Equipo equipo) {
+        return equipoRepository.save(equipo);
     }
+
+    @Override
+    public Equipo getEquipoById(int id) {
+        Optional<Equipo> equipo = equipoRepository.findById(id);
+        return equipo.orElse(null);
+    }
+
+    @Override
+    public Equipo updateEquipo(int id, Equipo equipo) {
+        Equipo existente = getEquipoById(id);
+        if(existente!=null){
+            existente.setNombreEquipo(equipo.getNombreEquipo());
+            existente.setNombreEntrenador(equipo.getNombreEntrenador());
+            return equipoRepository.save(existente);
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteEquipo(int id) {
+        equipoRepository.deleteById(id);
+    }
+
 }

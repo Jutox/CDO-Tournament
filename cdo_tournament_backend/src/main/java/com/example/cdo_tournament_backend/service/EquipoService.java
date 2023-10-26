@@ -7,6 +7,8 @@ import com.example.cdo_tournament_backend.model.Equipo;
 public interface EquipoService {
 
     List<Equipo> getAllEquipos();
-    void createEquipo(Equipo equipo);
-
+    Equipo createEquipo(Equipo equipo);
+    Equipo getEquipoById(int id);
+    Equipo updateEquipo(int id, Equipo equipo);
+    void deleteEquipo(int id);
 }

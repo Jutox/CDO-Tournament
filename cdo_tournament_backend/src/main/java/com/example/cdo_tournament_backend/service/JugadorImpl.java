@@ -2,7 +2,6 @@ package com.example.cdo_tournament_backend.service;
 
 import jakarta.transaction.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
