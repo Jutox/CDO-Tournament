@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.cdo_tournament_backend.model.Equipo;
 import com.example.cdo_tournament_backend.model.Jugador;
 import com.example.cdo_tournament_backend.service.JugadorImpl;
 

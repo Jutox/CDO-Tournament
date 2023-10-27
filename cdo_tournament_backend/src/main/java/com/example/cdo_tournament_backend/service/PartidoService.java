@@ -7,5 +7,8 @@ import com.example.cdo_tournament_backend.model.Partido;
 public interface PartidoService {
 
     List<Partido> getAllPartidos();
-    void createPartido(Partido partido);     
+    Partido createPartido(Partido partido);  
+    Partido getPartidoById(int id);
+    Partido updatePartido(int id, Partido partido);
+    void deletePartido(int id);
 }
