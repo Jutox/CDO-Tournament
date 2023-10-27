@@ -46,6 +46,11 @@ public class JugadorImpl implements JugadorService{
             existente.setPeso(jugador.getPeso());
             existente.setAlcanceMano(jugador.getAlcanceMano());
             existente.setAlcanceBloqueo(jugador.getAlcanceBloqueo());
+            existente.setEmail(jugador.getEmail());
+            existente.setFechaNacimiento(jugador.getFechaNacimiento());
+            existente.setRut(jugador.getRut());
+            existente.setSexo(jugador.getSexo());
+            existente.setTelefono(jugador.getTelefono());
             return jugadorRepository.save(existente);
         }else{
             return null;

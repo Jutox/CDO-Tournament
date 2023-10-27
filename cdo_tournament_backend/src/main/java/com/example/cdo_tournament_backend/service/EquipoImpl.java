@@ -41,6 +41,7 @@ public class EquipoImpl implements EquipoService{
         if(existente!=null){
             existente.setNombreEquipo(equipo.getNombreEquipo());
             existente.setNombreEntrenador(equipo.getNombreEntrenador());
+            existente.setListaJugadoresPartidos(equipo.getListaJugadoresPartidos());
             return equipoRepository.save(existente);
         }else{
             return null;
