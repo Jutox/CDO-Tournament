@@ -4,10 +4,13 @@ import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.cdo_tournament_backend.dto.EquipoDTO;
+import com.example.cdo_tournament_backend.mapper.EquipoMapper;
 import com.example.cdo_tournament_backend.model.Equipo;
 import com.example.cdo_tournament_backend.repository.EquipoRepository;
 
@@ -19,31 +22,49 @@ public class EquipoImpl implements EquipoService{
     @Autowired
     private EquipoRepository equipoRepository;
 
+    @Autowired
+    private EquipoMapper equipoMapper;
+
     @Override
-    public List<Equipo> getAllEquipos() {
-        return equipoRepository.findAll();
+    public List<EquipoDTO> getAllEquipos() {
+        List<Equipo> equiposDB = equipoRepository.findAll();
+        List<EquipoDTO> retornoDTO = equiposDB.stream()
+                .map(equipoMapper::toDTO)
+                .collect(Collectors.toList());
+        return retornoDTO;
     }
 
     @Override
-    public Equipo createEquipo(Equipo equipo) {
-        return equipoRepository.save(equipo);
+    public EquipoDTO createEquipo(EquipoDTO equipoDTO) {
+        // Convierte el DTO a una entidad Equipo usando el EquipoMapper
+        Equipo equipo = equipoMapper.toEntity(equipoDTO);
+        // Guarda la entidad en la base de datos
+        equipo = equipoRepository.save(equipo);
+        // Convierte la entidad nuevamente a DTO y devuélvela
+        return equipoMapper.toDTO(equipo);
     }
 
     @Override
-    public Equipo getEquipoById(int id) {
+    public EquipoDTO getEquipoById(int id) {
         Optional<Equipo> equipo = equipoRepository.findById(id);
-        return equipo.orElse(null);
+        return equipo.map(equipoMapper::toDTO).orElse(null);
     }
 
     @Override
-    public Equipo updateEquipo(int id, Equipo equipo) {
-        Equipo existente = getEquipoById(id);
-        if(existente!=null){
-            existente.setNombreEquipo(equipo.getNombreEquipo());
-            existente.setNombreEntrenador(equipo.getNombreEntrenador());
-            existente.setListaJugadoresPartidos(equipo.getListaJugadoresPartidos());
-            return equipoRepository.save(existente);
-        }else{
+    public EquipoDTO updateEquipo(int id, EquipoDTO equipoDTO) {
+        Equipo nuevo = equipoMapper.toEntity(equipoDTO);
+        Equipo existente = equipoRepository.findById(id).orElse(null);
+        if (existente != null) {
+            // Actualiza los atributos de la entidad con los valores del DTO
+            existente.setNombreEquipo(nuevo.getNombreEquipo());
+            existente.setNombreEntrenador(nuevo.getNombreEntrenador());
+            existente.setListaJugadoresPartidos(nuevo.getListaJugadoresPartidos());
+
+            // Guarda la entidad actualizada en la base de datos
+            existente = equipoRepository.save(existente);
+            // Convierte la entidad nuevamente a DTO y devuélvela
+            return equipoMapper.toDTO(existente);
+        } else {
             return null;
         }
     }

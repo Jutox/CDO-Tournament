@@ -10,4 +10,4 @@ public class CdoTournamentBackendApplication {
 		SpringApplication.run(CdoTournamentBackendApplication.class, args);
 	}
 
-}
+} 

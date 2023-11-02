@@ -3,48 +3,66 @@ package com.example.cdo_tournament_backend.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class Jugador {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_Jugador;
+    private int idJugador;
 
+    @Column(length = 45, nullable = false)
     private String nombres;
+    @Column(length = 45, nullable = false)
     private String apellidoPaterno;
+    @Column(length = 45, nullable = false)
     private String apellidoMaterno;
-
-
+    @Column(length = 9, nullable = true)
     private String rut;
-    private Date fechaNacimiento;
-    private String sexo;
-    private String telefono;
+    @Column(nullable = true)
+    @Temporal(TemporalType.DATE)
+    private Date fechaNacimiento;    
+    @Column(length = 1, nullable = true)
+    private String genero;   
+    @Column(length = 9, nullable = true)
+    private String telefono;    
+    @Column(length = 45, nullable = true)
     private String email;
-    private int estatura;
-    private int peso;
-    private int alcanceMano;
-    private int alcanceBloqueo;
+    @Column(nullable = true)
+    private Integer estatura;
+    @Column(nullable = true)
+    private Integer peso;
+    @Column(nullable = true)
+    private Integer alcanceMano;
+    @Column(nullable = true)
+    private Integer alcanceBloqueo;
 
-    @OneToMany(mappedBy = "jugador")
+    @OneToMany(mappedBy = "jugador", fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<JugadorPartido> partidos;
 
     public Jugador(){}
 
-    public Jugador(int id_Jugador, String nombres, String apellidoPaterno, String apellidoMaterno, String rut, Date fechaNacimiento, String sexo, String telefono, String email, int estatura, int peso, int alcanceMano, int alcanceBloqueo) {
+    public Jugador(int idJugador, String nombres, String apellidoPaterno, String apellidoMaterno, String rut, Date fechaNacimiento, String genero, String telefono, String email, Integer estatura, Integer peso, Integer alcanceMano, Integer alcanceBloqueo) {
         super();
-        this.id_Jugador = id_Jugador;
+        this.idJugador = idJugador;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.rut = rut;
         this.fechaNacimiento = fechaNacimiento;
-        this.sexo = sexo;
+        this.genero = genero;
         this.telefono = telefono;
         this.email = email;
         this.estatura = estatura;
@@ -53,12 +71,12 @@ public class Jugador {
         this.alcanceBloqueo = alcanceBloqueo;
     }
 
-    public int getId_Jugador() {
-        return id_Jugador;
+    public int getIdJugador() {
+        return idJugador;
     }
 
-    public void setid_Jugador(int id_Jugador) {
-        this.id_Jugador = id_Jugador;
+    public void setIdJugador(int idJugador) {
+        this.idJugador = idJugador;
     }
 
     public String getNombres() {
@@ -69,11 +87,11 @@ public class Jugador {
         this.nombres = nombres;
     }
 
-    public String getApellidosPaterno() {
+    public String getApellidoPaterno() {
         return apellidoPaterno;
     }
 
-    public void setApellidosPaterno(String apellidoPaterno) {
+    public void setApellidoPaterno(String apellidoPaterno) {
         this.apellidoPaterno = apellidoPaterno;
     }
 
@@ -101,12 +119,12 @@ public class Jugador {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getSexo() {
-        return sexo;
+    public String getGenero() {
+        return genero;
     }
 
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
 
     public String getTelefono() {
@@ -125,35 +143,44 @@ public class Jugador {
         this.email = email;
     }
 
-    public int getEstatura() {
+    public Integer getEstatura() {
         return estatura;
     }
 
-    public void setEstatura(int estatura) {
+    public void setEstatura(Integer estatura) {
         this.estatura = estatura;
     }
 
-    public int getPeso() {
+    public Integer getPeso() {
         return peso;
     }
 
-    public void setPeso(int peso) {
+    public void setPeso(Integer peso) {
         this.peso = peso;
     }
 
-    public int getAlcanceMano() {
+    public Integer getAlcanceMano() {
         return alcanceMano;
     }
 
-    public void setAlcanceMano(int alcanceMano) {
+    public void setAlcanceMano(Integer alcanceMano) {
         this.alcanceMano = alcanceMano;
     }
 
-    public int getAlcanceBloqueo() {
+    public Integer getAlcanceBloqueo() {
         return alcanceBloqueo;
     }
 
-    public void setAlcanceBloqueo(int alcanceBloqueo) {
+    public void setAlcanceBloqueo(Integer alcanceBloqueo) {
         this.alcanceBloqueo = alcanceBloqueo;
     }
+
+    public List<JugadorPartido> getPartidos() {
+        return partidos;
+    }
+
+    public void setPartidos(List<JugadorPartido> partidos) {
+        this.partidos = partidos;
+    }
+    
 }

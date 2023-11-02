@@ -2,7 +2,11 @@ package com.example.cdo_tournament_backend.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,10 +19,13 @@ public class Equipo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idEquipo;
 
+    @Column(length = 45, nullable = false)
     private String nombreEquipo;
+    @Column(length = 45, nullable = false)
     private String nombreEntrenador;
 
-    @OneToMany(mappedBy = "equipo") // Corregido el mappedBy
+    @OneToMany(mappedBy = "equipo", fetch = FetchType.EAGER) // Corregido el mappedBy
+    @JsonBackReference
     private List<ListaJugadoresPartido> listaJugadoresPartidos;
 
     // Constructor

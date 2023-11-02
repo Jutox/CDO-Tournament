@@ -3,40 +3,57 @@ package com.example.cdo_tournament_backend.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class Evento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_Evento;
+    private int idEvento;
 
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIME)
     private Date hora;
-    private String tipo;
+    @Column(name = "tipo_evento", nullable = false)
+    @Enumerated(EnumType.STRING) // Especifica cómo se debe mapear el enumerado
+    private TipoEvento tipo;
+    @Column(nullable = false)
     private int puntos;
+    @Column(nullable = false)
     private int ordenServicio;
+    @Column(nullable = false)
     private int rondaServicio;
 
-    @ManyToOne
-    @JoinColumn(name = "jugador_partido_id") // Esta es la corrección
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "jugador_partido_id", nullable = false) // Esta es la corrección
+    @JsonManagedReference
     private JugadorPartido jugadorPartido;
 
-    @ManyToOne
-    @JoinColumn(name = "set_Id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "set_id", nullable = false)
+    @JsonManagedReference
     private SetPartido set;
 
     // Constructor, getters y setters
     public Evento() {}
 
-    public Evento(int id_Evento, Date hora, String tipo, int puntos, int ordenServicio, int rondaServicio) {
+    public Evento(int idEvento, Date hora, TipoEvento tipo, int puntos, int ordenServicio, int rondaServicio) {
         super();
-        this.id_Evento = id_Evento;
+        this.idEvento = idEvento;
         this.hora = hora;
         this.tipo = tipo;
         this.puntos = puntos;
@@ -45,11 +62,11 @@ public class Evento {
     }
 
     public int getIdEvento() {
-        return id_Evento;
+        return idEvento;
     }
 
     public void setIdEvento(int idEvento) {
-        this.id_Evento = idEvento;
+        this.idEvento = idEvento;
     }
 
     public Date getHora() {
@@ -60,11 +77,11 @@ public class Evento {
         this.hora = hora;
     }
 
-    public String getTipo() {
+    public TipoEvento getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoEvento tipo) {
         this.tipo = tipo;
     }
 
@@ -98,6 +115,14 @@ public class Evento {
 
     public void setJugadorPartido(JugadorPartido jugadorPartido) {
         this.jugadorPartido = jugadorPartido;
+    }
+
+    public SetPartido getSetPartido(){
+        return set;
+    }
+
+    public void setSetPartido(SetPartido set){
+        this.set = set;
     }
 }
 
