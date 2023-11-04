@@ -4,34 +4,50 @@ package com.example.cdo_tournament_backend.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class SetPartido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_Set;
+    private int idSetPartido;
 
-    @OneToMany(mappedBy = "set")
+    @OneToMany(mappedBy = "set", fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<Evento> eventos;
 
-    @ManyToOne
-    @JoinColumn(name = "partido_id") // Asegúrate de que coincida con la columna real en la tabla
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "partido_id", nullable = false) // Asegúrate de que coincida con la columna real en la tabla 
+    @JsonManagedReference
     private Partido partido;
 
     // Otros atributos de la clase Set
 
+    @Column(nullable = false)
     private int numeroSet;
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIME)
     private Date horaInicio;
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIME)
     private Date horaTermino;
+    @Column(nullable = false)
     private int puntajeA;
+    @Column(nullable = false)
     private int puntajeB;
 
     // Constructor
@@ -39,8 +55,8 @@ public class SetPartido {
     }
 
     // Constructor completo
-    public SetPartido(int id_Set, int numeroSet, Date horaInicio, Date horaTermino, int puntajeA, int puntajeB) {
-        this.id_Set = id_Set;
+    public SetPartido(int idSetPartido, int numeroSet, Date horaInicio, Date horaTermino, int puntajeA, int puntajeB) {
+        this.idSetPartido = idSetPartido;
         this.numeroSet = numeroSet;
         this.horaInicio = horaInicio;
         this.horaTermino = horaTermino;
@@ -49,12 +65,12 @@ public class SetPartido {
     }
 
     // Getters y setters
-    public int getId_Set() {
-        return id_Set;
+    public int getIdSetPartido() {
+        return idSetPartido;
     }
 
-    public void setId_Set(int id_Set) {
-        this.id_Set = id_Set;
+    public void setIdSetPartido(int idSetPartido) {
+        this.idSetPartido = idSetPartido;
     }
 
     public List<Evento> getEventos() {
@@ -69,7 +85,7 @@ public class SetPartido {
         return partido;
     }
 
-    public void setPartido_id(Partido partido) {
+    public void setPartido(Partido partido) {
         this.partido = partido;
     }
 

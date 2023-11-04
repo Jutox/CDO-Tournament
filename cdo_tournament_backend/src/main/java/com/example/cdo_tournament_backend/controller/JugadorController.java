@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.cdo_tournament_backend.model.Jugador;
+import com.example.cdo_tournament_backend.dto.JugadorDTO;
 import com.example.cdo_tournament_backend.service.JugadorImpl;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -23,75 +23,75 @@ import com.example.cdo_tournament_backend.service.JugadorImpl;
 @RequestMapping(value = "/jugador")
 public class JugadorController {
 
-     @Autowired()
+    @Autowired
     private JugadorImpl jugadorService;
     
     @GetMapping("/jugadores")
-    public ResponseEntity<List<Jugador>> getJugadores(){
-        try{
-            List<Jugador> list = jugadorService.getAlljugadores();
-            return  new ResponseEntity<>(list, HttpStatus.ACCEPTED);
-        }catch (Exception ev){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<List<JugadorDTO>> getJugadores() {
+        try {
+            List<JugadorDTO> list = jugadorService.getAllJugadores();
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping()
-    public ResponseEntity<Jugador> createJugador(@RequestBody Jugador jugador){
-        try{
-            Jugador retorno = jugadorService.createJugador(jugador);
-            return  new ResponseEntity<>(retorno, HttpStatus.ACCEPTED);
-        }catch (Exception ev){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    @PostMapping
+    public ResponseEntity<JugadorDTO> createJugador(@RequestBody JugadorDTO jugadorDTO) {
+        try {
+            JugadorDTO retorno = jugadorService.createJugador(jugadorDTO);
+            return new ResponseEntity<>(retorno, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     } 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Jugador> getJugadorById(@PathVariable int id) {
+    public ResponseEntity<JugadorDTO> getJugadorById(@PathVariable int id) {
         try {
-            Jugador jugador = jugadorService.getJugadorById(id);
-    
+            JugadorDTO jugador = jugadorService.getJugadorById(id);
             if (jugador != null) {
                 return new ResponseEntity<>(jugador, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 - Not Found
             }
         } catch (Exception ex) {
-            ex.printStackTrace(); // Manejo de excepciones
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 - Internal Server Error
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Jugador> updateJugador(@PathVariable int id, @RequestBody Jugador jugadorActual) {
-        try{
-            Jugador jugadorBD = jugadorService.getJugadorById(id);
+    public ResponseEntity<JugadorDTO> updateJugador(@PathVariable int id, @RequestBody JugadorDTO jugadorDTO) {
+        try {
+            JugadorDTO jugadorBD = jugadorService.getJugadorById(id);
             if (jugadorBD != null) {
-                Jugador jugador = jugadorService.updateJugador(id, jugadorActual);
+                JugadorDTO jugador = jugadorService.updateJugador(id, jugadorDTO);
                 return new ResponseEntity<>(jugador, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 - Not Found
             }
-        }catch (Exception ev){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarJugador(@PathVariable int id) {
         try {
-            Jugador jugadorBD = jugadorService.getJugadorById(id);
+            JugadorDTO jugadorBD = jugadorService.getJugadorById(id);
             if (jugadorBD != null) {
                 jugadorService.deleteJugador(id);
                 return ResponseEntity.noContent().build(); // Responde con 204 (No Content) en caso de éxito.
             } else {
-                // El equipo no existe, responde con un código de estado 404 (Not Found).
                 return ResponseEntity.notFound().build();
             }
-        } catch (Exception ev) {
-            ev.printStackTrace(); // Manejo de excepciones generales
-            // Puedes realizar acciones de manejo adicionales aquí.
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Responde con un código de estado 500 (Internal Server Error) en caso de error general.
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

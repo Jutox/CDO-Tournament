@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.cdo_tournament_backend.model.Partido;
+import com.example.cdo_tournament_backend.dto.PartidoDTO;
 import com.example.cdo_tournament_backend.service.PartidoImpl;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -27,71 +27,72 @@ public class PartidoController {
     private PartidoImpl partidoService;
 
     @GetMapping("/partidos")
-    public ResponseEntity<List<Partido>> getPartidos(){
-        try{
-            List<Partido> list = partidoService.getAllPartidos();
-            return  new ResponseEntity<>(list, HttpStatus.ACCEPTED);
-        }catch (Exception ev){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-    
-    @PostMapping()
-    public ResponseEntity<Partido> createPartido(@RequestBody Partido partido){
-        try{
-            partidoService.createPartido(partido);
-            return new ResponseEntity<>(partido, HttpStatus.ACCEPTED);
-        }catch (Exception ev){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<List<PartidoDTO>> getPartidos() {
+        try {
+            List<PartidoDTO> list = partidoService.getAllPartidos();
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-        @GetMapping("/{id}")
-    public ResponseEntity<Partido> getPartidoById(@PathVariable int id) {
+    @PostMapping()
+    public ResponseEntity<PartidoDTO> createPartido(@RequestBody PartidoDTO partidoDTO) {
         try {
-            Partido partido = partidoService.getPartidoById(id);
-    
-            if (partido != null) {
-                return new ResponseEntity<>(partido, HttpStatus.ACCEPTED);
+            PartidoDTO retorno = partidoService.createPartido(partidoDTO);
+            return new ResponseEntity<>(retorno, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PartidoDTO> getPartidoById(@PathVariable int id) {
+        try {
+            PartidoDTO partidoDTO = partidoService.getPartidoById(id);
+
+            if (partidoDTO != null) {
+                return new ResponseEntity<>(partidoDTO, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 - Not Found
             }
         } catch (Exception ex) {
             ex.printStackTrace(); // Manejo de excepciones
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 - Internal Server Error
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @PutMapping("/{id}")
-    public ResponseEntity<Partido> updatePartido(@PathVariable int id, @RequestBody Partido partidoActual) {
-        try{
-            Partido partidoBD = partidoService.getPartidoById(id);
-            if (partidoBD != null) {
-                Partido partido = partidoService.updatePartido(id, partidoActual);
-                return new ResponseEntity<>(partido, HttpStatus.ACCEPTED);
+    public ResponseEntity<PartidoDTO> updatePartido(@PathVariable int id, @RequestBody PartidoDTO partidoDTO) {
+        try {
+            PartidoDTO partidoDTOExistente = partidoService.getPartidoById(id);
+            if (partidoDTOExistente != null) {
+                PartidoDTO partidoActualizado = partidoService.updatePartido(id, partidoDTO);
+                return new ResponseEntity<>(partidoActualizado, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 - Not Found
             }
-        }catch (Exception ev){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarPartido(@PathVariable int id) {
         try {
-            Partido partidoBD = partidoService.getPartidoById(id);
-            if (partidoBD != null) {
+            PartidoDTO partidoDTOExistente = partidoService.getPartidoById(id);
+            if (partidoDTOExistente != null) {
                 partidoService.deletePartido(id);
                 return ResponseEntity.noContent().build(); // Responde con 204 (No Content) en caso de éxito.
             } else {
-                // El equipo no existe, responde con un código de estado 404 (Not Found).
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.notFound().build(); // 404 - Not Found
             }
-        } catch (Exception ev) {
-            ev.printStackTrace(); // Manejo de excepciones generales
-            // Puedes realizar acciones de manejo adicionales aquí.
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Responde con un código de estado 500 (Internal Server Error) en caso de error general.
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones generales
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 - Internal Server Error
         }
     }
 }

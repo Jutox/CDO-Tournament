@@ -1,6 +1,7 @@
 package com.example.cdo_tournament_backend.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -9,22 +10,28 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class ListaJugadoresPartido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_JugadorPartido;
+    private int idListaJugadoresPartido;
 
-    @ManyToOne
-    @JoinColumn(name = "equipo_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "equipo_id", nullable = false)
+    @JsonManagedReference
     private Equipo equipo;
 
-    @ManyToOne
-    @JoinColumn(name = "partido_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "partido_id", nullable = false)
+    @JsonManagedReference
     private Partido partido;
 
-    @OneToMany(mappedBy = "listaJugadoresPartido") // Esta es la corrección
+    @OneToMany(mappedBy = "listaJugadoresPartido", fetch = FetchType.EAGER) // Esta es la corrección
+    @JsonBackReference
     private List<JugadorPartido> jugadoresPartidos;
 
 
@@ -33,17 +40,17 @@ public class ListaJugadoresPartido {
     }
 
      // Constructor completo
-     public ListaJugadoresPartido(int id_JugadorPartido, int numeroCamiseta, boolean capitan) {
-        this.id_JugadorPartido = id_JugadorPartido;
+     public ListaJugadoresPartido(int idListaJugadoresPartido, int numeroCamiseta, boolean capitan) {
+        this.idListaJugadoresPartido = idListaJugadoresPartido;
     }
 
     // Getters y Setters
-    public int getIdJugadorPartido() {
-        return id_JugadorPartido;
+    public int getIdListaJugadoresPartido() {
+        return idListaJugadoresPartido;
     }
 
-    public void setIdJugadorPartido(int id_JugadorPartido) {
-        this.id_JugadorPartido = id_JugadorPartido;
+    public void setIdListaJugadoresPartido(int idListaJugadoresPartido) {
+        this.idListaJugadoresPartido = idListaJugadoresPartido;
     }
 
     public Equipo getEquipo() {

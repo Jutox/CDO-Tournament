@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.cdo_tournament_backend.model.Torneo;
+import com.example.cdo_tournament_backend.dto.TorneoDTO;
 import com.example.cdo_tournament_backend.service.TorneoImpl;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -23,13 +23,13 @@ import com.example.cdo_tournament_backend.service.TorneoImpl;
 @RequestMapping(value = "/torneo")
 public class TorneoController {
 
-       @Autowired
-   private TorneoImpl torneoService;
+     @Autowired
+    private TorneoImpl torneoService;
 
     @GetMapping("/torneos")
-    public ResponseEntity<List<Torneo>> getTorneos(){
+    public ResponseEntity<List<TorneoDTO>> getTorneos(){
         try{
-            List<Torneo> list = torneoService.getAllTorneos();
+            List<TorneoDTO> list = torneoService.getAllTorneos();
             return  new ResponseEntity<>(list, HttpStatus.ACCEPTED);
         }catch (Exception ev){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -37,9 +37,9 @@ public class TorneoController {
     }
 
     @PostMapping()
-    public ResponseEntity<Torneo> createTorneo(@RequestBody Torneo torneo){
+    public ResponseEntity<TorneoDTO> createTorneo(@RequestBody TorneoDTO torneo){
         try{
-            Torneo retorno = torneoService.createTorneo(torneo);
+            TorneoDTO retorno = torneoService.createTorneo(torneo);
             return  new ResponseEntity<>(retorno, HttpStatus.ACCEPTED);
         }catch (Exception ev){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -47,9 +47,9 @@ public class TorneoController {
     } 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Torneo> getTorneoById(@PathVariable int id) {
+    public ResponseEntity<TorneoDTO> getTorneoById(@PathVariable int id) {
         try {
-            Torneo torneo = torneoService.getTorneoById(id);
+            TorneoDTO torneo = torneoService.getTorneoById(id);
     
             if (torneo != null) {
                 return new ResponseEntity<>(torneo, HttpStatus.ACCEPTED);
@@ -63,11 +63,11 @@ public class TorneoController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Torneo> updateTorneo(@PathVariable int id, @RequestBody Torneo torneoActual) {
+    public ResponseEntity<TorneoDTO> updateTorneo(@PathVariable int id, @RequestBody TorneoDTO torneoActual) {
         try{
-            Torneo torneoBD = torneoService.getTorneoById(id);
+            TorneoDTO torneoBD = torneoService.getTorneoById(id);
             if (torneoBD != null) {
-                Torneo torneo = torneoService.updateTorneo(id, torneoActual);
+                TorneoDTO torneo = torneoService.updateTorneo(id, torneoActual);
                 return new ResponseEntity<>(torneo, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 - Not Found
@@ -80,7 +80,7 @@ public class TorneoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarEquipo(@PathVariable int id) {
         try {
-            Torneo torneoBD = torneoService.getTorneoById(id);
+            TorneoDTO torneoBD = torneoService.getTorneoById(id);
             if (torneoBD != null) {
                 torneoService.deleteTorneo(id);
                 return ResponseEntity.noContent().build(); // Responde con 204 (No Content) en caso de éxito.

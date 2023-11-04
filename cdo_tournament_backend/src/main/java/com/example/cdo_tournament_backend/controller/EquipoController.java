@@ -1,6 +1,6 @@
 package com.example.cdo_tournament_backend.controller;
 
-import com.example.cdo_tournament_backend.model.Equipo;
+import com.example.cdo_tournament_backend.dto.EquipoDTO;
 import com.example.cdo_tournament_backend.service.EquipoImpl;
 
 import java.util.List;
@@ -24,75 +24,76 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping(value = "/equipo")
 public class EquipoController {
 
-   @Autowired
-   private EquipoImpl equipoService;
+    @Autowired
+    private EquipoImpl equipoService;
 
     @GetMapping("/equipos")
-    public ResponseEntity<List<Equipo>> getEquipos(){
-        try{
-            List<Equipo> list = equipoService.getAllEquipos();
-            return  new ResponseEntity<>(list, HttpStatus.ACCEPTED);
-        }catch (Exception ev){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<List<EquipoDTO>> getEquipos() {
+        try {
+            List<EquipoDTO> list = equipoService.getAllEquipos();
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping()
-    public ResponseEntity<Equipo> createEquipo(@RequestBody Equipo equipo){
-        try{
-            Equipo retorno = equipoService.createEquipo(equipo);
-            return  new ResponseEntity<>(retorno, HttpStatus.ACCEPTED);
-        }catch (Exception ev){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<EquipoDTO> createEquipo(@RequestBody EquipoDTO equipoDTO) {
+        try {
+            EquipoDTO retorno = equipoService.createEquipo(equipoDTO);
+            return new ResponseEntity<>(retorno, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    } 
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Equipo> getEquipoById(@PathVariable int id) {
+    public ResponseEntity<EquipoDTO> getEquipoById(@PathVariable int id) {
         try {
-            Equipo equipo = equipoService.getEquipoById(id);
-    
-            if (equipo != null) {
-                return new ResponseEntity<>(equipo, HttpStatus.ACCEPTED);
+            EquipoDTO equipoDTO = equipoService.getEquipoById(id);
+
+            if (equipoDTO != null) {
+                return new ResponseEntity<>(equipoDTO, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 - Not Found
             }
         } catch (Exception ex) {
             ex.printStackTrace(); // Manejo de excepciones
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 - Internal Server Error
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @PutMapping("/{id}")
-    public ResponseEntity<Equipo> updateEquipo(@PathVariable int id, @RequestBody Equipo equipoActual) {
-        try{
-            Equipo equipoBD = equipoService.getEquipoById(id);
-            if (equipoBD != null) {
-                Equipo equipo = equipoService.updateEquipo(id, equipoActual);
-                return new ResponseEntity<>(equipo, HttpStatus.ACCEPTED);
+    public ResponseEntity<EquipoDTO> updateEquipo(@PathVariable int id, @RequestBody EquipoDTO equipoDTO) {
+        try {
+            EquipoDTO equipoDTOExistente = equipoService.getEquipoById(id);
+            if (equipoDTOExistente != null) {
+                EquipoDTO equipoActualizado = equipoService.updateEquipo(id, equipoDTO);
+                return new ResponseEntity<>(equipoActualizado, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 - Not Found
             }
-        }catch (Exception ev){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarEquipo(@PathVariable int id) {
         try {
-            Equipo equipoBD = equipoService.getEquipoById(id);
-            if (equipoBD != null) {
+            EquipoDTO equipoDTOExistente = equipoService.getEquipoById(id);
+            if (equipoDTOExistente != null) {
                 equipoService.deleteEquipo(id);
                 return ResponseEntity.noContent().build(); // Responde con 204 (No Content) en caso de éxito.
             } else {
-                // El equipo no existe, responde con un código de estado 404 (Not Found).
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.notFound().build(); // 404 - Not Found
             }
-        } catch (Exception ev) {
-            ev.printStackTrace(); // Manejo de excepciones generales
-            // Puedes realizar acciones de manejo adicionales aquí.
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Responde con un código de estado 500 (Internal Server Error) en caso de error general.
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones generales
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 - Internal Server Error
         }
     }
 }
