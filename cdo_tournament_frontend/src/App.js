@@ -3,21 +3,17 @@ import logo from './logo.svg';
 import './App.css';
 //import ListJugadoresComponent from './Components/ListJugadoresComponent';
 import NavBar from './Components/NavBar';
+import MainPage from "./Components/MainPage";
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 
 
 function App() {
   return (
-    <div>
+    <React.Fragment>
       <BrowserRouter>
-          <div className='container'>
-            <Routes>
-              <Route exact path = '/' element = {<NavBar />}></Route>
-            </Routes>
-          </div>
+        <MainPage />
       </BrowserRouter>
-    </div>
-    
+    </React.Fragment>
   );
 }
 
