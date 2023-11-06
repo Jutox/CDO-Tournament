@@ -25,10 +25,10 @@ public class JugadorPartidoMapper {
         jugadorPartidoDTO.setCapitan(jugadorPartido.isCapitan());
         jugadorPartidoDTO.setNumeroCamiseta(jugadorPartido.getNumeroCamiseta());
 
-        JugadorDTO jugadorDTO = jugadorMapper.toDTO(jugadorPartido.getJugador());
+        JugadorDTO jugadorDTO = (jugadorPartido.getJugador() != null) ? jugadorMapper.toDTO(jugadorPartido.getJugador()) : null;
         jugadorPartidoDTO.setJugador(jugadorDTO);
 
-        ListaJugadoresPartidoDTO listaJugadoresPartidoDTO = listaJugadoresPartidoMapper.toDTO(jugadorPartido.getListaJugadoresPartido());
+        ListaJugadoresPartidoDTO listaJugadoresPartidoDTO = (jugadorPartido.getListaJugadoresPartido() != null) ? listaJugadoresPartidoMapper.toDTO(jugadorPartido.getListaJugadoresPartido()) : null;
         jugadorPartidoDTO.setListaJugadoresPartido(listaJugadoresPartidoDTO);
 
         return jugadorPartidoDTO;
@@ -36,13 +36,19 @@ public class JugadorPartidoMapper {
 
     public JugadorPartido toEntity(JugadorPartidoDTO jugadorPartidoDTO){
         JugadorPartido jugadorPartido = new JugadorPartido();
-        
-        ListaJugadoresPartido lista = new ListaJugadoresPartido();
-        lista.setIdListaJugadoresPartido(jugadorPartidoDTO.getListaJugadoresPartido().getIdListaJugadoresPartido());
-        jugadorPartido.setListaJugadoresPartido(lista);
-        Jugador jugador = new Jugador();
-        jugador.setIdJugador(jugadorPartidoDTO.getJugador().getIdJugador());
-        jugadorPartido.setJugador(jugador);
+        jugadorPartido.setIdJugadorPartido(jugadorPartidoDTO.getIdJugadorPartido());
+
+        if(jugadorPartidoDTO.getListaJugadoresPartido() != null){
+            ListaJugadoresPartido lista = new ListaJugadoresPartido();
+            lista.setIdListaJugadoresPartido(jugadorPartidoDTO.getListaJugadoresPartido().getIdListaJugadoresPartido());
+            jugadorPartido.setListaJugadoresPartido(lista);
+        }
+
+        if(jugadorPartidoDTO.getJugador() != null){
+            Jugador jugador = new Jugador();
+            jugador.setIdJugador(jugadorPartidoDTO.getJugador().getIdJugador());
+            jugadorPartido.setJugador(jugador);
+        }        
 
         jugadorPartido.setCapitan(jugadorPartidoDTO.isCapitan());
         jugadorPartido.setNumeroCamiseta(jugadorPartidoDTO.getNumeroCamiseta());
