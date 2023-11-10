@@ -23,7 +23,7 @@ public class SetPartidoMapper {
         setPartidoDTO.setPuntajeB(setPartido.getPuntajeB());
         setPartidoDTO.setNumeroSet(setPartido.getNumeroSet());
 
-        PartidoDTO partidoDTO = partidoMapper.toDTO(setPartido.getPartido());
+        PartidoDTO partidoDTO = (setPartido.getPartido() != null) ? partidoMapper.toDTO(setPartido.getPartido()) : null;
         setPartidoDTO.setPartido(partidoDTO);
 
         return setPartidoDTO;
@@ -39,9 +39,8 @@ public class SetPartidoMapper {
         setPartido.setPuntajeB(setPartidoDTO.getPuntajeB());
         setPartido.setNumeroSet(setPartidoDTO.getNumeroSet());
 
-        
-        Partido partido = partidoMapper.toEntity(setPartidoDTO.getPartido());
-        setPartido.setPartido(partido);
+        Partido partido = (setPartido.getPartido() != null) ? partidoMapper.toEntity(setPartidoDTO.getPartido()) : null;
+        setPartido.setPartido(partido);   
 
         return setPartido;
     }

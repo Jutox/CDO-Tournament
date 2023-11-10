@@ -29,11 +29,12 @@ public class EventoMapper {
         eventoDTO.setOrdenServicio(evento.getOrdenServicio());
         eventoDTO.setRondaServicio(evento.getRondaServicio());
 
-        JugadorPartidoDTO jugadorPartidoDTO = jugadorPartidoMapper.toDTO(evento.getJugadorPartido());
+        JugadorPartidoDTO jugadorPartidoDTO = (evento.getJugadorPartido() != null) ? jugadorPartidoMapper.toDTO(evento.getJugadorPartido()) : null;
         eventoDTO.setJugadorPartido(jugadorPartidoDTO);
-        
-        SetPartidoDTO setPartidoDTO = setPartidoMapper.toDTO(evento.getSetPartido());
+
+        SetPartidoDTO setPartidoDTO = (evento.getSetPartido() != null) ? setPartidoMapper.toDTO(evento.getSetPartido()) : null;
         eventoDTO.setSet(setPartidoDTO);
+
         return eventoDTO;
     }
 
@@ -46,11 +47,12 @@ public class EventoMapper {
         evento.setOrdenServicio(eventoDTO.getOrdenServicio());
         evento.setRondaServicio(eventoDTO.getRondaServicio());
 
-        JugadorPartido jugadorPartido = jugadorPartidoMapper.toEntity(eventoDTO.getJugadorPartido());
+        JugadorPartido jugadorPartido = (eventoDTO.getJugadorPartido() != null) ? jugadorPartidoMapper.toEntity(eventoDTO.getJugadorPartido()) : null;
         evento.setJugadorPartido(jugadorPartido);
     
-        SetPartido setPartido = setPartidoMapper.toEntity(eventoDTO.getSet());
+        SetPartido setPartido = (eventoDTO.getSet() != null) ? setPartidoMapper.toEntity(eventoDTO.getSet()) : null;
         evento.setSetPartido(setPartido);
+        
         return evento;
     }
     
