@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 import JugadorService from '../services/JugadorService';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import './EstadisticaJugadores.css'; // Importa el archivo CSS
 
 const EstadisticaJugadores = () => {
     const [estadisticas, setEstadisticas] = useState({
@@ -85,8 +88,27 @@ const EstadisticaJugadores = () => {
         });
     };
 
+    const exportarPDF = () => {
+        const pdf = new jsPDF();
+
+        const graficos = ['graficoEstatura', 'graficoPeso', 'graficoAlcanceMano', 'graficoAlcanceBloqueo'];
+        graficos.forEach((id, index) => {
+            const canvas = document.getElementById(id);
+            const imageData = canvas.toDataURL('image/png');
+
+            if (index !== 0) {
+                pdf.addPage();
+            }
+
+            pdf.addImage(imageData, 'PNG', 10, 10, 190, 100);
+        });
+
+        pdf.save('estadisticas_jugadores.pdf');
+    };
+
     return (
-        <div>
+        <div style={{ background: "#d4d1d0", color: "#000", minHeight: "93vh" }}>
+        <div className="container"> {/* Añade la clase container para centrar los gráficos */}
             <h2 className="text-center">Estadísticas de Jugadores</h2>
             <div className="row">
                 <div className="col-md-6">
@@ -104,6 +126,10 @@ const EstadisticaJugadores = () => {
                     <canvas id="graficoAlcanceBloqueo" width="400" height="300"></canvas>
                 </div>
             </div>
+            <button className="btn btn-custom" onClick={exportarPDF}>
+                Exportar a PDF
+            </button>
+        </div>
         </div>
     );
 };

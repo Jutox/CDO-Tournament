@@ -1,5 +1,5 @@
 INSERT INTO `equipo` VALUES 
-(1,'Club Deportivo O\'Higgins','David Fernandez'),
+(1,'Club Deportivo O\Higgins','David Fernandez'),
 (2,'Club Trawen','Gonzalo Velasquez'),
 (3,'Club Aukin','Martin Garcia');
 

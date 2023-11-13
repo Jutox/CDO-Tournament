@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import JugadorService from '../services/JugadorService';
@@ -58,6 +57,19 @@ export const ActualizarJugadorForm = () => {
             .catch((error) => {
                 console.log(error);
                 alert('La actualización de datos tuvo un error. Por favor, intenta nuevamente.');
+            });
+    };
+
+    const deleteJugador = () => {
+        // Delete jugador
+        JugadorService.deleteJugador(id)
+            .then(() => {
+                // After successful deletion, navigate to '/jugadores'
+                navigate('/jugadores');
+            })
+            .catch((error) => {
+                console.log(error);
+                alert('Error al eliminar el jugador. Por favor, intenta nuevamente.');
             });
     };
 
@@ -125,7 +137,11 @@ export const ActualizarJugadorForm = () => {
                                     Actualizar
                                 </button>
                                 &nbsp;&nbsp;&nbsp;
-                                <Link to="/jugadores" className="btn btn-danger" style={{ background: "#dc3545", color: "#fff" }}>
+                                <button className="btn btn-danger" onClick={deleteJugador} style={{ background: "#dc3545", color: "#fff" }}>
+                                    Eliminar
+                                </button>
+                                &nbsp;&nbsp;&nbsp;
+                                <Link to="/jugadores" className="btn btn-secondary" style={{ background: "#6C757D", color: "#fff" }}>
                                     Cancelar
                                 </Link>
                             </form>

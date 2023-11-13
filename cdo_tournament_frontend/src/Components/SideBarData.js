@@ -12,24 +12,6 @@ export const SideBarData = [
     cName: "nav-text",
   },
   {
-    title: "Administrar Entrenamientos",
-    path: "/jugadores", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
-  {
-    title: "Administrar Eventos",
-    path: "/eventos", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
-  {
-    title: "Estadisticas Jugadores",
-    path: "/estadisticaJugadores", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
-  {
     title: "Administrar Jugadores",
     path: "/jugadores", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
@@ -42,8 +24,32 @@ export const SideBarData = [
     cName: "nav-text",
   },
   {
+    title: "Estadisticas Jugadores",
+    path: "/estadisticaJugadores", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
+    title: "Administrar Partidos",
+    path: "/partidos", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
+    title: "Administrar Torneos",
+    path: "/torneos", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
+    title: "Administrar Equipos",
+    path: "/equipos", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
     title: "Contactanos",
-    path: "/jugadores", // Make sure this path matches the one in Route
+    path: "/contactanos", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },

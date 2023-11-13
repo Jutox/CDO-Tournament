@@ -8,14 +8,20 @@ import {
   Outlet,
   createRoutesFromElements,
 } from "react-router-dom";
-import Products from "./routes/Products";
+import Products from "./routes/Contactanos";
 import Home from "./routes/Home";
 import Reports from "./routes/Reports";
 import Navbar from "./components/Navbar";
 import AdministrarJugadores from './routes/AdministrarJugadores';
-import AdministrarEventos from './routes/AdministrarEventos';
+import AdministrarTorneos from './routes/AdministrarTorneos';
+import AddTorneoForm from './routes/AddTorneoForm';
 import ActualizarJugadorForm from './routes/ActualizarJugadorForm';
 import EstadisticaJugadores from './routes/EstadisticaJugadores';
+import AdministrarPartidos from './routes/AdministrarPartidos';
+import AddPartidoForm from './routes/AddPartidoForm';
+import AdministrarEquipos from './routes/AdministrarEquipos';
+import AddEquipoForm from './routes/AddEquipoForm';
+import Contactanos from './routes/Contactanos';
 import AddJugadorForm from './routes/AddJugadorForm';
 import "./App.css";
 
@@ -45,8 +51,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/products",
-        element: <Products />,
+        path: "/contactanos",
+        element: <Contactanos />,
       },
       {
         path: "/reports",
@@ -54,23 +60,43 @@ const router = createBrowserRouter([
       },
       {
         path: "/jugadores", // Add a forward slash here
-        element: <AdministrarJugadores />, // Assuming you have a component named Empleados AdministrarEventos
+        element: <AdministrarJugadores />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
         path: "/addJugador", // Add a forward slash here
-        element: <AddJugadorForm />, // Assuming you have a component named Empleados AdministrarEventos
+        element: <AddJugadorForm />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
         path: "/updateJugador/:id", // Add a forward slash here
-        element: <ActualizarJugadorForm />, // Assuming you have a component named Empleados AdministrarEventos
+        element: <ActualizarJugadorForm />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
         path: "/estadisticaJugadores", // Add a forward slash here
-        element: <EstadisticaJugadores />, // Assuming you have a component named Empleados AdministrarEventos
+        element: <EstadisticaJugadores />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
-        path: "/eventos", // Add a forward slash here
-        element: <AdministrarEventos />, // Assuming you have a component named Empleados
+        path: "/partidos", // Add a forward slash here
+        element: <AdministrarPartidos />, // Assuming you have a component named Empleados
+      },
+      {
+        path: "/addPartido", // Add a forward slash here
+        element: <AddPartidoForm />, // Assuming you have a component named Empleados
+      },
+      {
+        path: "/torneos", // Add a forward slash here
+        element: <AdministrarTorneos />, // Assuming you have a component named Empleados
+      },
+      {
+        path: "/equipos", // Add a forward slash here
+        element: <AdministrarEquipos />, // Assuming you have a component named Empleados
+      },
+      {
+        path: "/addEquipo", // Add a forward slash here
+        element: <AddEquipoForm />, // Assuming you have a component named Empleados
+      },
+      {
+        path: "/addTorneo", // Add a forward slash here
+        element: <AddTorneoForm />, // Assuming you have a component named Empleados AdministrarTorneos
       },
     ],
   },

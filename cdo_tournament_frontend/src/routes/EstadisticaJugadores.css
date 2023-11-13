@@ -1,0 +1,14 @@
+.containerEstadistica {
+    text-align: center;
+}
+.page-container {
+    background-color: #d4d1d0;
+
+}
+
+
+/* Cambiar el color del botón */
+.btn-custom {
+    background-color: #F4B205FF; /* Cambia este color según tus preferencias */
+    color: #ffffff;
+}
