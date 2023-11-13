@@ -12,7 +12,11 @@ import Products from "./routes/Products";
 import Home from "./routes/Home";
 import Reports from "./routes/Reports";
 import Navbar from "./components/Navbar";
-import AdministrarEntrenamientos from './routes/AdministrarEntrenamientos';
+import AdministrarJugadores from './routes/AdministrarJugadores';
+import AdministrarEventos from './routes/AdministrarEventos';
+import ActualizarJugadorForm from './routes/ActualizarJugadorForm';
+import EstadisticaJugadores from './routes/EstadisticaJugadores';
+import AddJugadorForm from './routes/AddJugadorForm';
 import "./App.css";
 
 const AppLayout = () => (
@@ -49,8 +53,24 @@ const router = createBrowserRouter([
         element: <Reports />,
       },
       {
-        path: "/empleados", // Add a forward slash here
-        element: <AdministrarEntrenamientos />, // Assuming you have a component named Empleados
+        path: "/jugadores", // Add a forward slash here
+        element: <AdministrarJugadores />, // Assuming you have a component named Empleados AdministrarEventos
+      },
+      {
+        path: "/addJugador", // Add a forward slash here
+        element: <AddJugadorForm />, // Assuming you have a component named Empleados AdministrarEventos
+      },
+      {
+        path: "/updateJugador/:id", // Add a forward slash here
+        element: <ActualizarJugadorForm />, // Assuming you have a component named Empleados AdministrarEventos
+      },
+      {
+        path: "/estadisticaJugadores", // Add a forward slash here
+        element: <EstadisticaJugadores />, // Assuming you have a component named Empleados AdministrarEventos
+      },
+      {
+        path: "/eventos", // Add a forward slash here
+        element: <AdministrarEventos />, // Assuming you have a component named Empleados
       },
     ],
   },

@@ -13,37 +13,37 @@ export const SideBarData = [
   },
   {
     title: "Administrar Entrenamientos",
-    path: "/empleados", // Make sure this path matches the one in Route
+    path: "/jugadores", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
   {
     title: "Administrar Eventos",
-    path: "/empleados", // Make sure this path matches the one in Route
+    path: "/eventos", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
   {
-    title: "Estadisticas Socios",
-    path: "/empleados", // Make sure this path matches the one in Route
+    title: "Estadisticas Jugadores",
+    path: "/estadisticaJugadores", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
   {
-    title: "Administrar Socios",
-    path: "/empleados", // Make sure this path matches the one in Route
+    title: "Administrar Jugadores",
+    path: "/jugadores", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
   {
-    title: "Ingresar Nuevo Socio",
-    path: "/empleados", // Make sure this path matches the one in Route
+    title: "Ingresar Nuevo Jugador",
+    path: "/addJugador", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
   {
     title: "Contactanos",
-    path: "/empleados", // Make sure this path matches the one in Route
+    path: "/jugadores", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },

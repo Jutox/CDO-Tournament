@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import EmpleadoService from '../services/EmpleadoService';
+import JugadorService from '../services/JugadorService';
 import { Link } from 'react-router-dom';
 import { Table, Pagination } from 'react-bootstrap';
 
-export const AdministrarEntrenamientos = () => {
-    const [empleados, setEmpleados] = useState([]);
+export const AdministrarEventos = () => {
+    const [jugadores, setJugadores] = useState([]);
+    
     const [searchName, setSearchName] = useState('');
     const [searchCargo, setSearchCargo] = useState('');
     const [searchContrato, setSearchContrato] = useState('');
@@ -12,32 +13,26 @@ export const AdministrarEntrenamientos = () => {
     const [empleadosPerPage] = useState(10);
 
     useEffect(() => {
-        EmpleadoService.getEmpleados().then((response) => {
-            setEmpleados(response.data);
+        JugadorService.getJugadores().then((response) => {
+            setJugadores(response.data);
             console.log(response.data);
         }).catch((error) => {
             console.log(error);
         });
     }, []);
 
-    const filteredEmpleados = empleados.filter((empleado) => {
+    const filteredJugadores = jugadores.filter((jugador) => {
         return (
-            empleado.nombres.toLowerCase().includes(searchName.toLowerCase()) &&
-            empleado.cargo.tipoCargo.toLowerCase().includes(searchCargo.toLowerCase()) &&
-            empleado.contrato.tipoContrato.toLowerCase().includes(searchContrato.toLowerCase())
+            jugador.rut.toLowerCase().includes(searchName.toLowerCase())
         );
     });
-
-    const indexOfLastEmpleado = currentPage * empleadosPerPage;
-    const indexOfFirstEmpleado = indexOfLastEmpleado - empleadosPerPage;
-    const currentEmpleados = filteredEmpleados.slice(indexOfFirstEmpleado, indexOfLastEmpleado);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div style={{ background: "#d4d1d0", color: "#000", minHeight: "93vh" }}>
             <div className="container" style={{ padding: "20px" }}>
-                <h2 className="text-center">Lista de Empleados</h2>
+                <h2 className="text-center">Lista de Eventos</h2>
                 <div className="row">
                     <div className="col-md-4">
                         <input
@@ -72,6 +67,7 @@ export const AdministrarEntrenamientos = () => {
                         <thead>
                         <tr>
                             <th>Nombres</th>
+                            <th>Rut</th>
                             <th>Apellidos</th>
                             <th>Correo</th>
                             <th>Cargo</th>
@@ -79,19 +75,18 @@ export const AdministrarEntrenamientos = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {currentEmpleados.map((empleado) => (
-                            <tr key={empleado.id}>
-                                <td>{empleado.nombres}</td>
-                                <td>{empleado.apellidos}</td>
-                                <td>{empleado.correo}</td>
-                                <td>{empleado.cargo.tipoCargo}</td>
-                                <td>{empleado.contrato.tipoContrato}</td>
+                        {filteredJugadores.map((jugador) => (
+                            <tr key={jugador.id}>
+                                <td>{jugador.rut}</td>
+                                <td>{jugador.nombres}</td>
+                                <td>{jugador.apellidos}</td>
+                                <td>{jugador.correo}</td>
                             </tr>
                         ))}
                         </tbody>
                     </Table>
                     <Pagination>
-                        {[...Array(Math.ceil(filteredEmpleados.length / empleadosPerPage)).keys()].map((number) => (
+                        {[...Array(Math.ceil(filteredJugadores.length / empleadosPerPage)).keys()].map((number) => (
                             <Pagination.Item key={number + 1} onClick={() => paginate(number + 1)} active={number + 1 === currentPage}>
                                 {number + 1}
                             </Pagination.Item>
@@ -110,4 +105,4 @@ export const AdministrarEntrenamientos = () => {
     );
 };
 
-export default AdministrarEntrenamientos;
+export default AdministrarEventos;

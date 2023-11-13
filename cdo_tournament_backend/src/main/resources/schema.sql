@@ -8,24 +8,24 @@ INSERT INTO `torneo` VALUES
 (2,'2023-10-16','2023-10-19','Complejo Deportivo Lumapi','Copa Mistral');
 
 INSERT INTO `jugador` VALUES 
-(1, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Juan','Muñoz','Parada'),
-(2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Javier','Diaz','Bustamante'),
-(3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Juan','Ramirez','Martinez'),
-(4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Alejandro','Gonzalez','Sanchez'),
-(5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Francisco','Perez','Rodriguez'),
-(6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Luis','Hernandez','Gomez'),
-(7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Alberto','Flores','Diaz'),
-(8,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Javier','Torres','Lopez'),
-(9,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Jose','Gutierrez','Ramirez'),
-(10,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Carlos','Rodriguez','Martinez'),
-(11,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Mario','Sanchez','Jimenez'),
-(12,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Raul','Lopez','Gonzalez'),
-(13,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Manuel','Ramos','Soto'),
-(14,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Andres','Rodriguez','Mendoza'),
-(15,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Eduardo','Lopez','Gonzales'),
-(16,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'David','Perez','Herrera'),
-(17,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Felipe','Martinez','Silva'),
-(18,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Ricardo','Torres','Ruiz');
+(1, 312,312,'Muñoz','Parada','fasf@asdasf.com',185,08/01/1998,'M','Juan',85,'3123124-5','235235'),
+(2,1231,312,'Diaz','Bustamante','fasf@asdasf.com',185,08/01/1998,'M','Javier',85,'3123124-5','235235'),
+(3,3123,321,'Ramirez','Martinez','fasf@asdasf.com',185,08/01/1998,'M','Juan',85,'3123124-5','5235235265'),
+(4,3123,31,'Gonzalez','Sanchez','fasf@asdasf.com',185,08/01/1998,'M','Alejandro',85,'3123124-5','34653456'),
+(5,1231,31,'Perez','Rodriguez','fasf@asdasf.com',185,08/01/1998,'M','Francisco',85,'3123124-5','3646345'),
+(6,12331,31,'Hernandez','Gomez','fasf@asdasf.com',185,08/01/1998,'M','Luis',85,'3123124-5','3654645'),
+(7,31,1312,'Flores','Diaz','fasf@asdasf.com',185,08/01/1998,'M','Alberto',85,'3123124-5','3463456'),
+(8,312,312,'Torres','Lopez','fasf@asdasf.com',185,08/01/1998,'M','Javier',85,'3123124-5','345634'),
+(9,312,321,'Gutierrez','Ramirez','fasf@asdasf.com',185,08/01/1998,'M','Jose',85,'3123124-5','634563456'),
+(10,31321,3123, 'Rodriguez','Martinez','fasf@asdasf.com',185,08/01/1998,'M',85,'Carlos','3123124-5','34653465'),
+(11,12312,131,'Sanchez','Jimenez','fasf@asdasf.com',185,08/01/1998,'M','Mario',85,'3123124-5','36345634'),
+(12,31231,3123,'Lopez','Gonzalez','fasf@asdasf.com',185,08/01/1998,'M','Raul',85,'3123124-5','3463456'),
+(13,1323,132,'Ramos','Soto','fasf@asdasf.com',185,08/01/1998,'M','Manuel',85,'3123124-5','634563456'),
+(14,1312,2423,'Rodriguez','Mendoza','fasf@asdasf.com',185,08/01/1998,'M','Andres',85,'3123124-5','63463456'),
+(15,12312,4234,'Lopez','Gonzales','fasf@asdasf.com',185,08/01/1998,'M','Eduardo',85,'3123124-5','643564365'),
+(16,3112,4234,'Perez','Herrera','fasf@asdasf.com',185,08/01/1998,'M','David',85,'3123124-5','6346345634'),
+(17,3131,234,'Martinez','Silva','fasf@asdasf.com',185,08/01/1998,'M','Felipe',85,'3123124-5','346345634'),
+(18,312321,4234,'Torres','Ruiz','fasf@asdasf.com',185,08/01/1998,'M','Ricardo',85,'3123124-5','634563456');
 
 INSERT INTO `partido` VALUES 
 (1,'Final Copa Arrau','Chillan','CHL','Cancha Quilamapu','Final',1,'Masculino','Senior','2023-10-05','13:30:00',1),
