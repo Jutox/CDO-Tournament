@@ -77,4 +77,146 @@ public class EventoImpl implements EventoService{
     public void deleteEvento(int id) {
         eventoRepository.deleteById(id); // Elimina un evento por su ID
     }
+
+    public List<EventoDTO> getAtaquesExitososByIdJugadorIdPartido(int idJugador, int idPartido) {
+        List<Evento> eventosDB = eventoRepository.findAtaquesExitososByJugadorAndPartido(idJugador,idPartido);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO;
+    }
+
+    public List<EventoDTO> getAtaquesExitososByIdJugador(int idJugador) {
+        List<Evento> eventosDB = eventoRepository.findAtaquesExitososByJugador(idJugador);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO;
+    }
+
+    @Override
+    public List<EventoDTO> getAtaquesFallidosByIdJugadorIdPartido(int idJugador, int idPartido) {
+        List<Evento> eventosDB = eventoRepository.findAtaquesFallidosByJugadorAndPartido(idJugador, idPartido);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO;   
+    }
+
+    @Override
+    public List<EventoDTO> getAtaquesFallidosByIdJugador(int idJugador) {
+        List<Evento> eventosDB = eventoRepository.findAtaquesFallidosByJugador(idJugador);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO;   
+    }
+
+    @Override
+    public List<EventoDTO> getSaquesExitososByIdJugadorIdPartido(int idJugador, int idPartido) {
+        List<Evento> eventosDB = eventoRepository.findSaquesExitososByJugadorAndPartido(idJugador, idPartido);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO;   
+    }
+
+    @Override
+    public List<EventoDTO> getSaquesExitososByIdJugador(int idJugador) {
+        List<Evento> eventosDB = eventoRepository.findSaquesExitososByJugador(idJugador);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO;  
+    }
+
+    @Override
+    public List<EventoDTO> getSaquesFallidosByIdJugadorIdPartido(int idJugador, int idPartido) {
+        List<Evento> eventosDB = eventoRepository.findSaquesFallidosByJugadorAndPartido(idJugador, idPartido);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO; 
+    }
+
+    @Override
+    public List<EventoDTO> getSaquesFallidosByIdJugador(int idJugador) {
+        List<Evento> eventosDB = eventoRepository.findSaquesFallidosByJugador(idJugador);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO; 
+    }
+
+    @Override
+    public List<EventoDTO> getBloqueosExitososByIdJugadorIdPartido(int idJugador, int idPartido) {
+        List<Evento> eventosDB = eventoRepository.findBloqueosExitososByJugadorAndPartido(idJugador, idPartido);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO; 
+    }
+
+    @Override
+    public List<EventoDTO> getBloqueosExitososByIdJugador(int idJugador) {
+        List<Evento> eventosDB = eventoRepository.findBloqueosExitososByJugador(idJugador);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO; 
+    }
+
+    @Override
+    public List<EventoDTO> getAdvertenciasByIdJugadorIdPartido(int idJugador, int idPartido) {
+        List<Evento> eventosDB = eventoRepository.findAdvertenciasByJugadorAndPartido(idJugador, idPartido);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO; 
+    }
+
+    @Override
+    public List<EventoDTO> getAdvertenciasByIdJugador(int idJugador) {
+        List<Evento> eventosDB = eventoRepository.findAdvertenciasByJugador(idJugador);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO; 
+    }
+
+    @Override
+    public List<EventoDTO> getDescalificacionesByIdJugadorIdPartido(int idJugador, int idPartido) {
+        List<Evento> eventosDB = eventoRepository.findDescalificacionesByJugadorAndPartido(idJugador, idPartido);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO; 
+    }
+
+    @Override
+    public List<EventoDTO> getDescalificacionesByIdJugador(int idJugador) {
+        List<Evento> eventosDB = eventoRepository.findDescalificacionesByJugador(idJugador);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO; 
+    }
+
+    @Override
+    public List<EventoDTO> getPenalizacionesByIdJugadorIdPartido(int idJugador, int idPartido) {
+        List<Evento> eventosDB = eventoRepository.findPenalizacionesByJugadorAndPartido(idJugador, idPartido);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO; 
+    }
+
+    @Override
+    public List<EventoDTO> getPenalizacionesByIdJugador(int idJugador) {
+        List<Evento> eventosDB = eventoRepository.findPenalizacionesByJugador(idJugador);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO; 
+    }
 }
