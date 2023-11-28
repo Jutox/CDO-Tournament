@@ -1,7 +1,10 @@
 package com.example.cdo_tournament_backend.model;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -59,15 +62,14 @@ public class Partido {
     @Temporal(TemporalType.DATE)
     private Date fecha;    
     @Column(nullable = false)
-    @Temporal(TemporalType.TIME)
-    private Date hora;
+    private String hora;
 
     // Constructor
     public Partido() {
     }
 
     // Constructor completo
-    public Partido(int idPartido, String nombreCompeticion, String ciudad, String codigoPais, String recinto, String fase, int numeroPartido, String division, String categoria, Date fecha, Date hora) {
+    public Partido(int idPartido, String nombreCompeticion, String ciudad, String codigoPais, String recinto, String fase, int numeroPartido, String division, String categoria, Date fecha, String hora) {
         this.idPartido = idPartido;
         this.nombreCompeticion = nombreCompeticion;
         this.ciudad = ciudad;
@@ -186,11 +188,16 @@ public class Partido {
         this.fecha = fecha;
     }
 
-    public Date getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(Date hora) {
+    public void setHora(String hora) {
         this.hora = hora;
+    }
+
+    // Nueva función para obtener la hora como LocalTime
+    public LocalTime getHoraAsLocalTime() {
+        return LocalTime.parse(this.hora);
     }
 }

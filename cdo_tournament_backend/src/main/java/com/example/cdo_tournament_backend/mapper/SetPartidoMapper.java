@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.cdo_tournament_backend.dto.PartidoDTO;
 import com.example.cdo_tournament_backend.dto.SetPartidoDTO;
+import com.example.cdo_tournament_backend.model.Jugador;
 import com.example.cdo_tournament_backend.model.Partido;
 import com.example.cdo_tournament_backend.model.SetPartido;
 
@@ -39,8 +40,13 @@ public class SetPartidoMapper {
         setPartido.setPuntajeB(setPartidoDTO.getPuntajeB());
         setPartido.setNumeroSet(setPartidoDTO.getNumeroSet());
 
-        Partido partido = (setPartido.getPartido() != null) ? partidoMapper.toEntity(setPartidoDTO.getPartido()) : null;
-        setPartido.setPartido(partido);   
+        //Partido partido = (setPartido.getPartido() != null) ? partidoMapper.toEntity(setPartidoDTO.getPartido()) : null;
+
+        if(setPartidoDTO.getPartido() != null){
+             Partido partido = new Partido();
+            partido.setIdPartido(setPartidoDTO.getPartido().getIdPartido());
+            setPartido.setPartido(partido);
+        }    
 
         return setPartido;
     }

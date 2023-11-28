@@ -41,10 +41,10 @@ public class SetPartido {
     private int numeroSet;
     @Column(nullable = false)
     @Temporal(TemporalType.TIME)
-    private Date horaInicio;
+    private String horaInicio;
     @Column(nullable = false)
     @Temporal(TemporalType.TIME)
-    private Date horaTermino;
+    private String horaTermino;
     @Column(nullable = false)
     private int puntajeA;
     @Column(nullable = false)
@@ -55,7 +55,7 @@ public class SetPartido {
     }
 
     // Constructor completo
-    public SetPartido(int idSetPartido, int numeroSet, Date horaInicio, Date horaTermino, int puntajeA, int puntajeB) {
+    public SetPartido(int idSetPartido, int numeroSet, String horaInicio, String horaTermino, int puntajeA, int puntajeB) {
         this.idSetPartido = idSetPartido;
         this.numeroSet = numeroSet;
         this.horaInicio = horaInicio;
@@ -97,19 +97,19 @@ public class SetPartido {
         this.numeroSet = numeroSet;
     }
 
-    public Date getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Date horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Date getHoraTermino() {
+    public String getHoraTermino() {
         return horaTermino;
     }
 
-    public void setHoraTermino(Date horaTermino) {
+    public void setHoraTermino(String horaTermino) {
         this.horaTermino = horaTermino;
     }
 

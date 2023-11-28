@@ -24,6 +24,10 @@ const AdministrarPartidos = () => {
         partido.nombreCompeticion.toLowerCase().includes(searchName.toLowerCase())
     );
 
+    const formatDate = (date) => {
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
+
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
@@ -73,7 +77,7 @@ const AdministrarPartidos = () => {
                                 <td>{partido.division}</td>
                                 <td>{partido.categoria}</td>
                                 <td>{partido.fecha}</td>
-                                <td>{partido.hora}</td>
+                                <td>{formatDate(new Date(partido.hora))}</td>
                                 <td>{partido.torneo ? partido.torneo.nombre : 'N/A'}</td>
                                 <td>
                                     <Link

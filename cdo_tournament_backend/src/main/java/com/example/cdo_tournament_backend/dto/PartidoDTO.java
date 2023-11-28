@@ -1,5 +1,6 @@
 package com.example.cdo_tournament_backend.dto;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class PartidoDTO {
     private String division;
     private String categoria;
     private Date fecha;
-    private Date hora;
+    private String hora;
 
     // Constructores, getters y setters, si es necesario
 
@@ -125,11 +126,11 @@ public class PartidoDTO {
         this.fecha = fecha;
     }
 
-    public Date getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(Date hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 }

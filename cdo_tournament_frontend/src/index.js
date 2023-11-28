@@ -23,6 +23,14 @@ import AdministrarEquipos from './routes/AdministrarEquipos';
 import AddEquipoForm from './routes/AddEquipoForm';
 import Contactanos from './routes/Contactanos';
 import AddJugadorForm from './routes/AddJugadorForm';
+import AministrarListaJugadoresPartidos from './routes/AministrarListaJugadoresPartidos';
+import AddListaJugadorPartido from './routes/AddListaJugadorPartidoForm';
+import AdministrarJugadorPartido from "./routes/AdministrarJugadorPartido";
+import AddJugadorPartidoForm from './routes/AddJugadorPartidoForm';
+import AdministrarSetPartido from "./routes/AdministrarSetPartido";
+import AddSetPartidoForm from './routes/AddSetPartidoForm';
+import AdministrarEvento from "./routes/AdministrarEvento";
+import AddEventoForm from './routes/AddEventoForm';
 import "./App.css";
 
 const AppLayout = () => (
@@ -97,6 +105,38 @@ const router = createBrowserRouter([
       {
         path: "/addTorneo", // Add a forward slash here
         element: <AddTorneoForm />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/listaJugadoresPartidos", // Add a forward slash here
+        element: <AministrarListaJugadoresPartidos />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/addListaJugadorPartido", // Add a forward slash here
+        element: <AddListaJugadorPartido />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/JugadorPartido", // Add a forward slash here
+        element: <AdministrarJugadorPartido />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/addJugadorPartidoForm", // Add a forward slash here
+        element: <AddJugadorPartidoForm />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/setsPartido", // Add a forward slash here
+        element: <AdministrarSetPartido />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/addSetsPartido", // Add a forward slash here
+        element: <AddSetPartidoForm />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/eventos", // Add a forward slash here
+        element: <AdministrarEvento />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/addEventoForm", // Add a forward slash here
+        element: <AddEventoForm />, // Assuming you have a component named Empleados AdministrarTorneos
       },
     ],
   },

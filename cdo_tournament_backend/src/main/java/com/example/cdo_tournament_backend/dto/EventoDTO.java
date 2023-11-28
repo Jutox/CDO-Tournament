@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class EventoDTO {
     private int idEvento;
-    private Date hora;
+    private String hora;
     private String tipo;
     private int puntos;
     private int ordenServicio;
@@ -22,11 +22,11 @@ public class EventoDTO {
         this.idEvento = idEvento;
     }
 
-    public Date getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(Date hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 

@@ -8,8 +8,8 @@ public class SetPartidoDTO {
     private List<EventoDTO> eventos;
     private PartidoDTO partido;
     private int numeroSet;
-    private Date horaInicio;
-    private Date horaTermino; 
+    private String horaInicio;
+    private String horaTermino; 
     private int puntajeA;
     private int puntajeB;
 
@@ -47,19 +47,19 @@ public class SetPartidoDTO {
         this.numeroSet = numeroSet;
     }
 
-    public Date getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Date horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Date getHoraTermino() {
+    public String getHoraTermino() {
         return horaTermino;
     }
 
-    public void setHoraTermino(Date horaTermino) {
+    public void setHoraTermino(String horaTermino) {
         this.horaTermino = horaTermino;
     }
 

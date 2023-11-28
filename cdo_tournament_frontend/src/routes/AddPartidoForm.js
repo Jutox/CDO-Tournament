@@ -70,11 +70,29 @@ const AddPartidoForm = () => {
         setPartido({ ...partido, [field]: date });
     };
 
+    const handleHourChange = (date, field) => {
+        // Verificar si la fecha es válida
+        if (!(date instanceof Date) || isNaN(date) || !isFinite(date)) {
+            console.error("Fecha no válida");
+            return;
+        }
+
+        // Verificar si la hora es válida
+        if (isNaN(date.getHours()) || isNaN(date.getMinutes()) || isNaN(date.getSeconds())) {
+            console.error("Hora no válida");
+            return;
+        }
+
+        // Conservar la fecha y hora en el estado
+        setPartido({ ...partido, [field]: date });
+    };
+
     const handleTorneoChange = (e) => {
         const torneoId = e.target.value;
         const selectedTorneo = torneos.find((torneo) => torneo.idTorneo === parseInt(torneoId));
         setPartido({ ...partido, torneo: selectedTorneo });
     };
+
 
     return (
         <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
@@ -198,7 +216,7 @@ const AddPartidoForm = () => {
                                     <DatePicker
                                         className="form-control"
                                         selected={partido.hora}
-                                        onChange={(date) => handleDateChange(date, 'hora')}
+                                        onChange={(date) => handleHourChange(date, 'hora')}
                                         showTimeSelect
                                         showTimeSelectOnly
                                         timeIntervals={15}

@@ -48,6 +48,30 @@ export const SideBarData = [
     cName: "nav-text",
   },
   {
+    title: "Administrar Listas",
+    path: "/listaJugadoresPartidos", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
+    title: "Administrar JugadorPartidos",
+    path: "/JugadorPartido", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
+    title: "Administrar Set Partido",
+    path: "/setsPartido", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
+    title: "Administrar Eventos",
+    path: "/eventos", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
     title: "Contactanos",
     path: "/contactanos", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,

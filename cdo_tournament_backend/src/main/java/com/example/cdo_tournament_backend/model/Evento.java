@@ -27,7 +27,7 @@ public class Evento {
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIME)
-    private Date hora;
+    private String hora;
     @Column(name = "tipo_evento", nullable = false)
     @Enumerated(EnumType.STRING) // Especifica cómo se debe mapear el enumerado
     private TipoEvento tipo;
@@ -39,19 +39,19 @@ public class Evento {
     private int rondaServicio;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "jugador_partido_id", nullable = false) // Esta es la corrección
+    @JoinColumn(name = "jugador_partido_id") // Esta es la corrección
     @JsonManagedReference
     private JugadorPartido jugadorPartido;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "set_id", nullable = false)
+    @JoinColumn(name = "set_id")
     @JsonManagedReference
     private SetPartido set;
 
     // Constructor, getters y setters
     public Evento() {}
 
-    public Evento(int idEvento, Date hora, TipoEvento tipo, int puntos, int ordenServicio, int rondaServicio) {
+    public Evento(int idEvento, String hora, TipoEvento tipo, int puntos, int ordenServicio, int rondaServicio) {
         super();
         this.idEvento = idEvento;
         this.hora = hora;
@@ -69,11 +69,11 @@ public class Evento {
         this.idEvento = idEvento;
     }
 
-    public Date getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(Date hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 
