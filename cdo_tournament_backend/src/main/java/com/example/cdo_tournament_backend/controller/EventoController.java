@@ -95,7 +95,7 @@ public class EventoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 - Internal Server Error
         }
     }
-
+    
     @GetMapping("/ataquesExitosos/{idJugador}/{idPartido}")
     public ResponseEntity<List<EventoDTO>> getAtaquesExitososByIdJugadorIdPartido(@PathVariable int idJugador, @PathVariable int idPartido) {
         try {

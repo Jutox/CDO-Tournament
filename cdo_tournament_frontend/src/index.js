@@ -31,6 +31,8 @@ import AdministrarSetPartido from "./routes/AdministrarSetPartido";
 import AddSetPartidoForm from './routes/AddSetPartidoForm';
 import AdministrarEvento from "./routes/AdministrarEvento";
 import AddEventoForm from './routes/AddEventoForm';
+import EstadisticaJugadorIndividual from './routes/EstadisticaJugadorIndividual';
+import TableroPuntos from './routes/TableroPuntos';
 import "./App.css";
 
 const AppLayout = () => (
@@ -137,6 +139,14 @@ const router = createBrowserRouter([
       {
         path: "/addEventoForm", // Add a forward slash here
         element: <AddEventoForm />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/estadisticaJugadorIndividual", // Add a forward slash here
+        element: <EstadisticaJugadorIndividual />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/tableroPuntos", // Add a forward slash here
+        element: <TableroPuntos />, // Assuming you have a component named Empleados AdministrarTorneos
       },
     ],
   },

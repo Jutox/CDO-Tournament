@@ -27,6 +27,26 @@ class EventoService {
         const url = `${EVENTO_API_BASE_URL}/${eventoId}`;
         return axios.delete(url);
     }
+
+    getAtaquesExitososByIdJugadorIdPartido(jugadorId, partidoId) {
+        const url = `${EVENTO_API_BASE_URL}/ataquesExitosos/${jugadorId}/${partidoId}`;
+        return axios.get(url);
+    }
+
+    getAtaquesFallidosByIdJugadorIdPartido(jugadorId, partidoId) {
+        const url = `${EVENTO_API_BASE_URL}/ataquesFallidos/${jugadorId}/${partidoId}`;
+        return axios.get(url);
+    }
+
+    getSaquesExitososByIdJugadorIdPartido(jugadorId, partidoId) {
+        const url = `${EVENTO_API_BASE_URL}/saquesExitosos/${jugadorId}/${partidoId}`;
+        return axios.get(url);
+    }
+
+    getSaquesFallidosByIdJugadorIdPartido(jugadorId, partidoId) {
+        const url = `${EVENTO_API_BASE_URL}/saquesFallidos/${jugadorId}/${partidoId}`;
+        return axios.get(url);
+    }
 }
 
 export default new EventoService();

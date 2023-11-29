@@ -72,6 +72,18 @@ export const SideBarData = [
     cName: "nav-text",
   },
   {
+    title: "estadistica Individual",
+    path: "/estadisticaJugadorIndividual", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
+    title: "Tablero Puntos",
+    path: "/tableroPuntos", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
     title: "Contactanos",
     path: "/contactanos", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,

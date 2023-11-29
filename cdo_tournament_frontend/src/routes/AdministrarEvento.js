@@ -46,7 +46,7 @@ const AdministrarEvento = () => {
                             <td>{evento.puntos}</td>
                             <td>{evento.ordenServicio}</td>
                             <td>{evento.rondaServicio}</td>
-                            <td>{evento.jugadorPartido && evento.jugadorPartido.id}</td>
+                            <td>{evento.jugadorPartido && evento.jugadorPartido.idJugadorPartido}</td>
                             <td>{evento.set && evento.set.idSetPartido}</td>
                         </tr>
                     ))}
