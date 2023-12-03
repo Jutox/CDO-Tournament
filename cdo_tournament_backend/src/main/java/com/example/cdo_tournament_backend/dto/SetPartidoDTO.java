@@ -1,6 +1,5 @@
 package com.example.cdo_tournament_backend.dto;
 
-import java.util.Date;
 import java.util.List;
 
 public class SetPartidoDTO {

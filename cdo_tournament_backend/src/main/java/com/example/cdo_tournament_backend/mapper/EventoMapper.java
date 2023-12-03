@@ -8,7 +8,6 @@ import com.example.cdo_tournament_backend.dto.JugadorPartidoDTO;
 import com.example.cdo_tournament_backend.dto.SetPartidoDTO;
 import com.example.cdo_tournament_backend.model.Evento;
 import com.example.cdo_tournament_backend.model.JugadorPartido;
-import com.example.cdo_tournament_backend.model.Partido;
 import com.example.cdo_tournament_backend.model.SetPartido;
 import com.example.cdo_tournament_backend.model.TipoEvento;
 

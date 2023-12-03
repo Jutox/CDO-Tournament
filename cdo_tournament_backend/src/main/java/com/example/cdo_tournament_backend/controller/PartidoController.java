@@ -95,4 +95,15 @@ public class PartidoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 - Internal Server Error
         }
     }
+
+    @GetMapping("/partidosTorneo/{idTorneo}")
+    public ResponseEntity<List<PartidoDTO>> getPartidosByIdTorneo(@PathVariable int idTorneo) {
+        try {
+            List<PartidoDTO> list = partidoService.getPartidosByTorneo(idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

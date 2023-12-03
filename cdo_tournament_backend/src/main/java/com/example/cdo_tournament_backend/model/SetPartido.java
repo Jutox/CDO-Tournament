@@ -1,7 +1,5 @@
 package com.example.cdo_tournament_backend.model;
 
-
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;

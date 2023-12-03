@@ -1,8 +1,5 @@
 package com.example.cdo_tournament_backend.model;
 
-
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -39,12 +36,12 @@ public class Evento {
     private int rondaServicio;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "jugador_partido_id") // Esta es la corrección
+    @JoinColumn(name = "jugador_partido_id", nullable = false) // Esta es la corrección
     @JsonManagedReference
     private JugadorPartido jugadorPartido;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "set_id")
+    @JoinColumn(name = "set_id", nullable = false)
     @JsonManagedReference
     private SetPartido set;
 

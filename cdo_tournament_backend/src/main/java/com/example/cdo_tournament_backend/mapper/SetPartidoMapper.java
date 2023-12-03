@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.example.cdo_tournament_backend.dto.PartidoDTO;
 import com.example.cdo_tournament_backend.dto.SetPartidoDTO;
-import com.example.cdo_tournament_backend.model.Jugador;
 import com.example.cdo_tournament_backend.model.Partido;
 import com.example.cdo_tournament_backend.model.SetPartido;
 

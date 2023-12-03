@@ -28,7 +28,7 @@ public class Jugador {
     private String apellidoPaterno;
     @Column(length = 45, nullable = false)
     private String apellidoMaterno;
-    @Column(length = 9, nullable = true)
+    @Column(length = 12, nullable = true)
     private String rut;
     @Column(nullable = true)
     @Temporal(TemporalType.DATE)

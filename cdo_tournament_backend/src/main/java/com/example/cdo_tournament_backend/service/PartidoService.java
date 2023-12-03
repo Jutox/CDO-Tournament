@@ -11,4 +11,5 @@ public interface PartidoService {
     PartidoDTO getPartidoById(int id);
     PartidoDTO updatePartido(int id, PartidoDTO partidoDTO);
     void deletePartido(int id);
+    List<PartidoDTO> getPartidosByTorneo(int idTorneo);
 }

@@ -1,7 +1,5 @@
 package com.example.cdo_tournament_backend.dto;
 
-import java.util.Date;
-
 public class EventoDTO {
     private int idEvento;
     private String hora;

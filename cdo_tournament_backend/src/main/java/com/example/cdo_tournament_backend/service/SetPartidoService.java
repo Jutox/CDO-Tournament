@@ -11,4 +11,5 @@ public interface SetPartidoService {
     SetPartidoDTO getSetPartidoById(int id);
     SetPartidoDTO updateSetPartido(int id, SetPartidoDTO setPartidoDTO);
     void deleteSetPartido(int id);
+    List<SetPartidoDTO> getSetsByPartido(int idPartido);
 }

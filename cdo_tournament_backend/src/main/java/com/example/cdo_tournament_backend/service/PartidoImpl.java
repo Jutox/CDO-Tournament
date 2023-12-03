@@ -84,4 +84,13 @@ public class PartidoImpl implements PartidoService{
     public void deletePartido(int id) {
         partidoRepository.deleteById(id); // Elimina un partido por su ID
     }
+
+    @Override
+    public List<PartidoDTO> getPartidosByTorneo(int idTorneo) {
+        List<Partido> partidosDB = partidoRepository.findPartidosByTorneo(idTorneo);
+        List<PartidoDTO> retornoDTO = partidosDB.stream()
+                .map(partidoMapper::toDTO)
+                .collect(Collectors.toList());
+        return retornoDTO;
+    }
 }

@@ -96,7 +96,18 @@ public class EventoController {
         }
     }
     
-    @GetMapping("/ataquesExitosos/{idJugador}/{idPartido}")
+    @GetMapping("/ataquesExitososJugadorTorneo/{idJugador}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getAtaquesExitososByIdJugadorIdTorneo(@PathVariable int idJugador, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getAtaquesExitososByIdJugadorIdTorneo(idJugador, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/ataquesExitososJugadorPartido/{idJugador}/{idPartido}")
     public ResponseEntity<List<EventoDTO>> getAtaquesExitososByIdJugadorIdPartido(@PathVariable int idJugador, @PathVariable int idPartido) {
         try {
             List<EventoDTO> list = eventoService.getAtaquesExitososByIdJugadorIdPartido(idJugador, idPartido);
@@ -107,7 +118,7 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/ataquesExitosos/{idJugador}")
+    @GetMapping("/ataquesExitososJugador/{idJugador}")
     public ResponseEntity<List<EventoDTO>> getAtaquesExitososByIdJugador(@PathVariable int idJugador) {
         try {
             List<EventoDTO> list = eventoService.getAtaquesExitososByIdJugador(idJugador);
@@ -118,7 +129,18 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/ataquesFallidos/{idJugador}/{idPartido}")
+    @GetMapping("/ataquesFallidosJugadorTorneo/{idJugador}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getAtaquesFallidosByIdJugadorIdTorneo(@PathVariable int idJugador, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getAtaquesFallidosByIdJugadorIdTorneo(idJugador, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/ataquesFallidosJugadorPartido/{idJugador}/{idPartido}")
     public ResponseEntity<List<EventoDTO>> getAtaquesFallidosByIdJugadorIdPartido(@PathVariable int idJugador, @PathVariable int idPartido) {
         try {
             List<EventoDTO> list = eventoService.getAtaquesFallidosByIdJugadorIdPartido(idJugador, idPartido);
@@ -129,7 +151,7 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/ataquesFallidos/{idJugador}")
+    @GetMapping("/ataquesFallidosJugador/{idJugador}")
     public ResponseEntity<List<EventoDTO>> getAtaquesFallidosByIdJugador(@PathVariable int idJugador) {
         try {
             List<EventoDTO> list = eventoService.getAtaquesFallidosByIdJugador(idJugador);
@@ -140,7 +162,18 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/saquesExitosos/{idJugador}/{idPartido}")
+    @GetMapping("/saquesExitososJugadorTorneo/{idJugador}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getSaquesExitososByIdJugadorIdTorneo(@PathVariable int idJugador, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getSaquesExitososByIdJugadorIdTorneo(idJugador, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/saquesExitososJugadorPartido/{idJugador}/{idPartido}")
     public ResponseEntity<List<EventoDTO>> getSaquesExitososByIdJugadorIdPartido(@PathVariable int idJugador, @PathVariable int idPartido) {
         try {
             List<EventoDTO> list = eventoService.getSaquesExitososByIdJugadorIdPartido(idJugador, idPartido);
@@ -151,7 +184,7 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/saquesExitosos/{idJugador}")
+    @GetMapping("/saquesExitososJugador/{idJugador}")
     public ResponseEntity<List<EventoDTO>> getSaquesExitososByIdJugador(@PathVariable int idJugador) {
         try {
             List<EventoDTO> list = eventoService.getSaquesExitososByIdJugador(idJugador);
@@ -162,7 +195,18 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/saquesFallidos/{idJugador}/{idPartido}")
+    @GetMapping("/saquesFallidosJugadorTorneo/{idJugador}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getSaquesFallidosByIdJugadorIdTorneo(@PathVariable int idJugador, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getSaquesFallidosByIdJugadorIdTorneo(idJugador, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/saquesFallidosJugadorPartido/{idJugador}/{idPartido}")
     public ResponseEntity<List<EventoDTO>> getSaquesFallidosByIdJugadorIdPartido(@PathVariable int idJugador, @PathVariable int idPartido) {
         try {
             List<EventoDTO> list = eventoService.getSaquesFallidosByIdJugadorIdPartido(idJugador, idPartido);
@@ -173,7 +217,7 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/saquesFallidos/{idJugador}")
+    @GetMapping("/saquesFallidosJugador/{idJugador}")
     public ResponseEntity<List<EventoDTO>> getSaquesFallidosByIdJugador(@PathVariable int idJugador) {
         try {
             List<EventoDTO> list = eventoService.getSaquesFallidosByIdJugador(idJugador);
@@ -184,7 +228,18 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/bloqueosExitosos/{idJugador}/{idPartido}")
+    @GetMapping("/bloqueosExitososJugadorTorneo/{idJugador}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getBloqueosExitososByIdJugadorIdTorneo(@PathVariable int idJugador, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getBloqueosExitososByIdJugadorIdTorneo(idJugador, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/bloqueosExitososJugadorPartido/{idJugador}/{idPartido}")
     public ResponseEntity<List<EventoDTO>> getBloqueosExitososByIdJugadorIdPartido(@PathVariable int idJugador, @PathVariable int idPartido) {
         try {
             List<EventoDTO> list = eventoService.getBloqueosExitososByIdJugadorIdPartido(idJugador, idPartido);
@@ -195,7 +250,7 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/bloqueosExitosos/{idJugador}")
+    @GetMapping("/bloqueosExitososJugador/{idJugador}")
     public ResponseEntity<List<EventoDTO>> getBloqueosExitososByIdJugador(@PathVariable int idJugador) {
         try {
             List<EventoDTO> list = eventoService.getBloqueosExitososByIdJugador(idJugador);
@@ -206,7 +261,18 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/advertencias/{idJugador}/{idPartido}")
+    @GetMapping("/advertenciasJugadorTorneo/{idJugador}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getAdvertenciasByIdJugadorIdTorneo(@PathVariable int idJugador, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getAdvertenciasByIdJugadorIdTorneo(idJugador, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/advertenciasJugadorPartido/{idJugador}/{idPartido}")
     public ResponseEntity<List<EventoDTO>> getAdvertenciasByIdJugadorIdPartido(@PathVariable int idJugador, @PathVariable int idPartido) {
         try {
             List<EventoDTO> list = eventoService.getAdvertenciasByIdJugadorIdPartido(idJugador, idPartido);
@@ -217,7 +283,7 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/advertencias/{idJugador}")
+    @GetMapping("/advertenciasJugador/{idJugador}")
     public ResponseEntity<List<EventoDTO>> getAdvertenciasByIdJugador(@PathVariable int idJugador) {
         try {
             List<EventoDTO> list = eventoService.getAdvertenciasByIdJugador(idJugador);
@@ -228,7 +294,18 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/descalificaciones/{idJugador}/{idPartido}")
+    @GetMapping("/descalificacionesJugadorTorneo/{idJugador}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getDescalificacionesByIdJugadorIdTorneo(@PathVariable int idJugador, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getDescalificacionesByIdJugadorIdTorneo(idJugador, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/descalificacionesJugadorPartido/{idJugador}/{idPartido}")
     public ResponseEntity<List<EventoDTO>> getDescalificacionesByIdJugadorIdPartido(@PathVariable int idJugador, @PathVariable int idPartido) {
         try {
             List<EventoDTO> list = eventoService.getDescalificacionesByIdJugadorIdPartido(idJugador, idPartido);
@@ -239,7 +316,7 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/descalificaciones/{idJugador}")
+    @GetMapping("/descalificacionesJugador/{idJugador}")
     public ResponseEntity<List<EventoDTO>> getDescalificacionesByIdJugador(@PathVariable int idJugador) {
         try {
             List<EventoDTO> list = eventoService.getDescalificacionesByIdJugador(idJugador);
@@ -250,7 +327,19 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/penalizaciones/{idJugador}/{idPartido}")
+    @GetMapping("/penalizacionesJugadorTorneo/{idJugador}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getPenalizacionesByIdJugadorIdTorneo(@PathVariable int idJugador, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getPenalizacionesByIdJugadorIdTorneo(idJugador, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/penalizacionesJugadorPartido/{idJugador}/{idPartido}")
     public ResponseEntity<List<EventoDTO>> getPenalizacionesByIdJugadorIdPartido(@PathVariable int idJugador, @PathVariable int idPartido) {
         try {
             List<EventoDTO> list = eventoService.getPenalizacionesByIdJugadorIdPartido(idJugador, idPartido);
@@ -261,10 +350,275 @@ public class EventoController {
         }
     }
 
-    @GetMapping("/penalizaciones/{idJugador}")
+    @GetMapping("/penalizacionesJugador/{idJugador}")
     public ResponseEntity<List<EventoDTO>> getPenalizacionesByIdJugador(@PathVariable int idJugador) {
         try {
             List<EventoDTO> list = eventoService.getPenalizacionesByIdJugador(idJugador);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/ataquesExitososEquipoTorneo/{idEquipo}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getAtaquesExitososByIdEquipoIdTorneo(@PathVariable int idEquipo, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getAtaquesExitososByIdEquipoIdTorneo(idEquipo, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/ataquesExitososEquipoPartido/{idEquipo}/{idPartido}")
+    public ResponseEntity<List<EventoDTO>> getAtaquesExitososByIdEquipoIdPartido(@PathVariable int idEquipo, @PathVariable int idPartido) {
+        try {
+            List<EventoDTO> list = eventoService.getAtaquesExitososByIdEquipoIdPartido(idEquipo, idPartido);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/ataquesExitososEquipo/{idEquipo}")
+    public ResponseEntity<List<EventoDTO>> getAtaquesExitososByIdEquipo(@PathVariable int idEquipo) {
+        try {
+            List<EventoDTO> list = eventoService.getAtaquesExitososByIdEquipo(idEquipo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/ataquesFallidosEquipoTorneo/{idEquipo}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getAtaquesFallidosByIdEquipoIdTorneo(@PathVariable int idEquipo, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getAtaquesFallidosByIdEquipoIdTorneo(idEquipo, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/ataquesFallidosEquipoPartido/{idEquipo}/{idPartido}")
+    public ResponseEntity<List<EventoDTO>> getAtaquesFallidosByIdEquipoIdPartido(@PathVariable int idEquipo, @PathVariable int idPartido) {
+        try {
+            List<EventoDTO> list = eventoService.getAtaquesFallidosByIdEquipoIdPartido(idEquipo, idPartido);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/ataquesFallidosEquipo/{idEquipo}")
+    public ResponseEntity<List<EventoDTO>> getAtaquesFallidosByIdEquipo(@PathVariable int idEquipo) {
+        try {
+            List<EventoDTO> list = eventoService.getAtaquesFallidosByIdEquipo(idEquipo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/saquesExitososEquipoTorneo/{idEquipo}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getSaquesExitososByIdEquipoIdTorneo(@PathVariable int idEquipo, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getSaquesExitososByIdEquipoIdTorneo(idEquipo, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/saquesExitososEquipoPartido/{idEquipo}/{idPartido}")
+    public ResponseEntity<List<EventoDTO>> getSaquesExitososByIdEquipoIdPartido(@PathVariable int idEquipo, @PathVariable int idPartido) {
+        try {
+            List<EventoDTO> list = eventoService.getSaquesExitososByIdEquipoIdPartido(idEquipo, idPartido);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/saquesExitososEquipo/{idEquipo}")
+    public ResponseEntity<List<EventoDTO>> getSaquesExitososByIdEquipo(@PathVariable int idEquipo) {
+        try {
+            List<EventoDTO> list = eventoService.getSaquesExitososByIdEquipo(idEquipo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/saquesFallidosEquipoTorneo/{idEquipo}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getSaquesFallidosByIdEquipoIdTorneo(@PathVariable int idEquipo, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getSaquesFallidosByIdEquipoIdTorneo(idEquipo, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/saquesFallidosEquipoPartido/{idEquipo}/{idPartido}")
+    public ResponseEntity<List<EventoDTO>> getSaquesFallidosByIdEquipoIdPartido(@PathVariable int idEquipo, @PathVariable int idPartido) {
+        try {
+            List<EventoDTO> list = eventoService.getSaquesFallidosByIdEquipoIdPartido(idEquipo, idPartido);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/saquesFallidosEquipo/{idEquipo}")
+    public ResponseEntity<List<EventoDTO>> getSaquesFallidosByIdEquipo(@PathVariable int idEquipo) {
+        try {
+            List<EventoDTO> list = eventoService.getSaquesFallidosByIdEquipo(idEquipo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/bloqueosExitososEquipoTorneo/{idEquipo}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getBloqueosExitososByIdEquipoIdTorneo(@PathVariable int idEquipo, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getBloqueosExitososByIdEquipoIdTorneo(idEquipo, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/bloqueosExitososEquipoPartido/{idEquipo}/{idPartido}")
+    public ResponseEntity<List<EventoDTO>> getBloqueosExitososByIdEquipoIdPartido(@PathVariable int idEquipo, @PathVariable int idPartido) {
+        try {
+            List<EventoDTO> list = eventoService.getBloqueosExitososByIdEquipoIdPartido(idEquipo, idPartido);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/bloqueosExitososEquipo/{idEquipo}")
+    public ResponseEntity<List<EventoDTO>> getBloqueosExitososByIdEquipo(@PathVariable int idEquipo) {
+        try {
+            List<EventoDTO> list = eventoService.getBloqueosExitososByIdEquipo(idEquipo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/advertenciasEquipoTorneo/{idEquipo}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getAdvertenciasByIdEquipoIdTorneo(@PathVariable int idEquipo, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getAdvertenciasByIdEquipoIdTorneo(idEquipo, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/advertenciasEquipoPartido/{idEquipo}/{idPartido}")
+    public ResponseEntity<List<EventoDTO>> getAdvertenciasByIdEquipoIdPartido(@PathVariable int idEquipo, @PathVariable int idPartido) {
+        try {
+            List<EventoDTO> list = eventoService.getAdvertenciasByIdEquipoIdPartido(idEquipo, idPartido);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/advertenciasEquipo/{idEquipo}")
+    public ResponseEntity<List<EventoDTO>> getAdvertenciasByIdEquipo(@PathVariable int idEquipo) {
+        try {
+            List<EventoDTO> list = eventoService.getAdvertenciasByIdEquipo(idEquipo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/descalificacionesEquipoTorneo/{idEquipo}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getDescalificacionesByIdEquipoIdTorneo(@PathVariable int idEquipo, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getDescalificacionesByIdEquipoIdTorneo(idEquipo, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/descalificacionesEquipoPartido/{idEquipo}/{idPartido}")
+    public ResponseEntity<List<EventoDTO>> getDescalificacionesByIdEquipoIdPartido(@PathVariable int idEquipo, @PathVariable int idPartido) {
+        try {
+            List<EventoDTO> list = eventoService.getDescalificacionesByIdEquipoIdPartido(idEquipo, idPartido);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/descalificacionesEquipo/{idEquipo}")
+    public ResponseEntity<List<EventoDTO>> getDescalificacionesByIdEquipo(@PathVariable int idEquipo) {
+        try {
+            List<EventoDTO> list = eventoService.getDescalificacionesByIdEquipo(idEquipo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/penalizacionesEquipoTorneo/{idEquipo}/{idTorneo}")
+    public ResponseEntity<List<EventoDTO>> getPenalizacionesByIdEquipoIdTorneo(@PathVariable int idEquipo, @PathVariable int idTorneo) {
+        try {
+            List<EventoDTO> list = eventoService.getPenalizacionesByIdEquipoIdTorneo(idEquipo, idTorneo);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/penalizacionesEquipoPartido/{idEquipo}/{idPartido}")
+    public ResponseEntity<List<EventoDTO>> getPenalizacionesByIdEquipoIdPartido(@PathVariable int idEquipo, @PathVariable int idPartido) {
+        try {
+            List<EventoDTO> list = eventoService.getPenalizacionesByIdEquipoIdPartido(idEquipo, idPartido);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/penalizacionesEquipo/{idEquipo}")
+    public ResponseEntity<List<EventoDTO>> getPenalizacionesByIdEquipo(@PathVariable int idEquipo) {
+        try {
+            List<EventoDTO> list = eventoService.getPenalizacionesByIdEquipo(idEquipo);
             return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             ex.printStackTrace(); // Manejo de excepciones

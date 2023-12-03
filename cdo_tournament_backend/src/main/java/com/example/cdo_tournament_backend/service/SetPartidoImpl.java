@@ -77,4 +77,13 @@ public class SetPartidoImpl implements SetPartidoService{
     public void deleteSetPartido(int id) {
         setPartidoRepository.deleteById(id); // Elimina un set de partido por su ID
     }
+
+    @Override
+    public List<SetPartidoDTO> getSetsByPartido(int idPartido) {
+        List<SetPartido> setsDB = setPartidoRepository.findSetsByPartido(idPartido);
+        List<SetPartidoDTO> retornoDTO = setsDB.stream()
+                .map(setPartidoMapper::toDTO)
+                .collect(Collectors.toList());
+        return retornoDTO;
+    }
 }
