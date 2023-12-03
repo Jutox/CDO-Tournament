@@ -96,7 +96,7 @@ public class SetPartidoController {
         }
     }
 
-    @GetMapping("/SetsPartido/{idPartido}")
+    @GetMapping("/setsPartido/{idPartido}")
     public ResponseEntity<List<SetPartidoDTO>> getSetsByIdPartido(@PathVariable int idPartido) {
         try {
             List<SetPartidoDTO> list = setPartidoService.getSetsByPartido(idPartido);

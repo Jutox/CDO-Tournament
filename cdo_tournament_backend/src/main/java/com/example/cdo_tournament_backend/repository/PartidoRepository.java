@@ -14,9 +14,9 @@ import org.springframework.stereotype.Repository;
 public interface PartidoRepository extends JpaRepository<Partido, Integer>{
 
     @Query(value = "SELECT p.* FROM cdo.partido p " +
-        "WHERE p.id_torneo = :torneoId ", nativeQuery = true)
+        "WHERE p.torneo_id = :torneoId ", nativeQuery = true)
     List<Partido> findPartidosByTorneo(
         @Param("torneoId") int torneoId
     );
-
+ 
 }
