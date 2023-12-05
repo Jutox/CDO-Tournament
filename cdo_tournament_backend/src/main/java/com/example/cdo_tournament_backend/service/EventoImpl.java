@@ -79,6 +79,15 @@ public class EventoImpl implements EventoService{
     }
 
     @Override
+    public List<EventoDTO> getEventosByIdSet(int idSet) {
+        List<Evento> eventosDB = eventoRepository.findEventosBySet(idSet);
+        List<EventoDTO> retornoDTO = eventosDB.stream()
+            .map(eventoMapper::toDTO)
+            .collect(Collectors.toList());
+        return retornoDTO;
+    }
+
+    @Override
     public List<EventoDTO> getAtaquesExitososByIdJugadorIdTorneo(int idJugador, int idTorneo) {
         List<Evento> eventosDB = eventoRepository.findAtaquesExitososByJugadorAndTorneo(idJugador,idTorneo);
         List<EventoDTO> retornoDTO = eventosDB.stream()

@@ -11,6 +11,7 @@ public interface EventoService {
     EventoDTO getEventoById(int id);
     EventoDTO updateEvento(int id, EventoDTO eventoDTO);
     void deleteEvento(int id);
+    List<EventoDTO> getEventosByIdSet(int idSet);
     List<EventoDTO> getAtaquesExitososByIdJugadorIdTorneo(int idJugador, int idTorneo);    
     List<EventoDTO> getAtaquesExitososByIdJugadorIdPartido(int idJugador, int idPartido);
     List<EventoDTO> getAtaquesExitososByIdJugador(int idJugador);

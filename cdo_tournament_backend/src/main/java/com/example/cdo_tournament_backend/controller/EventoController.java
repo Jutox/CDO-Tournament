@@ -96,6 +96,17 @@ public class EventoController {
         }
     }
     
+    @GetMapping("/eventosBySet/{idSet}")
+    public ResponseEntity<List<EventoDTO>> getEventosByIdSet(@PathVariable int idSet) {
+        try {
+            List<EventoDTO> list = eventoService.getEventosByIdSet(idSet);
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Manejo de excepciones
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     @GetMapping("/ataquesExitososJugadorTorneo/{idJugador}/{idTorneo}")
     public ResponseEntity<List<EventoDTO>> getAtaquesExitososByIdJugadorIdTorneo(@PathVariable int idJugador, @PathVariable int idTorneo) {
         try {

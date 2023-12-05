@@ -12,6 +12,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EventoRepository extends JpaRepository<Evento, Integer>{
+    
+    @Query(value = "SELECT e.* FROM cdo.evento e " +
+        "WHERE e.set_id = :setId ", nativeQuery = true)
+    List<Evento> findEventosBySet(
+        @Param("setId") int setId
+    );
 
     @Query(value = "SELECT e.* FROM cdo.evento e " +
         "JOIN cdo.jugador_partido jp ON e.jugador_partido_id = jp.id_jugador_partido " +
