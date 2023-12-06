@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PartidoService from '../services/PartidoService';
 import SetPartidoService from '../services/SetPartidoService';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const AddSetPartidoForm = () => {
-    const { id } = useParams();
+const AddSetPartidoFormTest = () => {
     const [setPartido, setSetPartido] = useState({
         numeroSet: 1,
         horaInicio: null,
@@ -16,30 +15,30 @@ const AddSetPartidoForm = () => {
         partido: null,
     });
 
+    const [partidos, setPartidos] = useState([]);
+
     const navigate = useNavigate();
 
     useEffect(() => {
-        PartidoService.getPartidoById(id)
+        // Obtener la lista de partidos desde tu servicio
+        PartidoService.getPartidos()
             .then((response) => {
-                setSetPartido({ ...setPartido, partido: response.data });
-                console.log(response.data);
+                setPartidos(response.data);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
-
-    }, [id]);
+    }, []);
 
     const saveSetPartido = (e) => {
         e.preventDefault();
-
 
         // Llama al servicio para guardar el SetPartido
         SetPartidoService.createSetPartido(setPartido)
             .then((response) => {
                 console.log(setPartido);
                 console.log(response.data);
-                navigate(`/perfilPartido/${id}`);
+                navigate('/setsPartido');
             })
             .catch((error) => {
                 console.error('Error creating SetPartido:', error);
@@ -73,7 +72,12 @@ const AddSetPartidoForm = () => {
         }
     };
 
-
+    const handlePartidoChange = (e) => {
+        const partidoId = e.target.value;
+        const selectedPartido = partidos.find((partido) => partido.idPartido === parseInt(partidoId));
+        setSetPartido({ ...setPartido, partido: selectedPartido });
+        console.log(selectedPartido)
+    };
 
     return (
         <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
@@ -151,7 +155,23 @@ const AddSetPartidoForm = () => {
                                         style={{ background: '#e6e5e5', color: '#151414' }}
                                     />
                                 </div>
-
+                                <div className="form-group mb-2">
+                                    <label style={{ color: '#000' }}>Partido:</label>
+                                    <select
+                                        name="partido"
+                                        value={setPartido.partido ? setPartido.partido.idPartido : ''}
+                                        onChange={handlePartidoChange}
+                                        className="form-control"
+                                        style={{ background: '#e6e5e5', color: '#151414' }}
+                                    >
+                                        <option value="">Seleccione un partido</option>
+                                        {partidos.map((partido) => (
+                                            <option key={partido.idPartido} value={partido.idPartido}>
+                                                {partido.nombreCompeticion}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
                                 <button
                                     onClick={saveSetPartido}
                                     className="btn btn-success"
@@ -168,4 +188,4 @@ const AddSetPartidoForm = () => {
     );
 };
 
-export default AddSetPartidoForm;
+export default AddSetPartidoFormTest;

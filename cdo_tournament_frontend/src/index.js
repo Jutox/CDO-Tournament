@@ -8,7 +8,6 @@ import {
   Outlet,
   createRoutesFromElements,
 } from "react-router-dom";
-import Products from "./routes/Contactanos";
 import Home from "./routes/Home";
 import Reports from "./routes/Reports";
 import Navbar from "./components/Navbar";
@@ -33,6 +32,12 @@ import AdministrarEvento from "./routes/AdministrarEvento";
 import AddEventoForm from './routes/AddEventoForm';
 import EstadisticaJugadorIndividual from './routes/EstadisticaJugadorIndividual';
 import TableroPuntos from './routes/TableroPuntos';
+import EstadisticaPersonal from './routes/EstadisticaPersonal';
+import PerfilJugador from './routes/PerfilJugador';
+import PerfilPartido from './routes/PerfilPartido';
+import ActualizarPartidoForm from './routes/ActualizarPartidoForm';
+import ActualizarSetPartido from "./routes/ActualizarSetPartido";
+import LoginPage from "./routes/LoginPage";
 import "./App.css";
 
 const AppLayout = () => (
@@ -57,7 +62,11 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        path: "/",
+        path: "/", // Add a forward slash here
+        element: <LoginPage />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/home",
         element: <Home />,
       },
       {
@@ -129,7 +138,7 @@ const router = createBrowserRouter([
         element: <AdministrarSetPartido />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
-        path: "/addSetsPartido", // Add a forward slash here
+        path: "/addSetsPartido/:id", // Add a forward slash here
         element: <AddSetPartidoForm />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
@@ -147,6 +156,26 @@ const router = createBrowserRouter([
       {
         path: "/tableroPuntos", // Add a forward slash here
         element: <TableroPuntos />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/estadisticaPersonal", // Add a forward slash here
+        element: <EstadisticaPersonal />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/perfilJugador/:id", // Add a forward slash here
+        element: <PerfilJugador />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/perfilPartido/:id", // Add a forward slash here
+        element: <PerfilPartido />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/updatePartido/:id", // Add a forward slash here
+        element: <ActualizarPartidoForm />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/updateSetPartido/:partidoId/:setId", // Add a forward slash here
+        element: <ActualizarSetPartido />, // Assuming you have a component named Empleados AdministrarTorneos
       },
     ],
   },

@@ -27,9 +27,11 @@ export const AdministrarJugadores = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
-        <div style={{ background: "#d4d1d0", color: "#000", minHeight: "93vh" }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+            &nbsp;
             <div className="container" style={{ padding: "20px" }}>
-                <h2 className="text-center">Lista de Jugadores</h2>
+                <h2 className="text-center" style={{ color: '#ffffff' }}>Lista de Jugadores</h2>
+                &nbsp;
                 <div className="row">
                     <div className="col-md-4">
                         <input
@@ -41,7 +43,7 @@ export const AdministrarJugadores = () => {
                         />
                     </div>
                 </div>
-                <div className="row justify-content-center">
+                <div className="row justify-content-center" style={{ background: "#ffffff", color: "#000", minHeight: "93vh" }}>
                     <Table striped bordered hover variant="grey" className="table-xl">
                         <thead>
                         <tr>
@@ -56,6 +58,7 @@ export const AdministrarJugadores = () => {
                             <th>Peso</th>
                             <th>Alcance Mano</th>
                             <th>Alcance Bloqueo</th>
+                            <th>Equipo</th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -73,13 +76,14 @@ export const AdministrarJugadores = () => {
                                 <td>{jugador.peso}</td>
                                 <td>{jugador.alcanceMano}</td>
                                 <td>{jugador.alcanceBloqueo}</td>
+                                <td>{jugador.equipo}</td>
                                 <td>
                                     <Link
-                                        to={`/updateJugador/${jugador.idJugador}`}
+                                        to={`/perfilJugador/${jugador.idJugador}`}
                                         className="btn btn-warning"
-                                        style={{ background: "#F4B205", color: "#000" }}
+                                        style={{ background: "#F4B205", color: "#000", width: "auto" }}
                                     >
-                                        Actualizar
+                                        Ver Perfil
                                     </Link>
                                 </td>
                             </tr>

@@ -27,6 +27,11 @@ class SetPartidoService {
         const url = `${SETPARTIDO_API_BASE_URL}/${setPartidoId}`;
         return axios.delete(url);
     }
+
+    getSetsByIdPartido(partidoId) {
+        const url = `${SETPARTIDO_API_BASE_URL}/setsPartido/${partidoId}`;
+        return axios.get(url);
+    }
 }
 
 export default new SetPartidoService();

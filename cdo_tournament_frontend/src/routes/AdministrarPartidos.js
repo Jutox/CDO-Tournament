@@ -31,9 +31,11 @@ const AdministrarPartidos = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
-        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+            &nbsp;
             <div className="container" style={{ padding: '20px' }}>
-                <h2 className="text-center">Lista de Partidos</h2>
+                <h2 className="text-center" style={{ color: '#ffffff' }}>Lista de Partidos</h2>
+                &nbsp;
                 <div className="row">
                     <div className="col-md-4">
                         <input
@@ -45,7 +47,7 @@ const AdministrarPartidos = () => {
                         />
                     </div>
                 </div>
-                <div className="row justify-content-center">
+                <div className="row justify-content-center" style={{ background: "#d4d1d0", color: "#000" }}>
                     <Table striped bordered hover variant="grey" className="table-xl">
                         <thead>
                         <tr>
@@ -81,11 +83,11 @@ const AdministrarPartidos = () => {
                                 <td>{partido.torneo ? partido.torneo.nombre : 'N/A'}</td>
                                 <td>
                                     <Link
-                                        to={`/updatePartido/${partido.idPartido}`}
+                                        to={`/perfilPartido/${partido.idPartido}`}
                                         className="btn btn-warning"
                                         style={{ background: '#F4B205', color: '#000' }}
                                     >
-                                        Actualizar
+                                        Ver Datos/Sets
                                     </Link>
                                 </td>
                             </tr>
@@ -104,6 +106,7 @@ const AdministrarPartidos = () => {
                         ))}
                     </Pagination>
                 </div>
+                &nbsp;
                 <div className="row">
                     <div className="col-md-4">
                         <Link

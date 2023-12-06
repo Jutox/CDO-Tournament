@@ -7,7 +7,7 @@ import { Route } from "react-router-dom";
 export const SideBarData = [
   {
     title: "Home",
-    path: "/",
+    path: "/home",
     icon: <AiIcons.AiFillHome />,
     cName: "nav-text",
   },
@@ -18,20 +18,14 @@ export const SideBarData = [
     cName: "nav-text",
   },
   {
-    title: "Ingresar Nuevo Jugador",
-    path: "/addJugador", // Make sure this path matches the one in Route
+    title: "Administrar Partidos",
+    path: "/partidos", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
   {
     title: "Estadisticas Jugadores",
     path: "/estadisticaJugadores", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
-  {
-    title: "Administrar Partidos",
-    path: "/partidos", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
@@ -80,6 +74,12 @@ export const SideBarData = [
   {
     title: "Tablero Puntos",
     path: "/tableroPuntos", // Make sure this path matches the one in Route
+    icon: <IoIcons.IoIosPaper />,
+    cName: "nav-text",
+  },
+  {
+    title: "EstadisticaPersonal",
+    path: "/estadisticaPersonal", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },

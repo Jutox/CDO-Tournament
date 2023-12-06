@@ -35,6 +35,7 @@ const AdministrarEvento = () => {
                         <th>Ronda de Servicio</th>
                         <th>ID Jugador Partido</th>
                         <th>ID Set Partido</th>
+                        <th>ID Jugador</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -48,7 +49,7 @@ const AdministrarEvento = () => {
                             <td>{evento.rondaServicio}</td>
                             <td>{evento.jugadorPartido && evento.jugadorPartido.idJugadorPartido}</td>
                             <td>{evento.set && evento.set.idSetPartido}</td>
-                        </tr>
+                            <td>{evento.jugadorPartido.jugador.nombres}</td></tr>
                     ))}
                     </tbody>
                 </Table>

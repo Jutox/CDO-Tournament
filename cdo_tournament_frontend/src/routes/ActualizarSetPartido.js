@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
-import PartidoService from '../services/PartidoService';
-import SetPartidoService from '../services/SetPartidoService';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PartidoService from '../services/PartidoService';
+import SetPartidoService from '../services/SetPartidoService';
 
-const AddSetPartidoForm = () => {
-    const { id } = useParams();
+const ActualizarSetPartido = () => {
+    const { partidoId, setId } = useParams();
     const [setPartido, setSetPartido] = useState({
         numeroSet: 1,
         horaInicio: null,
@@ -19,7 +19,8 @@ const AddSetPartidoForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        PartidoService.getPartidoById(id)
+
+        PartidoService.getPartidoById(partidoId)
             .then((response) => {
                 setSetPartido({ ...setPartido, partido: response.data });
                 console.log(response.data);
@@ -28,7 +29,25 @@ const AddSetPartidoForm = () => {
                 console.error('Error fetching data:', error);
             });
 
-    }, [id]);
+        SetPartidoService.getSetPartidoById(setId)
+            .then((response) => {
+                const setPartidoData = response.data;
+
+                // Convert time values to JavaScript Date objects if they exist
+                const horaInicio = setPartidoData.horaInicio ? new Date(setPartidoData.horaInicio) : null;
+                const horaTermino = setPartidoData.horaTermino ? new Date(setPartidoData.horaTermino) : null;
+
+                setSetPartido({
+                    ...setPartidoData,
+                    horaInicio, // Update horaInicio with the converted value
+                    horaTermino, // Update horaTermino with the converted value
+                });
+            })
+            .catch((error) => {
+                console.error('Error fetching set data:', error);
+            });
+
+    }, [partidoId, setId]);
 
     const saveSetPartido = (e) => {
         e.preventDefault();
@@ -39,7 +58,7 @@ const AddSetPartidoForm = () => {
             .then((response) => {
                 console.log(setPartido);
                 console.log(response.data);
-                navigate(`/perfilPartido/${id}`);
+                navigate(`/perfilPartido/${partidoId}`);
             })
             .catch((error) => {
                 console.error('Error creating SetPartido:', error);
@@ -76,11 +95,13 @@ const AddSetPartidoForm = () => {
 
 
     return (
-        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
             <div className="container" style={{ padding: '20px' }}>
-                <h2 className="text-center" style={{ color: '#000' }}>
+                &nbsp;
+                <h2 className="text-center" style={{ color: '#ffffff' }}>
                     Crear Set de Partido
                 </h2>
+                &nbsp;
                 <div className="row justify-content-center">
                     <div className="card col-md-8" style={{ background: '#bcbdbe', color: '#000' }}>
                         <div className="card-body">
@@ -155,10 +176,18 @@ const AddSetPartidoForm = () => {
                                 <button
                                     onClick={saveSetPartido}
                                     className="btn btn-success"
-                                    style={{ background: '#F4B205', color: '#fff' }}
+                                    style={{ backgroundColor: '#F4B205', color: '#000' }}
                                 >
                                     Guardar Set de Partido
                                 </button>
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                <Link
+                                    to={`/perfilPartido/${partidoId}`}
+                                    className="btn btn-secondary"
+                                    style={{ background: "#6C757D", color: "#fff" }}
+                                >
+                                    Cancelar
+                                </Link>
                             </form>
                         </div>
                     </div>
@@ -168,4 +197,4 @@ const AddSetPartidoForm = () => {
     );
 };
 
-export default AddSetPartidoForm;
+export default ActualizarSetPartido;

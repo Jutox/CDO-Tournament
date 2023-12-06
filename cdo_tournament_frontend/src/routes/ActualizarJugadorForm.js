@@ -87,9 +87,11 @@ export const ActualizarJugadorForm = () => {
     };
 
     return (
-        <div style={{ background: "#d4d1d0", color: "#000", minHeight: "93vh" }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+            &nbsp;
             <div className="container" style={{ padding: "20px" }}>
-                <h2 className="text-center" style={{ color: "#000" }}>Actualizar Jugador</h2>
+                <h2 className="text-center" style={{ color: "#ffffff" }}>Actualizar Jugador</h2>
+                &nbsp;
                 <div className="row justify-content-center">
                     <div className="card col-md-8" style={{ background: "#bcbdbe", color: "#000" }}>
                         <div className="card-body">
@@ -141,7 +143,11 @@ export const ActualizarJugadorForm = () => {
                                     Eliminar
                                 </button>
                                 &nbsp;&nbsp;&nbsp;
-                                <Link to="/jugadores" className="btn btn-secondary" style={{ background: "#6C757D", color: "#fff" }}>
+                                <Link
+                                    to={`/perfilJugador/${jugador.idJugador}`}
+                                    className="btn btn-secondary"
+                                    style={{ background: "#6C757D", color: "#fff" }}
+                                    >
                                     Cancelar
                                 </Link>
                             </form>
