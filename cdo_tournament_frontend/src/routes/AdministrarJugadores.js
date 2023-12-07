@@ -7,24 +7,29 @@ export const AdministrarJugadores = () => {
     const [jugadores, setJugadores] = useState([]);
     const [searchName, setSearchName] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [empleadosPerPage] = useState(10);
+    const empleadosPerPage = 10;
 
     useEffect(() => {
         JugadorService.getJugadores()
             .then((response) => {
                 setJugadores(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.log(error);
             });
     }, []);
 
-    const filteredJugadores = jugadores.filter((jugador) => {
-        return jugador.nombres.toLowerCase().includes(searchName.toLowerCase());
-    });
+    const indexOfLastJugador = currentPage * empleadosPerPage;
+    const indexOfFirstJugador = indexOfLastJugador - empleadosPerPage;
+    const currentJugadores = jugadores.slice(indexOfFirstJugador, indexOfLastJugador);
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const filteredJugadores = currentJugadores.filter((jugador) =>
+        jugador.nombres.toLowerCase().includes(searchName.toLowerCase())
+    );
 
     return (
         <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
@@ -39,12 +44,11 @@ export const AdministrarJugadores = () => {
                             placeholder="Buscar por nombre"
                             onChange={(e) => setSearchName(e.target.value)}
                             className="form-control mb-3"
-                            style={{ background: "#bcbdbe", color: "#151414" }}
                         />
                     </div>
                 </div>
-                <div className="row justify-content-center" style={{ background: "#ffffff", color: "#000", minHeight: "93vh" }}>
-                    <Table striped bordered hover variant="grey" className="table-xl">
+                <div className="row justify-content-center">
+                    <Table striped bordered hover variant="light" className="table-xl">
                         <thead>
                         <tr>
                             <th>Nombres</th>
@@ -90,18 +94,8 @@ export const AdministrarJugadores = () => {
                         ))}
                         </tbody>
                     </Table>
-                    <Pagination>
-                        {[...Array(Math.ceil(filteredJugadores.length / empleadosPerPage)).keys()].map((number) => (
-                            <Pagination.Item
-                                key={number + 1}
-                                onClick={() => paginate(number + 1)}
-                                active={number + 1 === currentPage}
-                            >
-                                {number + 1}
-                            </Pagination.Item>
-                        ))}
-                    </Pagination>
                 </div>
+                &nbsp;
                 <div className="row">
                     <div className="col-md-4">
                         <Link
@@ -112,6 +106,19 @@ export const AdministrarJugadores = () => {
                             Agregar Jugador
                         </Link>
                     </div>
+                </div>
+                <div className="row">
+                    <Pagination>
+                        {Array.from({ length: Math.ceil(jugadores.length / empleadosPerPage) }).map((_, index) => (
+                            <Pagination.Item
+                                key={index + 1}
+                                active={index + 1 === currentPage}
+                                onClick={() => handlePageChange(index + 1)}
+                            >
+                                {index + 1}
+                            </Pagination.Item>
+                        ))}
+                    </Pagination>
                 </div>
             </div>
         </div>

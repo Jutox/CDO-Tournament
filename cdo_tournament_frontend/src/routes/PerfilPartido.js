@@ -304,7 +304,7 @@ const PerfilPartido = () => {
                                 <td>
                                     <button
                                         className="btn btn-info"
-                                        onClick={() => navigate(`/updateSetPartido/${partido.idPartido}/${set.idSetPartido}`)}
+                                        onClick={() => navigate(`/perfilSetPartido/${partido.idPartido}/${set.idSetPartido}`)}
                                         style={{ backgroundColor: '#F4B205', color: '#000' }}
                                     >
                                         Ver Set de Partido

@@ -37,6 +37,7 @@ import PerfilJugador from './routes/PerfilJugador';
 import PerfilPartido from './routes/PerfilPartido';
 import ActualizarPartidoForm from './routes/ActualizarPartidoForm';
 import ActualizarSetPartido from "./routes/ActualizarSetPartido";
+import PerfilSetPartido from "./routes/PerfilSetPartido";
 import LoginPage from "./routes/LoginPage";
 import "./App.css";
 
@@ -154,7 +155,7 @@ const router = createBrowserRouter([
         element: <EstadisticaJugadorIndividual />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
-        path: "/tableroPuntos", // Add a forward slash here
+        path: "/tableroPuntos/:partidoId/:setId", // Add a forward slash here
         element: <TableroPuntos />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
@@ -176,6 +177,10 @@ const router = createBrowserRouter([
       {
         path: "/updateSetPartido/:partidoId/:setId", // Add a forward slash here
         element: <ActualizarSetPartido />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/perfilSetPartido/:partidoId/:setId", // Add a forward slash here
+        element: <PerfilSetPartido />, // Assuming you have a component named Empleados AdministrarTorneos
       },
     ],
   },

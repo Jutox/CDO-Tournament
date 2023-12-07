@@ -18,6 +18,12 @@ class EventoService {
         return axios.get(url);
     }
 
+    getEventosByIdSet(setPartidoId) {
+        const url = `${EVENTO_API_BASE_URL}/${setPartidoId}`;
+        return axios.get(url);
+    }
+
+
     updateEvento(eventoId, evento) {
         const url = `${EVENTO_API_BASE_URL}/${eventoId}`;
         return axios.put(url, evento);

@@ -99,7 +99,7 @@ const ActualizarSetPartido = () => {
             <div className="container" style={{ padding: '20px' }}>
                 &nbsp;
                 <h2 className="text-center" style={{ color: '#ffffff' }}>
-                    Crear Set de Partido
+                    Actualizar Set de Partido
                 </h2>
                 &nbsp;
                 <div className="row justify-content-center">
@@ -182,7 +182,7 @@ const ActualizarSetPartido = () => {
                                 </button>
                                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                 <Link
-                                    to={`/perfilPartido/${partidoId}`}
+                                    to={`/perfilSetPartido/${partidoId}/${setId}`}
                                     className="btn btn-secondary"
                                     style={{ background: "#6C757D", color: "#fff" }}
                                 >

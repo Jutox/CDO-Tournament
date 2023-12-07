@@ -13,36 +13,42 @@ const AdministrarTorneos = () => {
         TorneoService.getTorneos()
             .then((response) => {
                 setTorneos(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
     }, []);
 
-    const filteredTorneos = torneos.filter((torneo) =>
+    const indexOfLastTorneo = currentPage * torneosPerPage;
+    const indexOfFirstTorneo = indexOfLastTorneo - torneosPerPage;
+    const currentTorneos = torneos.slice(indexOfFirstTorneo, indexOfLastTorneo);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const filteredTorneos = currentTorneos.filter((torneo) =>
         torneo.nombre.toLowerCase().includes(searchName.toLowerCase())
     );
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
     return (
-        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
-            <div className="container" style={{ padding: '20px' }}>
-                <h2 className="text-center">Lista de Torneos</h2>
-                <div className="row">
+        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+        <div className="container" style={{ padding: '20px' }}>
+            &nbsp;
+            <h2 className="text-center" style={{ color: '#ffffff' }}>Lista de Torneos</h2>
+            &nbsp;
+            <div className="row">
                     <div className="col-md-4">
                         <input
                             type="text"
                             placeholder="Buscar por nombre"
                             onChange={(e) => setSearchName(e.target.value)}
                             className="form-control mb-3"
-                            style={{ background: '#bcbdbe', color: '#151414' }}
                         />
                     </div>
                 </div>
                 <div className="row justify-content-center">
-                    <Table striped bordered hover variant="grey" className="table-xl">
+                    <Table striped bordered hover variant="light" className="table-xl">
                         <thead>
                         <tr>
                             <th>Nombre</th>
@@ -73,10 +79,10 @@ const AdministrarTorneos = () => {
                         </tbody>
                     </Table>
                     <Pagination>
-                        {[...Array(Math.ceil(filteredTorneos.length / torneosPerPage)).keys()].map((number) => (
+                        {[...Array(Math.ceil(torneos.length / torneosPerPage)).keys()].map((number) => (
                             <Pagination.Item
                                 key={number + 1}
-                                onClick={() => paginate(number + 1)}
+                                onClick={() => handlePageChange(number + 1)}
                                 active={number + 1 === currentPage}
                             >
                                 {number + 1}

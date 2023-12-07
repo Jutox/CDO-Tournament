@@ -13,22 +13,27 @@ const AdministrarPartidos = () => {
         PartidoService.getPartidos()
             .then((response) => {
                 setPartidos(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
     }, []);
 
-    const filteredPartidos = partidos.filter((partido) =>
+    const indexOfLastPartido = currentPage * partidosPerPage;
+    const indexOfFirstPartido = indexOfLastPartido - partidosPerPage;
+    const currentPartidos = partidos.slice(indexOfFirstPartido, indexOfLastPartido);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const filteredPartidos = currentPartidos.filter((partido) =>
         partido.nombreCompeticion.toLowerCase().includes(searchName.toLowerCase())
     );
 
     const formatDate = (date) => {
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
-
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
@@ -47,8 +52,8 @@ const AdministrarPartidos = () => {
                         />
                     </div>
                 </div>
-                <div className="row justify-content-center" style={{ background: "#d4d1d0", color: "#000" }}>
-                    <Table striped bordered hover variant="grey" className="table-xl">
+                <div className="row justify-content-center">
+                    <Table striped bordered hover variant="light" className="table-xl">
                         <thead>
                         <tr>
                             <th>ID Partido</th>
@@ -94,17 +99,6 @@ const AdministrarPartidos = () => {
                         ))}
                         </tbody>
                     </Table>
-                    <Pagination>
-                        {[...Array(Math.ceil(filteredPartidos.length / partidosPerPage)).keys()].map((number) => (
-                            <Pagination.Item
-                                key={number + 1}
-                                onClick={() => paginate(number + 1)}
-                                active={number + 1 === currentPage}
-                            >
-                                {number + 1}
-                            </Pagination.Item>
-                        ))}
-                    </Pagination>
                 </div>
                 &nbsp;
                 <div className="row">
@@ -118,6 +112,18 @@ const AdministrarPartidos = () => {
                         </Link>
                     </div>
                 </div>
+                &nbsp;
+                    <Pagination>
+                        {[...Array(Math.ceil(partidos.length / partidosPerPage)).keys()].map((number) => (
+                            <Pagination.Item
+                                key={number + 1}
+                                onClick={() => handlePageChange(number + 1)}
+                                active={number + 1 === currentPage}
+                            >
+                                {number + 1}
+                            </Pagination.Item>
+                        ))}
+                    </Pagination>
             </div>
         </div>
     );

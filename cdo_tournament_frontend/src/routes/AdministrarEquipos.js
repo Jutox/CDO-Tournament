@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Pagination } from 'react-bootstrap';
+import { Table, Pagination, Button } from 'react-bootstrap';
 import EquipoService from '../services/EquipoService';
 
 const AdministrarEquipos = () => {
@@ -13,36 +13,42 @@ const AdministrarEquipos = () => {
         EquipoService.getEquipos()
             .then((response) => {
                 setEquipos(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
     }, []);
 
-    const filteredEquipos = equipos.filter((equipo) =>
+    const indexOfLastEquipo = currentPage * equiposPerPage;
+    const indexOfFirstEquipo = indexOfLastEquipo - equiposPerPage;
+    const currentEquipos = equipos.slice(indexOfFirstEquipo, indexOfLastEquipo);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const filteredEquipos = currentEquipos.filter((equipo) =>
         equipo.nombreEquipo.toLowerCase().includes(searchName.toLowerCase())
     );
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
     return (
-        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
-            <div className="container" style={{ padding: '20px' }}>
-                <h2 className="text-center">Lista de Equipos</h2>
-                <div className="row">
+        <div style={{ background: "#202124", color: "#fff", minHeight: "100vh", padding: "20px" }}>
+            <div className="container">
+                &nbsp;
+                <h2 className="text-center" style={{ color: '#fff' }}>Lista de Equipos</h2>
+                &nbsp;
+                <div className="row justify-content-left">
                     <div className="col-md-4">
                         <input
                             type="text"
                             placeholder="Buscar por nombre"
                             onChange={(e) => setSearchName(e.target.value)}
                             className="form-control mb-3"
-                            style={{ background: '#bcbdbe', color: '#151414' }}
                         />
                     </div>
                 </div>
                 <div className="row justify-content-center">
-                    <Table striped bordered hover variant="grey" className="table-xl">
+                    <Table striped bordered hover variant="light">
                         <thead>
                         <tr>
                             <th>Nombre del Equipo</th>
@@ -59,7 +65,6 @@ const AdministrarEquipos = () => {
                                     <Link
                                         to={`/updateEquipo/${equipo.idEquipo}`}
                                         className="btn btn-warning"
-                                        style={{ background: '#F4B205', color: '#000' }}
                                     >
                                         Actualizar
                                     </Link>
@@ -68,28 +73,30 @@ const AdministrarEquipos = () => {
                         ))}
                         </tbody>
                     </Table>
-                    <Pagination>
-                        {[...Array(Math.ceil(filteredEquipos.length / equiposPerPage)).keys()].map((number) => (
-                            <Pagination.Item
-                                key={number + 1}
-                                onClick={() => paginate(number + 1)}
-                                active={number + 1 === currentPage}
-                            >
-                                {number + 1}
-                            </Pagination.Item>
-                        ))}
-                    </Pagination>
                 </div>
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-md-4" >
                         <Link
                             to="/addEquipo"
                             className="btn btn-primary mb-2"
-                            style={{ backgroundColor: '#F4B205', color: '#000' }}
+                            style={{ backgroundColor: "#F4B205", color: "#000" }}
                         >
                             Agregar Equipo
                         </Link>
                     </div>
+                </div>
+                <div className="row justify-content-center">
+                    <Pagination>
+                        {Array.from({ length: Math.ceil(equipos.length / equiposPerPage) }).map((_, index) => (
+                            <Pagination.Item
+                                key={index + 1}
+                                active={index + 1 === currentPage}
+                                onClick={() => handlePageChange(index + 1)}
+                            >
+                                {index + 1}
+                            </Pagination.Item>
+                        ))}
+                    </Pagination>
                 </div>
             </div>
         </div>
