@@ -5,7 +5,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TorneoService from '../services/TorneoService';
 import PartidoService from '../services/PartidoService';
-
+import JugadorPartidoService from '../services/ListaJugadoresPartidoService';
+import EquipoService from "../services/EquipoService";
 const AddPartidoForm = () => {
     const [partido, setPartido] = useState({
         nombreCompeticion: '',
@@ -21,7 +22,25 @@ const AddPartidoForm = () => {
         torneo: null,
     });
 
+    const [listaJugadoresPartidoCasa, setListaJugadoresPartidoCasa] = useState({
+        equipo: null,
+        partido: null,
+    });
+
+    const [listaJugadoresPartidoVisita, setListaJugadoresPartidoVisita] = useState({
+        equipo: null,
+        partido: null,
+    });
+
+
+
+    const [equipos, setEquipos] = useState([]);
+    const [partidos, setPartidos] = useState([]);
     const [torneos, setTorneos] = useState([]);
+    const [partidoLista, setPartidoLista] = useState('');
+
+    const [selectedEquipoCasa, setSelectedEquipoCasa] = useState();
+    const [selectedEquipoVisita, setSelectedEquipoVisita] = useState();
 
     const navigate = useNavigate();
 
@@ -32,6 +51,22 @@ const AddPartidoForm = () => {
             })
             .catch((error) => {
                 console.error('Error fetching tournaments:', error);
+            });
+
+        EquipoService.getEquipos()
+            .then((response) => {
+                setEquipos(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching teams:', error);
+            });
+
+        PartidoService.getPartidos()
+            .then((response) => {
+                setPartidos(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching matches:', error);
             });
     }, []);
 
@@ -52,12 +87,54 @@ const AddPartidoForm = () => {
 
         PartidoService.createPartido(partido)
             .then((response) => {
-                console.log(response.data);
+                // Update the partido details for casa and visita
+                const updatedListaJugadoresPartidoCasa = { ...listaJugadoresPartidoCasa, partido: response.data };
+                const updatedListaJugadoresPartidoVisita = { ...listaJugadoresPartidoVisita, partido: response.data };
+
+                // Save casa and visita player lists
+                return Promise.all([
+                    JugadorPartidoService.createListaJugadoresPartido(updatedListaJugadoresPartidoCasa),
+                    JugadorPartidoService.createListaJugadoresPartido(updatedListaJugadoresPartidoVisita),
+                ]);
+            })
+            .then(([responseCasa, responseVisita]) => {
+                console.log('Casa players saved:', responseCasa.data);
+                console.log('Visita players saved:', responseVisita.data);
+
+                setPartidoLista(partido.nombreCompeticion);
                 navigate('/partidos');
             })
             .catch((error) => {
-                console.log(error);
+                console.error('Error saving partido or players:', error);
                 alert('La captura de datos tuvo un error. Por favor, intenta nuevamente.');
+            });
+    };
+
+
+    const saveListaJugadoresPartidoCasa = (e) => {
+        e.preventDefault();
+
+        JugadorPartidoService.createListaJugadoresPartido(listaJugadoresPartidoCasa)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                alert('Error al capturar datos. Por favor, inténtalo nuevamente.');
+            });
+
+    };
+
+    const saveListaJugadoresPartidoVisita = (e) => {
+        e.preventDefault();
+
+        JugadorPartidoService.createListaJugadoresPartido(listaJugadoresPartidoVisita)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                alert('Error al capturar datos. Por favor, inténtalo nuevamente.');
             });
     };
 
@@ -91,6 +168,24 @@ const AddPartidoForm = () => {
         const torneoId = e.target.value;
         const selectedTorneo = torneos.find((torneo) => torneo.idTorneo === parseInt(torneoId));
         setPartido({ ...partido, torneo: selectedTorneo });
+    };
+
+    const handleEquipoChangeCasa = (e) => {
+        const equipoId = e.target.value;
+        setSelectedEquipoCasa(e.target.value);
+        const selectedEquipo = equipos.find((equipo) => equipo.idEquipo === parseInt(equipoId));
+        setListaJugadoresPartidoCasa({...listaJugadoresPartidoCasa , equipo: selectedEquipo });
+        setSelectedEquipoCasa(selectedEquipo);
+        console.log(selectedEquipoCasa);
+    };
+
+    const handleEquipoChangeVisita = (e) => {
+        const equipoId = e.target.value;
+        setSelectedEquipoVisita(e.target.value);
+        const selectedEquipo = equipos.find((equipo) => equipo.idEquipo === parseInt(equipoId));
+        setListaJugadoresPartidoVisita({...listaJugadoresPartidoVisita , equipo: selectedEquipo });
+        setSelectedEquipoVisita(selectedEquipo);
+        console.log(selectedEquipoVisita);
     };
 
 
@@ -239,6 +334,41 @@ const AddPartidoForm = () => {
                                         {torneos.map((torneo) => (
                                             <option key={torneo.idTorneo} value={torneo.idTorneo}>
                                                 {torneo.nombre}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="form-group mb-2">
+                                    <label style={{ color: '#000' }}>Equipo Casa:</label>
+                                    <select
+                                        className="form-control"
+                                        name="equipoCasa"
+                                        value={listaJugadoresPartidoCasa.equipo ? listaJugadoresPartidoCasa.equipo.idEquipo : ''}
+                                        onChange={handleEquipoChangeCasa}
+                                        style={{ background: '#e6e5e5', color: '#151414' }}
+                                    >
+                                        <option value="">Seleccione un equipo</option>
+                                        {equipos.map((equipo) => (
+                                            <option key={equipo.idEquipo} value={equipo.idEquipo}>
+                                                {equipo.nombreEquipo}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: '#000' }}>Equipo Visita:</label>
+                                    <select
+                                        className="form-control"
+                                        name="equipoVisita"
+                                        value={listaJugadoresPartidoVisita.equipo ? listaJugadoresPartidoVisita.equipo.idEquipo : ''}
+                                        onChange={handleEquipoChangeVisita}
+                                        style={{ background: '#e6e5e5', color: '#151414' }}
+                                    >
+                                        <option value="">Seleccione un equipo</option>
+                                        {equipos.map((equipo) => (
+                                            <option key={equipo.idEquipo} value={equipo.idEquipo}>
+                                                {equipo.nombreEquipo}
                                             </option>
                                         ))}
                                     </select>

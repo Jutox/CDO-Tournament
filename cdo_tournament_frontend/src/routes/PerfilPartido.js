@@ -4,6 +4,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PartidoService from '../services/PartidoService';
 import SetPartidoService from '../services/SetPartidoService';
+import ListaJugadoresPartidoService from '../services/ListaJugadoresPartidoService';
+import EquipoService from '../services/EquipoService';
 import {Pagination, Table} from "react-bootstrap";
 
 const PerfilPartido = () => {
@@ -24,6 +26,9 @@ const PerfilPartido = () => {
 
     const [partidoSets, setPartidoSets] = useState([]);
     const navigate = useNavigate();
+    const [binary, setBinary]  = useState(false);
+
+    const [equipos, setEquipos] = useState(0);
 
     useEffect(() => {
         // Fetch partido data by ID and set it in the state
@@ -44,6 +49,32 @@ const PerfilPartido = () => {
             .catch((error) => {
                 console.error('Error fetching sets:', error);
             });
+
+        ListaJugadoresPartidoService.getListasJugadoresPartido()
+            .then((response) => {
+                // Map over the response data and create promises for the matches that meet the condition
+                const promises = response.data.map((eventos) => {
+                    console.log(eventos.equipo.nombreEquipo);
+                    console.log(eventos.partido.nombreCompeticion);
+                    console.log(eventos.partido.idPartido);
+                    console.log("----------------");
+                    if (eventos.partido.idPartido == parseInt(id)) {
+                        console.log(eventos.equipo.nombreEquipo);
+                        return eventos.equipo.nombreEquipo; // Return the team name if the condition is met
+                    }
+                    return null; // Return null for events that don't match the condition
+        });
+
+                // Filter out the nulls and resolve all promises
+                return Promise.all(promises.filter(nombre => nombre !== null));
+            })
+            .then(equiposNombres => {
+                // Update the state with all filtered team names
+                setEquipos(equiposNombres);
+            })
+
+
+
     }, [id]);
 
     return (
@@ -256,8 +287,8 @@ const PerfilPartido = () => {
                             <th>Número de Set</th>
                             <th>Hora de Inicio</th>
                             <th>Hora de Termino</th>
-                            <th>Puntaje A</th>
-                            <th>Puntaje B</th>
+                            <th>{equipos[0]}</th>
+                            <th>{equipos[1]}</th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
