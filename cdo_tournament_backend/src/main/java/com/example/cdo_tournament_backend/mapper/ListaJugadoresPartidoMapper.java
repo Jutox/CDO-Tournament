@@ -36,10 +36,10 @@ public class ListaJugadoresPartidoMapper {
         ListaJugadoresPartido lista = new ListaJugadoresPartido();
         lista.setIdListaJugadoresPartido(listaDTO.getIdListaJugadoresPartido());
         
-        Equipo equipo = equipoMapper.toEntity(listaDTO.getEquipo());
+        Equipo equipo = (listaDTO.getEquipo() != null) ? equipoMapper.toEntity(listaDTO.getEquipo()) : null;
         lista.setEquipo(equipo);
     
-        Partido partido = partidoMapper.toEntity(listaDTO.getPartido());
+        Partido partido = (listaDTO.getPartido() != null) ? partidoMapper.toEntity(listaDTO.getPartido()) : null;
         lista.setPartido(partido);
 
         return lista;

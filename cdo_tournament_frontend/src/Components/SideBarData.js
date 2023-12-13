@@ -18,44 +18,20 @@ export const SideBarData = [
     cName: "nav-text",
   },
   {
-    title: "Administrar Partidos",
-    path: "/partidos", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
-  {
-    title: "Estadisticas Jugadores",
-    path: "/estadisticaJugadores", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
-  {
-    title: "Administrar Torneos",
-    path: "/torneos", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
-  {
     title: "Administrar Equipos",
     path: "/equipos", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
   {
-    title: "Administrar Listas",
-    path: "/listaJugadoresPartidos", // Make sure this path matches the one in Route
+    title: "Administrar Partidos",
+    path: "/partidos", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
   {
-    title: "Administrar JugadorPartidos",
-    path: "/JugadorPartido", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
-  {
-    title: "Administrar Set Partido",
-    path: "/setsPartido", // Make sure this path matches the one in Route
+    title: "Administrar Torneos",
+    path: "/torneos", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
@@ -68,18 +44,6 @@ export const SideBarData = [
   {
     title: "estadistica Individual",
     path: "/estadisticaJugadorIndividual", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
-  {
-    title: "Tablero Puntos",
-    path: "/tableroPuntos", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
-  {
-    title: "EstadisticaPersonal",
-    path: "/estadisticaPersonal", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },

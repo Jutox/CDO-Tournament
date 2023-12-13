@@ -67,11 +67,11 @@ const AdministrarTorneos = () => {
                                 <td>{torneo.lugar}</td>
                                 <td>
                                     <Link
-                                        to={`/updateTorneo/${torneo.idTorneo}`}
+                                        to={`/perfilTorneo/${torneo.idTorneo}`}
                                         className="btn btn-warning"
                                         style={{ background: '#F4B205', color: '#000' }}
                                     >
-                                        Actualizar
+                                        Ver Torneo
                                     </Link>
                                 </td>
                             </tr>

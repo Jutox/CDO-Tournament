@@ -11,4 +11,5 @@ public interface EquipoService {
     EquipoDTO getEquipoById(int id);
     EquipoDTO updateEquipo(int id, EquipoDTO equipoDTO);
     void deleteEquipo(int id);
+    
 }

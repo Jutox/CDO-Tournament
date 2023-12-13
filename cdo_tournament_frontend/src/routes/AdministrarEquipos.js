@@ -63,10 +63,11 @@ const AdministrarEquipos = () => {
                                 <td>{equipo.nombreEntrenador}</td>
                                 <td>
                                     <Link
-                                        to={`/updateEquipo/${equipo.idEquipo}`}
+                                        to={`/perfilEquipo/${equipo.idEquipo}`}
                                         className="btn btn-warning"
+                                        style={{ background: "#F4B205", color: "#000", width: "auto" }}
                                     >
-                                        Actualizar
+                                        Ver Equipo
                                     </Link>
                                 </td>
                             </tr>

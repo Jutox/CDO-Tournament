@@ -28,17 +28,17 @@ public class JugadorPartido {
     private Jugador jugador;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "listaJugadoresPartido_id", nullable = false) // Esta es la corrección
+    @JoinColumn(name = "listaJugadoresPartido_id", nullable = true)
     @JsonManagedReference
     private ListaJugadoresPartido listaJugadoresPartido;
 
-    @OneToMany(mappedBy = "jugadorPartido", fetch = FetchType.EAGER) // Esta es la corrección
+    @OneToMany(mappedBy = "jugadorPartido", fetch = FetchType.EAGER)
     @JsonBackReference
     private List<Evento> eventos;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int numeroCamiseta;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private boolean capitan;
 
     // Constructor

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import TorneoService from '../services/TorneoService';
 
 export const AddTorneoForm = () => {
@@ -37,9 +37,11 @@ export const AddTorneoForm = () => {
     };
 
     return (
-        <div style={{ background: "#d4d1d0", color: "#000", minHeight: "93vh" }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
             <div className="container" style={{ padding: "20px" }}>
-                <h2 className="text-center" style={{ color: "#000" }}>Agregar Torneo</h2>
+                &nbsp;
+                <h2 className="text-center" style={{ color: "#ffffff" }}>Agregar Torneo</h2>
+                &nbsp;
                 <div className="row justify-content-center">
                     <div className="card col-md-8" style={{ background: "#bcbdbe", color: "#000" }}>
                         <div className="card-body">
@@ -62,6 +64,14 @@ export const AddTorneoForm = () => {
                                 <button className="btn btn-success" onClick={saveTorneo} style={{ background: "#F4B205", color: "#fff" }}>
                                     Guardar
                                 </button>
+
+                                <Link
+                                    to={`/torneos`}
+                                    className="btn btn-danger"
+                                    style={{ background: '#dc3545', color: '#fff' }}
+                                >
+                                    Cancelar
+                                </Link>
                             </form>
                         </div>
                     </div>

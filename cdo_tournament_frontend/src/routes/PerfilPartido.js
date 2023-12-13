@@ -54,16 +54,11 @@ const PerfilPartido = () => {
             .then((response) => {
                 // Map over the response data and create promises for the matches that meet the condition
                 const promises = response.data.map((eventos) => {
-                    console.log(eventos.equipo.nombreEquipo);
-                    console.log(eventos.partido.nombreCompeticion);
-                    console.log(eventos.partido.idPartido);
-                    console.log("----------------");
-                    if (eventos.partido.idPartido == parseInt(id)) {
-                        console.log(eventos.equipo.nombreEquipo);
+                    if (eventos && eventos.partido && eventos.partido.idPartido != null && eventos.partido.idPartido == parseInt(id)) {
                         return eventos.equipo.nombreEquipo; // Return the team name if the condition is met
                     }
                     return null; // Return null for events that don't match the condition
-        });
+                });
 
                 // Filter out the nulls and resolve all promises
                 return Promise.all(promises.filter(nombre => nombre !== null));

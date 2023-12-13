@@ -26,7 +26,7 @@ public class ListaJugadoresPartido {
     private Equipo equipo;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "partido_id", nullable = false)
+    @JoinColumn(name = "partido_id", nullable = true)
     @JsonManagedReference
     private Partido partido;
 
