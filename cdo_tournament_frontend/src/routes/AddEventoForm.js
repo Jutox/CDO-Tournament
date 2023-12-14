@@ -1,24 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import EventoService from '../services/EventosService'; // Asegúrate de importar el servicio adecuado para Evento
+import EventoService from '../services/EventosService';
 import SetPartidoService from '../services/SetPartidoService';
 import JugadorPartidoService from '../services/JugadorPartidoService';
 import DatePicker from "react-datepicker";
+import ListaJugadoresPartidoService from "../services/ListaJugadoresPartidoService";
 
 const AddEventoForm = () => {
+    const { partidoId, setId } = useParams();
     const [evento, setEvento] = useState({
-        hora: '',
+        hora: null,
         tipo: '',
-        puntos: 0,
+        puntos: null,
         ordenServicio: 0,
         rondaServicio: 0,
         jugadorPartido: null,
         set: null,
     });
 
+    const [setPartido, setSetPartido] = useState({
+        numeroSet: 0,
+        horaInicio: null,
+        horaTermino: null,
+        puntajeA: 0,
+        puntajeB: 0,
+        partido: '',
+    });
+
+    const [equipos, setEquipos] = useState(0);
+    const currentTime = new Date();
     const [jugadoresPartido, setJugadoresPartido] = useState([]);
-    const [setsPartido, setSetsPartido] = useState([]);
 
     const navigate = useNavigate();
 
@@ -31,90 +43,116 @@ const AddEventoForm = () => {
                 console.error('Error fetching player matches:', error);
             });
 
-        SetPartidoService.getSetsPartido()
+        SetPartidoService.getSetPartidoById(setId)
             .then((response) => {
-                setSetsPartido(response.data);
+                setSetPartido(response.data);
+                console.log(response.data);
+                setEvento({ ...evento, set: response.data, hora: currentTime });
             })
             .catch((error) => {
                 console.error('Error fetching match sets:', error);
             });
+
+        ListaJugadoresPartidoService.getListasJugadoresPartido()
+            .then((response) => {
+                const promises = response.data.map((eventos) => {
+                    if (eventos && eventos.partido && eventos.partido.idPartido != null && eventos.partido.idPartido == parseInt(partidoId)) {
+                        return eventos.equipo.nombreEquipo;
+                    }
+                    return null;
+                });
+                return Promise.all(promises.filter(nombre => nombre !== null));
+            })
+            .then(equiposNombres => {
+                setEquipos(equiposNombres);
+            })
     }, []);
 
-    const saveEvento = (e) => {
+    const saveEvento = async (e) => {
         e.preventDefault();
+        let puntovar = evento.puntos;
+        let puntovarA = setPartido.puntajeA;
+        let puntovarB = setPartido.puntajeB;
 
-        EventoService.createEvento(evento)
-            .then((response) => {
-                console.log(evento);
-                console.log(response.data);
-                navigate("/eventos");
-            })
-            .catch((error) => {
-                console.log(error);
-                alert('Error al capturar datos. Por favor, inténtalo nuevamente.');
-            });
-    };
-
-    const handleHourChange = (date, field) => {
-        // Verificar si la fecha es válida
-        if (!(date instanceof Date) || isNaN(date) || !isFinite(date)) {
-            console.error("Fecha no válida");
-            return;
+        if (evento.jugadorPartido.listaJugadoresPartido.equipo.nombreEquipo === equipos[1]) {
+            puntovar = evento.puntos * -1;
         }
 
-        // Verificar si la hora es válida
-        if (isNaN(date.getHours()) || isNaN(date.getMinutes()) || isNaN(date.getSeconds())) {
-            console.error("Hora no válida");
-            return;
+        setEvento({ ...evento, puntos: puntovar });
+
+        if (puntovar > 0) {
+            puntovarA=setPartido.puntajeA+puntovar;
+        }else if (puntovar < 0){
+            puntovarB=setPartido.puntajeB-puntovar;
         }
 
-        // Conservar la fecha y hora en el estado
-        setEvento({ ...evento, [field]: date });
+        try {
+            await SetPartidoService.updateSetPartido(setId, { ...setPartido, puntajeA: puntovarA, puntajeB: puntovarB });
+            await EventoService.createEvento({ ...evento, puntos: puntovar, set: setPartido });
+            console.log(evento);
+            navigate(`/perfilSetPartido/${partidoId}/${setId}`);
+        } catch (error) {
+            console.log(error);
+            alert('Error al capturar datos. Por favor, inténtalo nuevamente.');
+        }
     };
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setEvento({ ...evento, [name]: value });
     };
 
+    const handleTipoChange = (e) => {
+        const selectedTipo = (e.target).value;
+        console.log(selectedTipo)
+        let puntoVar=0;
+        switch (selectedTipo){
+            case "SAQUE_EXITOSO":
+                puntoVar = 1;
+                break;
+            case "SAQUE_FALLIDO":
+                puntoVar = -1;
+                break;
+            case "ATAQUE_EXITOSO":
+                puntoVar = 1;
+                break;
+            case "ATAQUE_FALLIDO":
+                puntoVar = -1;
+                break;
+            case "BLOQUEO_EXITOSO":
+                puntoVar = 1;
+                break;
+            case "ADVERTENCIA":
+                puntoVar = 0;
+                break;
+            case "PENALIZACION":
+                puntoVar = -1;
+                break;
+            case "DESCALIFICACION":
+                puntoVar = -2;
+                break;
+        }
+        setEvento({ ...evento, tipo: selectedTipo, puntos: puntoVar });
+    };
+
     const handleJugadorPartidoChange = (e) => {
         const jugadorPartidoId = e.target.value;
         const selectedJugadorPartido = jugadoresPartido.find((jugadorPartido) => jugadorPartido.idJugadorPartido === parseInt(jugadorPartidoId));
         setEvento({ ...evento, jugadorPartido: selectedJugadorPartido });
-        console.log(evento);
-    };
-
-    const handleSetPartidoChange = (e) => {
-        const setId = e.target.value;
-        const selectedSet = setsPartido.find((set) => set.idSetPartido === parseInt(setId));
-        setEvento({ ...evento, set: selectedSet });
+        console.log(evento.tipo +" "+ evento.puntos)
     };
 
     return (
-        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '93vh', padding: '20px' }}>
             <div className="container" style={{ padding: '20px' }}>
-                <h2 className="text-center" style={{ color: '#000' }}>
-                    Agregar Evento
-                </h2>
+                &nbsp;
+                <h2 className="text-center" style={{ color: "#ffffff" }}>Agregar Evento</h2>
+                &nbsp;
                 <div className="row justify-content-center">
                     <div className="card col-md-8" style={{ background: '#bcbdbe', color: '#000' }}>
                         <div className="card-body">
                             <form>
-                                <div className="form-group mb-2">
-                                    <label style={{ color: '#000' }}>Hora del Partido:</label>
-                                    <DatePicker
-                                        className="form-control"
-                                        selected={evento.hora}
-                                        onChange={(date) => handleHourChange(date, 'hora')}
-                                        showTimeSelect
-                                        showTimeSelectOnly
-                                        timeIntervals={15}
-                                        timeCaption="Hora"
-                                        dateFormat="h:mm aa"
-                                        placeholderText="Selecciona hora"
-                                        style={{ background: '#e6e5e5', color: '#151414' }}
-                                    />
-                                </div>
                                 {/* Dropdown para el tipo de evento */}
                                 <div className="form-group mb-2">
                                     <label style={{ color: '#000' }}>Tipo de Evento:</label>
@@ -122,7 +160,7 @@ const AddEventoForm = () => {
                                         className="form-control"
                                         name="tipo"
                                         value={evento.tipo}
-                                        onChange={handleInputChange}
+                                        onChange={handleTipoChange}
                                         style={{ background: '#e6e5e5', color: '#151414' }}
                                     >
                                         <option value="">Seleccione un tipo</option>
@@ -136,18 +174,7 @@ const AddEventoForm = () => {
                                         <option value="DESCALIFICACION">Descalificación</option>
                                     </select>
                                 </div>
-                                {/* Campo para puntos */}
-                                <div className="form-group mb-2">
-                                    <label style={{ color: '#000' }}>Puntos:</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="puntos"
-                                        value={evento.puntos}
-                                        onChange={handleInputChange}
-                                        style={{ background: '#e6e5e5', color: '#151414' }}
-                                    />
-                                </div>
+
                                 {/* Campo para orden de servicio */}
                                 <div className="form-group mb-2">
                                     <label style={{ color: '#000' }}>Orden de Servicio:</label>
@@ -183,23 +210,7 @@ const AddEventoForm = () => {
                                         <option value="">Seleccione un jugador</option>
                                         {jugadoresPartido.map((jugadorPartido) => (
                                             <option key={jugadorPartido.idJugadorPartido} value={jugadorPartido.idJugadorPartido}>
-                                                {jugadorPartido.jugador.nombres}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="form-group mb-2">
-                                    <label style={{ color: '#000' }}>Set Partido:</label>
-                                    <select
-                                        className="form-control"
-                                        value={evento.set ? evento.set.idSetPartido : ''}
-                                        onChange={handleSetPartidoChange}
-                                        style={{ background: '#e6e5e5', color: '#151414' }}
-                                    >
-                                        <option value="">Seleccione un set</option>
-                                        {setsPartido.map((set) => (
-                                            <option key={set.idSetPartido} value={set.idSetPartido}>
-                                                {set.idSetPartido}
+                                                {jugadorPartido.jugador.nombres + " "+ jugadorPartido.listaJugadoresPartido.equipo.nombreEquipo}
                                             </option>
                                         ))}
                                     </select>
@@ -213,7 +224,7 @@ const AddEventoForm = () => {
                                 </button>
                                 &nbsp;&nbsp;&nbsp;
                                 <Link
-                                    to="/eventos"
+                                    to={`/perfilSetPartido/${partidoId}/${setId}`}
                                     className="btn btn-danger"
                                     style={{ background: '#dc3545', color: '#fff' }}
                                 >

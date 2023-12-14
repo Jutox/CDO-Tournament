@@ -47,7 +47,7 @@ const ActualizarSetPartido = () => {
                 console.error('Error fetching set data:', error);
             });
 
-    }, [partidoId, setId]);
+    }, []);
 
     const saveSetPartido = (e) => {
         e.preventDefault();

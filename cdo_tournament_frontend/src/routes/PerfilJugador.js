@@ -19,6 +19,13 @@ export const PerfilJugador = () => {
     const [torneos, setTorneos] = useState([]);
     const [selectedPartidoId, setSelectedPartidoId] = useState('');
     const [selectedTorneoId, setSelectedTorneoId] = useState('');
+
+    const [selectedPartido, setSelectedPartido] = useState('');
+    const [selectedTorneo, setSelectedTorneo] = useState('');
+
+    const [puntosFavor, setPuntosFavor] = useState(0);
+    const [puntosContra, setPuntosContra] = useState(0);
+
     const [showChart, setShowChart] = useState(false);
     const [ataquesExitosos, setAtaquesExitosos] = useState(0);
     const [ataquesFallidos, setAtaquesFallidos] = useState(0);
@@ -79,38 +86,115 @@ export const PerfilJugador = () => {
             .catch((partidosError) => {
                 console.error('Error fetching partidos:', partidosError);
             });
+
+        PartidoService.getPartidoById(selectedPartidoId)
+            .then((partidosResponse) => {
+                const partidosData = partidosResponse.data;
+                setPartidos(partidosData);
+            })
+            .catch((partidosError) => {
+                console.error('Error fetching partidos:', partidosError);
+            });
+
+        TorneoService.getTorneos()
+            .then((torneosResponse) => {
+                const torneosData = torneosResponse.data;
+                setTorneos(torneosData);
+            })
+            .catch((partidosError) => {
+                console.error('Error fetching partidos:', partidosError);
+            });
     }, [id]);
+
+    useEffect(() => {
+        PartidoService.getPartidoById(selectedPartidoId)
+            .then((partidosResponse) => {
+                const partidosData = partidosResponse.data;
+                setSelectedPartido(partidosData);
+            })
+            .catch((partidosError) => {
+                console.error('Error fetching partidos:', partidosError);
+            });
+
+        TorneoService.getTorneoById(selectedTorneoId)
+            .then((torneosResponse) => {
+                const torneosData = torneosResponse.data;
+                setSelectedTorneo(torneosData);
+            })
+            .catch((partidosError) => {
+                console.error('Error fetching partidos:', partidosError);
+            });
+    }, [selectedPartidoId, selectedTorneoId]);
 
 
     // Función para exportar a PDF
     const exportToPDF = () => {
         const doc = new jsPDF();
 
+        // Cambiar el estilo de fuente y tamaño
+        doc.setFont("helvetica");
+        doc.setFontSize(14);
+
+        // Agregar una línea debajo del título
+        doc.setTextColor(0, 0, 0); // Color negro
+        doc.setFontSize(24);
+        doc.text("Reporte " + jugador.nombres, 10, 20);
+
+        let yPosition = 30; // Coordenada Y inicial para la información del jugador
+
+        if (!(selectedPartidoId === '')) {
+            doc.text("Partido: " + selectedPartido.nombreCompeticion, 10, yPosition);
+        } else if (!(selectedTorneoId=== '')) {
+            doc.text("Torneo: " + selectedTorneo.nombre, 10, yPosition);
+        }
+
+        yPosition += 10; // Incrementar la coordenada Y
+
+        doc.setLineWidth(0.5);
+        doc.line(10, yPosition, 200, yPosition); // Línea debajo del título
+
+        // Alinear y espaciar el texto
+        doc.setTextColor(0, 0, 0); // Color negro
+        doc.setFontSize(14);
+        doc.text("Nombres: " + jugador.nombres, 10, yPosition += 7);
+        doc.text("Apellido Paterno: " + jugador.apellidoPaterno, 10, yPosition += 7);
+        doc.text("Apellido Materno: " + jugador.apellidoMaterno, 10, yPosition += 7);
+        doc.text("RUT: " + jugador.rut, 10, yPosition += 7);
+        doc.text("Fecha de Nacimiento: " + (jugador.fechaNacimiento ? jugador.fechaNacimiento.toLocaleDateString() : ''), 10, yPosition += 7);
+        doc.text("Género: " + jugador.genero, 10, yPosition += 7);
+        doc.text("Teléfono: " + jugador.telefono, 10, yPosition += 7);
+        doc.text("Email: " + jugador.email, 10, yPosition += 7);
+        doc.text("Estatura: " + jugador.estatura, 10, yPosition += 7);
+        doc.text("Peso: " + jugador.peso, 10, yPosition += 7);
+        doc.text("Alcance de Mano: " + jugador.alcanceMano, 10, yPosition += 7);
+        doc.text("Alcance de Bloqueo: " + jugador.alcanceBloqueo, 10, yPosition += 7);
+
+        // Agregar una línea divisoria entre secciones
+        doc.setLineWidth(0.2);
+        doc.line(10, yPosition += 7, 200, yPosition); // Línea después de la información del jugador
+
+        // Aquí debes ajustar las coordenadas de las estadísticas
+        yPosition += 7; // Incrementa la coordenada Y antes de las estadísticas
+
+        doc.text("Cant. Bloqueos Exitosos: " + cantidadBloqueosExitosos, 10, yPosition += 7);
+        doc.text("AtaquesExitosos: " + ataquesExitosos, 120, yPosition);
+        doc.text("Advertencias: " + advertencias, 10, yPosition += 7);
+        doc.text("AtaquesFallidos: " + ataquesFallidos*-1, 120, yPosition);
+        doc.text("Descalificaciones: " + descalificaciones, 10, yPosition += 7);
+        doc.text("SaquesExitosos: " + saquesExitosos, 120, yPosition);
+        doc.text("Penalizaciones: " + penalizaciones, 10, yPosition += 7);
+        doc.text("SaquesFallidos: " + saquesFallidos*-1, 120, yPosition);
+
+
         // Agregar la imagen arriba del PDF
-        const iconStyle = {
-            width: 50, // Ajusta el ancho de la imagen
-            height: 50, // Ajusta la altura de la imagen
-        };
-        doc.addImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrObGYcoNyS8zpekqt8iMVvp4YzOHD3qdgx1lsd7Im1om0p3bEuiyWIUAjSa8xN-hdWVM&usqp=CAU", "JPEG", 175, 5, 30, 25); // Ajusta las coordenadas y el tamaño de la imagen
-
-        doc.text("Reporte "+ jugador.nombres, 10, 20);
-
-        doc.setFontSize(12);
-
-        // Agregar información del jugador al PDF
-        doc.text("Nombres: " + jugador.nombres, 10, 35);
-        doc.text("Apellido Paterno: " + jugador.apellidoPaterno, 10, 42);
-        doc.text("Apellido Materno: " + jugador.apellidoMaterno, 10, 49);
-        doc.text("RUT: " + jugador.rut, 10, 56);
-        doc.text("Fecha de Nacimiento: " + (jugador.fechaNacimiento ? jugador.fechaNacimiento.toLocaleDateString() : ''), 10, 63);
-        doc.text("Género: " + jugador.genero, 10, 70);
-        doc.text("Teléfono: " + jugador.telefono, 10, 77);
-        doc.text("Email: " + jugador.email, 10, 84);
-        doc.text("Estatura: " + jugador.estatura, 10, 91);
-        doc.text("Peso: " + jugador.peso, 10, 98);
-        doc.text("Alcance de Mano: " + jugador.alcanceMano, 10, 105);
-        doc.text("Alcance de Bloqueo: " + jugador.alcanceBloqueo, 10, 112);
-        doc.text("Cant. Bloqueos: " + cantidadBloqueosExitosos, 10, 119);
+        doc.addImage(
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrObGYcoNyS8zpekqt8iMVvp4YzOHD3qdgx1lsd7Im1om0p3bEuiyWIUAjSa8xN-hdWVM&usqp=CAU",
+            "JPEG",
+            175, // Coordenada X
+            5,   // Coordenada Y
+            22,  // Ancho de la imagen
+            18   // Alto de la imagen
+        );
 
         // Agregar los gráficos generados por EstadisticaPersonal al PDF
         const ataquesChartCanvas = document.getElementById('grafico-ataques');
@@ -120,12 +204,16 @@ export const PerfilJugador = () => {
             const ataquesDataURL = ataquesChartCanvas.toDataURL();
             const saquesDataURL = saquesChartCanvas.toDataURL();
 
-            doc.addImage(ataquesDataURL, 'JPEG', 10, 140, 90, 90); // Ajusta las coordenadas y el tamaño según tu diseño
-            doc.addImage(saquesDataURL, 'JPEG', 110, 140, 90, 90); // Ajusta las coordenadas y el tamaño según tu diseño
+            // Ajusta las coordenadas y el tamaño de los gráficos según tu diseño
+            doc.addImage(ataquesDataURL, 'JPEG', 10, yPosition += 7, 90, 90);
+            doc.addImage(saquesDataURL, 'JPEG', 110, yPosition, 90, 90);
         }
 
         doc.save('perfil_jugador.pdf');
     }
+
+
+
 
     const handlePartidoSelection = (partidoId) => {
         setSelectedPartidoId(partidoId);
@@ -145,7 +233,6 @@ export const PerfilJugador = () => {
         console.log("jugador: ",jugadorId, "partido: ", selectedPartidoId, "torneo: ", selectedTorneoId);
 
 
-            // Obtener el total de ataques exitosos
         EventoService.getAtaquesExitososByIdJugador(jugadorId)
             .then((response) => {
                 let totalExitosos = 0;
@@ -155,38 +242,29 @@ export const PerfilJugador = () => {
                     const idPartido = '' + evento.jugadorPartido.listaJugadoresPartido.partido.idPartido;
 
 
-                    // Comprobar si se seleccionó un torneo y un partido
                     if (selectedTorneoId !== '' && selectedPartidoId !== '') {
                         if (idTorneo === selectedTorneoId && idPartido === selectedPartidoId) {
                             totalExitosos++;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un torneo
-                    else if (selectedTorneoId !== '') {
+                    } else if (selectedTorneoId !== '') {
                         if (idTorneo === selectedTorneoId) {
                             totalExitosos++;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un partido
-                    else if (selectedPartidoId !== '') {
+                    } else if (selectedPartidoId !== '') {
                         if (idPartido === selectedPartidoId) {
                             totalExitosos++;
                         }
-                    }
-                    // Si no se seleccionó ni torneo ni partido, contar todos los eventos
-                    else {
+                    } else {
                         totalExitosos++;
                     }
                 });
 
-                // Actualizar el estado con el total de eventos exitosos
                 setAtaquesExitosos(totalExitosos);
             })
             .catch((error) => {
                 console.error('Error fetching ataques exitosos:', error);
             });
 
-            // Obtener el total de ataques fallidos
         EventoService.getAtaquesFallidosByIdJugador(jugadorId)
             .then((response) => {
                 let totalFallidos = 0;
@@ -195,31 +273,23 @@ export const PerfilJugador = () => {
                     const idTorneo = '' + evento.jugadorPartido.listaJugadoresPartido.partido.torneo.idTorneo;
                     const idPartido = '' + evento.jugadorPartido.listaJugadoresPartido.partido.idPartido;
 
-                    // Comprobar si se seleccionó un torneo y un partido
                     if (selectedTorneoId !== '' && selectedPartidoId !== '') {
                         if (idTorneo === selectedTorneoId && idPartido === selectedPartidoId) {
                             totalFallidos += evento.puntos;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un torneo
-                    else if (selectedTorneoId !== '') {
+                    } else if (selectedTorneoId !== '') {
                         if (idTorneo === selectedTorneoId) {
                             totalFallidos += evento.puntos;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un partido
-                    else if (selectedPartidoId !== '') {
+                    } else if (selectedPartidoId !== '') {
                         if (idPartido === selectedPartidoId) {
                             totalFallidos += evento.puntos;
                         }
-                    }
-                    // Si no se seleccionó ni torneo ni partido, contar todos los eventos
-                    else {
+                    } else {
                         totalFallidos += evento.puntos;
                     }
                 });
 
-                // Actualizar el estado con el total de eventos fallidos
                 setAtaquesFallidos(totalFallidos);
             })
             .catch((error) => {
@@ -235,38 +305,29 @@ export const PerfilJugador = () => {
                     const idTorneo = '' + evento.jugadorPartido.listaJugadoresPartido.partido.torneo.idTorneo;
                     const idPartido = '' + evento.jugadorPartido.listaJugadoresPartido.partido.idPartido;
 
-                    // Comprobar si se seleccionó un torneo y un partido
                     if (selectedTorneoId !== '' && selectedPartidoId !== '') {
                         if (idTorneo === selectedTorneoId && idPartido === selectedPartidoId) {
                             totalExitosos += evento.puntos;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un torneo
-                    else if (selectedTorneoId !== '') {
+                    } else if (selectedTorneoId !== '') {
                         if (idTorneo === selectedTorneoId) {
                             totalExitosos += evento.puntos;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un partido
-                    else if (selectedPartidoId !== '') {
+                    } else if (selectedPartidoId !== '') {
                         if (idPartido === selectedPartidoId) {
                             totalExitosos += evento.puntos;
                         }
-                    }
-                    // Si no se seleccionó ni torneo ni partido, contar todos los eventos
-                    else {
+                    } else {
                         totalExitosos += evento.puntos;
                     }
                 });
 
-                // Actualizar el estado con el total de saques exitosos
                 setSaquesExitosos(totalExitosos);
             })
             .catch((error) => {
                 console.error('Error fetching saques exitosos:', error);
             });
 
-            // Obtener el total de saques fallidos
         EventoService.getSaquesFallidosByIdJugador(jugadorId)
             .then((response) => {
                 let totalFallidos = 0;
@@ -275,31 +336,24 @@ export const PerfilJugador = () => {
                     const idTorneo = '' + evento.jugadorPartido.listaJugadoresPartido.partido.torneo.idTorneo;
                     const idPartido = '' + evento.jugadorPartido.listaJugadoresPartido.partido.idPartido;
 
-                    // Comprobar si se seleccionó un torneo y un partido
                     if (selectedTorneoId !== '' && selectedPartidoId !== '') {
                         if (idTorneo === selectedTorneoId && idPartido === selectedPartidoId) {
                             totalFallidos += evento.puntos;
                         }
                     }
-                    // Comprobar si solo se seleccionó un torneo
                     else if (selectedTorneoId !== '') {
                         if (idTorneo === selectedTorneoId) {
                             totalFallidos += evento.puntos;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un partido
-                    else if (selectedPartidoId !== '') {
+                    } else if (selectedPartidoId !== '') {
                         if (idPartido === selectedPartidoId) {
                             totalFallidos += evento.puntos;
                         }
-                    }
-                    // Si no se seleccionó ni torneo ni partido, contar todos los eventos
-                    else {
+                    } else {
                         totalFallidos += evento.puntos;
                     }
                 });
 
-                // Actualizar el estado con el total de saques fallidos
                 setSaquesFallidos(totalFallidos);
             })
             .catch((error) => {
@@ -315,36 +369,26 @@ export const PerfilJugador = () => {
                     const idTorneo = '' + evento.jugadorPartido.listaJugadoresPartido.partido.torneo.idTorneo;
                     const idPartido = '' + evento.jugadorPartido.listaJugadoresPartido.partido.idPartido;
 
-                    // Comprobar si se seleccionó un torneo y un partido
                     if (selectedTorneoId !== '' && selectedPartidoId !== '') {
                         if (idTorneo === selectedTorneoId && idPartido === selectedPartidoId) {
                             cantidadExitosos++;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un torneo
-                    else if (selectedTorneoId !== '') {
+                    } else if (selectedTorneoId !== '') {
                         if (idTorneo === selectedTorneoId) {
                             cantidadExitosos++;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un partido
-                    else if (selectedPartidoId !== '') {
+                    } else if (selectedPartidoId !== '') {
                         if (idPartido === selectedPartidoId) {
                             cantidadExitosos++;
                         }
-                    }
-                    // Si no se seleccionó ni torneo ni partido, contar todos los eventos
-                    else {
+                    } else {
                         cantidadExitosos++;
                     }
                 });
-
-                // Actualizar el estado con la cantidad de bloqueos exitosos
                 setCantidadBloqueosExitosos(cantidadExitosos);
             })
             .catch((error) => {
                 console.error('Error fetching bloqueos exitosos:', error);
-                // Manejar el error
             });
 
         eventoService.getAdvertenciasByIdJugador(jugadorId)
@@ -355,37 +399,27 @@ export const PerfilJugador = () => {
                 eventos.forEach((evento) => {
                     const idTorneo = '' + evento.jugadorPartido.listaJugadoresPartido.partido.torneo.idTorneo;
                     const idPartido = '' + evento.jugadorPartido.listaJugadoresPartido.partido.idPartido;
-
-                    // Comprobar si se seleccionó un torneo y un partido
                     if (selectedTorneoId !== '' && selectedPartidoId !== '') {
                         if (idTorneo === selectedTorneoId && idPartido === selectedPartidoId) {
                             cantidadAdvertencias++;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un torneo
-                    else if (selectedTorneoId !== '') {
+                    } else if (selectedTorneoId !== '') {
                         if (idTorneo === selectedTorneoId) {
                             cantidadAdvertencias++;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un partido
-                    else if (selectedPartidoId !== '') {
+                    } else if (selectedPartidoId !== '') {
                         if (idPartido === selectedPartidoId) {
                             cantidadAdvertencias++;
                         }
-                    }
-                    // Si no se seleccionó ni torneo ni partido, contar todas las advertencias
-                    else {
+                    } else {
                         cantidadAdvertencias++;
                     }
                 });
 
-                // Actualizar el estado con la cantidad de advertencias
                 setAdvertencias(cantidadAdvertencias);
             })
             .catch((error) => {
                 console.error('Error fetching advertencias:', error);
-                // Manejar el error
             });
 
         eventoService.getDescalificacionesByIdJugador(jugadorId)
@@ -397,31 +431,23 @@ export const PerfilJugador = () => {
                     const idTorneo = '' + evento.jugadorPartido.listaJugadoresPartido.partido.torneo.idTorneo;
                     const idPartido = '' + evento.jugadorPartido.listaJugadoresPartido.partido.idPartido;
 
-                    // Comprobar si se seleccionó un torneo y un partido
                     if (selectedTorneoId !== '' && selectedPartidoId !== '') {
                         if (idTorneo === selectedTorneoId && idPartido === selectedPartidoId) {
                             cantidadDescalificaciones++;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un torneo
-                    else if (selectedTorneoId !== '') {
+                    } else if (selectedTorneoId !== '') {
                         if (idTorneo === selectedTorneoId) {
                             cantidadDescalificaciones++;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un partido
-                    else if (selectedPartidoId !== '') {
+                    } else if (selectedPartidoId !== '') {
                         if (idPartido === selectedPartidoId) {
                             cantidadDescalificaciones++;
                         }
-                    }
-                    // Si no se seleccionó ni torneo ni partido, contar todas las descalificaciones
-                    else {
+                    } else {
                         cantidadDescalificaciones++;
                     }
                 });
 
-                // Actualizar el estado con la cantidad de descalificaciones
                 setDescalificaciones(cantidadDescalificaciones);
             })
             .catch((error) => {
@@ -438,36 +464,27 @@ export const PerfilJugador = () => {
                     const idTorneo = '' + evento.jugadorPartido.listaJugadoresPartido.partido.torneo.idTorneo;
                     const idPartido = '' + evento.jugadorPartido.listaJugadoresPartido.partido.idPartido;
 
-                    // Comprobar si se seleccionó un torneo y un partido
                     if (selectedTorneoId !== '' && selectedPartidoId !== '') {
                         if (idTorneo === selectedTorneoId && idPartido === selectedPartidoId) {
                             cantidadPenalizaciones++;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un torneo
-                    else if (selectedTorneoId !== '') {
+                    } else if (selectedTorneoId !== '') {
                         if (idTorneo === selectedTorneoId) {
                             cantidadPenalizaciones++;
                         }
-                    }
-                    // Comprobar si solo se seleccionó un partido
-                    else if (selectedPartidoId !== '') {
+                    } else if (selectedPartidoId !== '') {
                         if (idPartido === selectedPartidoId) {
                             cantidadPenalizaciones++;
                         }
-                    }
-                    // Si no se seleccionó ni torneo ni partido, contar todas las penalizaciones
-                    else {
+                    } else {
                         cantidadPenalizaciones++;
                     }
                 });
 
-                // Actualizar el estado con la cantidad de penalizaciones
                 setPenalizaciones(cantidadPenalizaciones);
             })
             .catch((error) => {
                 console.error('Error fetching penalizaciones:', error);
-                // Manejar el error
             });
 
 
@@ -495,7 +512,6 @@ export const PerfilJugador = () => {
             },
         });
 
-// For saques chart
         if (saquesChartRef.current) {
             saquesChartRef.current.destroy();
         }
@@ -545,39 +561,141 @@ export const PerfilJugador = () => {
                                     </button>
                                 </div>
                                 <form>
-                                    {Object.keys(jugador).map((key) => (
-                                        <div className="form-group row mb-2" key={key}>
-                                            <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>{key.charAt(0).toUpperCase() + key.slice(1)}:</label>
-                                            <div className="col-sm-9">
-                                                {key === 'fechaNacimiento' ? (
-                                                    <DatePicker
-                                                        className="form-control"
-                                                        selected={jugador.fechaNacimiento}
-                                                        disabled
-                                                    />
-                                                ) : key === 'genero' ? (
-                                                    <select
-                                                        className="form-control"
-                                                        name={key}
-                                                        value={jugador.genero || ''}
-                                                        disabled
-                                                    >
-                                                        <option value="">Seleccione género</option>
-                                                        <option value="M">Masculino</option>
-                                                        <option value="F">Femenino</option>
-                                                    </select>
-                                                ) : (
-                                                    <input
-                                                        placeholder={key}
-                                                        name={key}
-                                                        className="form-control"
-                                                        value={jugador[key]}
-                                                        readOnly
-                                                    />
-                                                )}
-                                            </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Nombres:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="nombres"
+                                                className="form-control"
+                                                value={jugador.nombres}
+                                                readOnly
+                                            />
                                         </div>
-                                    ))}
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Apellido Paterno:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="apellidoPaterno"
+                                                className="form-control"
+                                                value={jugador.apellidoPaterno}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Apellido Materno:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="apellidoMaterno"
+                                                className="form-control"
+                                                value={jugador.apellidoMaterno}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>RUT:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="rut"
+                                                className="form-control"
+                                                value={jugador.rut}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Fecha de Nacimiento:</label>
+                                        <div className="col-sm-9">
+                                            <DatePicker
+                                                className="form-control"
+                                                selected={jugador.fechaNacimiento}
+                                                disabled
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Género:</label>
+                                        <div className="col-sm-9">
+                                            <select
+                                                className="form-control"
+                                                name="genero"
+                                                value={jugador.genero || ''}
+                                                disabled
+                                            >
+                                                <option value="">Seleccione género</option>
+                                                <option value="M">Masculino</option>
+                                                <option value="F">Femenino</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Teléfono:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="telefono"
+                                                className="form-control"
+                                                value={jugador.telefono}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Email:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="email"
+                                                className="form-control"
+                                                value={jugador.email}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Estatura:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="estatura"
+                                                className="form-control"
+                                                value={jugador.estatura}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Peso:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="peso"
+                                                className="form-control"
+                                                value={jugador.peso}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Alcance de Mano:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="alcanceMano"
+                                                className="form-control"
+                                                value={jugador.alcanceMano}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Alcance de Bloqueo:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="alcanceBloqueo"
+                                                className="form-control"
+                                                value={jugador.alcanceBloqueo}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>

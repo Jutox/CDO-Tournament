@@ -6,6 +6,7 @@ import PartidoService from '../services/PartidoService';
 import SetPartidoService from '../services/SetPartidoService';
 import {Pagination, Table} from "react-bootstrap";
 import EventoService from "../services/EventosService";
+import jsPDF from "jspdf";
 
 const PerfilSetPartido = () => {
     const { partidoId, setId } = useParams();
@@ -59,7 +60,7 @@ const PerfilSetPartido = () => {
                 console.error('Error fetching data:', error);
             });
 
-    }, [partidoId, setId]);
+    }, []);
 
     const saveSetPartido = (e) => {
         e.preventDefault();
@@ -103,6 +104,21 @@ const PerfilSetPartido = () => {
             setSetPartido({ ...setPartido, horaTermino: date });
         }
     };
+
+    const refactorPuntajes = () => {
+        let puntajea = 0;
+        let puntajeb = 0;
+        eventos.map((evento) => {
+            if(evento.puntos > 0){
+                puntajea=1+puntajea;
+                console.log("+1 puntaje A")
+            }else if(evento.puntos < 0){
+                puntajeb=1+puntajeb;
+                console.log("+1 puntaje B")
+            }
+        });
+        setSetPartido({...setPartido, puntajeA: puntajea, puntajeB: puntajeb});
+    }
 
 
 
@@ -227,6 +243,16 @@ const PerfilSetPartido = () => {
                         </div>
                     </div>
                         <div className="container" style={{ padding: '20px' }}>
+                            <div style={{ height: "70px", display: "flex", alignItems: "center" }}>
+                                <button
+                                    onClick={refactorPuntajes}
+                                    className="btn btn-warning"
+                                    style={{ marginLeft: "auto" }}
+                                >
+                                    Resetear Puntajes
+                                </button>
+
+                            </div>
                             &nbsp;
                             <h2 className="text-center" style={{color: "#fff" }}>Lista de Eventos</h2>
                             &nbsp;
@@ -239,30 +265,29 @@ const PerfilSetPartido = () => {
                                     <th>Puntos</th>
                                     <th>Orden de Servicio</th>
                                     <th>Ronda de Servicio</th>
-                                    <th>ID Jugador Partido</th>
-                                    <th>ID Set Partido</th>
-                                    <th>ID Jugador</th>
+                                    <th>Nombre Jugador</th>
+                                    <th>Equipo</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {eventos.map((evento) => (
                                     <tr key={evento.idEvento}>
                                         <td>{evento.idEvento}</td>
-                                        <td>{evento.hora}</td>
+                                        <td>{new Date(evento.hora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                                         <td>{evento.tipo}</td>
                                         <td>{evento.puntos}</td>
                                         <td>{evento.ordenServicio}</td>
                                         <td>{evento.rondaServicio}</td>
-                                        <td>{evento.jugadorPartido && evento.jugadorPartido.idJugadorPartido}</td>
-                                        <td>{evento.set && evento.set.idSetPartido}</td>
-                                        <td>{evento.jugadorPartido.jugador.nombres}</td></tr>
+                                        <td>{evento.jugadorPartido.jugador.nombres}</td>
+                                        <td>{evento.jugadorPartido.listaJugadoresPartido.equipo.nombreEquipo}</td>
+                                    </tr>
                                 ))}
                                 </tbody>
                             </Table>
                             <div className="row">
                                 <div className="col-md-4">
                                     <Link
-                                        to="/addEventoForm"
+                                        to= {`/addEventoForm/${partidoId}/${setId}`}
                                         className="btn btn-primary mb-2"
                                         style={{ backgroundColor: '#F4B205', color: '#000' }}
                                     >

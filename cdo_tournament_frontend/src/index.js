@@ -152,7 +152,7 @@ const router = createBrowserRouter([
         element: <AdministrarEvento />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
-        path: "/addEventoForm", // Add a forward slash here
+        path: "/addEventoForm/:partidoId/:setId", // Add a forward slash here
         element: <AddEventoForm />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
