@@ -3,6 +3,7 @@ import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
 import { Route } from "react-router-dom";
+import {IoIosAnalytics, IoIosPerson} from "react-icons/io";
 
 export const SideBarData = [
   {
@@ -12,33 +13,33 @@ export const SideBarData = [
     cName: "nav-text",
   },
   {
-    title: "Administrar Jugadores",
+    title: "Jugadores",
     path: "/jugadores", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
+    icon: <IoIcons.IoIosBody  />,
     cName: "nav-text",
   },
   {
-    title: "Administrar Equipos",
+    title: "Equipos",
     path: "/equipos", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
+    icon: <IoIcons.IoIosPeople />,
     cName: "nav-text",
   },
   {
-    title: "Administrar Partidos",
+    title: "Partidos",
     path: "/partidos", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
+    icon: <IoIcons.IoIosAperture />,
     cName: "nav-text",
   },
   {
-    title: "Administrar Torneos",
+    title: "Torneos",
     path: "/torneos", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
+    icon: <IoIcons.IoIosTrophy />,
     cName: "nav-text",
   },
   {
-    title: "estadistica Individual",
+    title: "Individual",
     path: "/estadisticaJugadorIndividual", // Make sure this path matches the one in Route
-    icon: <IoIcons.IoIosPaper />,
+    icon: <IoIcons.IoIosStats />,
     cName: "nav-text",
   },
   {

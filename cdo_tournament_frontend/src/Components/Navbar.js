@@ -81,7 +81,7 @@ function Navbar() {
             <div className="menu-center">
                 <img
                     src="https://i.postimg.cc/kG8f91LY/iconCDO.jpg"
-                    style={{ ...iconStyle, width: '57px', height: '55px' }}
+                    style={{ ...iconStyle, width: '47px', height: '45px' }}
                     alt="Icono CDO"
                 />
             </div>
