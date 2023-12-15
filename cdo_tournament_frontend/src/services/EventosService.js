@@ -130,6 +130,53 @@ class EventoService {
         const url = `${EVENTO_API_BASE_URL}/eventosBySet/${setPartidoId}`;
         return axios.get(url);
     }
+
+    /********************************************************************************************************************/
+
+    //Eventos por Equipo
+    getAtaquesExitososByIdEquipo(equipoId) {
+        const url = `${EVENTO_API_BASE_URL}/ataquesExitososEquipo/${equipoId}`;
+        return axios.get(url);
+    }
+
+    getAtaquesFallidosByIdEquipo(equipoId) {
+        const url = `${EVENTO_API_BASE_URL}/ataquesFallidosEquipo/${equipoId}`;
+        return axios.get(url);
+    }
+
+    getSaquesExitososByIdEquipo(equipoId) {
+        const url = `${EVENTO_API_BASE_URL}/saquesExitososEquipo/${equipoId}`;
+        return axios.get(url);
+    }
+
+    getSaquesFallidosByIdEquipo(equipoId) {
+        const url = `${EVENTO_API_BASE_URL}/saquesFallidosEquipo/${equipoId}`;
+        return axios.get(url);
+    }
+
+    getBloqueosExitososByIdEquipo(equipoId) {
+        const url = `${EVENTO_API_BASE_URL}/bloqueosExitososEquipo/${equipoId}`;
+        return axios.get(url);
+    }
+
+
+    /********************************************************************************************************************/
+
+    getAdvertenciasByIdEquipo(equipoId) {
+        const url = `${EVENTO_API_BASE_URL}/advertenciasEquipo/${equipoId}`;
+        return axios.get(url);
+    }
+
+    getDescalificacionesByIdEquipo(equipoId) {
+        const url = `${EVENTO_API_BASE_URL}/descalificacionesEquipo/${equipoId}`;
+        return axios.get(url);
+    }
+
+    getPenalizacionesByIdEquipo(equipoId) {
+        const url = `${EVENTO_API_BASE_URL}/penalizacionesEquipo/${equipoId}`;
+        return axios.get(url);
+    }
+
 }
 
 export default new EventoService();

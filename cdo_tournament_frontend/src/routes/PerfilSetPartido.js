@@ -7,6 +7,7 @@ import SetPartidoService from '../services/SetPartidoService';
 import {Pagination, Table} from "react-bootstrap";
 import EventoService from "../services/EventosService";
 import jsPDF from "jspdf";
+import * as IoIcons from "react-icons/io";
 
 const PerfilSetPartido = () => {
     const { partidoId, setId } = useParams();
@@ -134,9 +135,9 @@ const PerfilSetPartido = () => {
                 </h2>
                 &nbsp;
                 <div className="row justify-content-center" style={{ display: "flex", alignItems: "center" }}>
-                    <div style={{ maxWidth: "210px", width: "100%" }}>
+                    <div style={{ maxWidth: "250px", width: "100%" }}>
                         <Link to={`/tableroPuntos/${partidoId}/${setId}`} className="btn btn-secondary" style={{ background: "#F4B205", color: "#000" }}>
-                            JUGAR SET PARTIDO
+                            <IoIcons.IoIosFlame /> JUGAR SET PARTIDO <IoIcons.IoIosFlame />
                         </Link>
                     </div>
                 </div>

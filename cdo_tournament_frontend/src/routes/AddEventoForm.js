@@ -37,10 +37,16 @@ const AddEventoForm = () => {
     useEffect(() => {
         JugadorPartidoService.getJugadoresPartido()
             .then((response) => {
-                setJugadoresPartido(response.data);
+                const promises = response.data.map((eventos) => {
+                    if (eventos.listaJugadoresPartido.partido != null && eventos.listaJugadoresPartido.partido.idPartido === parseInt(partidoId)) {
+                        return eventos;
+                    }
+                    return null;
+                });
+                return Promise.all(promises.filter((nombre) => nombre !== null));
             })
-            .catch((error) => {
-                console.error('Error fetching player matches:', error);
+            .then((jugadoresPartidos) => {
+                setJugadoresPartido(jugadoresPartidos);
             });
 
         SetPartidoService.getSetPartidoById(setId)
@@ -210,7 +216,7 @@ const AddEventoForm = () => {
                                         <option value="">Seleccione un jugador</option>
                                         {jugadoresPartido.map((jugadorPartido) => (
                                             <option key={jugadorPartido.idJugadorPartido} value={jugadorPartido.idJugadorPartido}>
-                                                {jugadorPartido.jugador.nombres + " "+ jugadorPartido.listaJugadoresPartido.equipo.nombreEquipo}
+                                                {jugadorPartido.numeroCamiseta + ' - ' + jugadorPartido.listaJugadoresPartido.equipo.nombreEquipo + ' - ' + jugadorPartido.jugador.nombres}
                                             </option>
                                         ))}
                                     </select>

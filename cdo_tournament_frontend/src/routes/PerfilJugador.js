@@ -7,10 +7,10 @@ import JugadorService from '../services/JugadorService';
 import eventoService from '../services/EventosService';
 import PartidoService from '../services/PartidoService';
 import TorneoService from '../services/TorneoService';
-import EstadisticaPersonal from './EstadisticaPersonal';
 import {Button} from "react-bootstrap";
 import EventoService from "../services/EventosService";
 import Chart from 'chart.js/auto';
+import * as IoIcons from "react-icons/io";
 
 export const PerfilJugador = () => {
     const { id } = useParams();
@@ -91,15 +91,6 @@ export const PerfilJugador = () => {
             .then((partidosResponse) => {
                 const partidosData = partidosResponse.data;
                 setPartidos(partidosData);
-            })
-            .catch((partidosError) => {
-                console.error('Error fetching partidos:', partidosError);
-            });
-
-        TorneoService.getTorneos()
-            .then((torneosResponse) => {
-                const torneosData = torneosResponse.data;
-                setTorneos(torneosData);
             })
             .catch((partidosError) => {
                 console.error('Error fetching partidos:', partidosError);
@@ -741,9 +732,9 @@ export const PerfilJugador = () => {
                         <Button
                             variant="primary"
                             onClick={fetchJugadorStatistics}
-                            style={{ backgroundColor: '#F4B205', color: '#000', marginTop: '10px', width: '150px', height: '40px', fontSize: '14px' }}
+                            style={{ backgroundColor: '#F4B205', color: '#000', marginTop: '10px', width: '210px', height: '40px', fontSize: '16px' }}
                         >
-                            Generar Gráficos
+                            Generar Estadisticas <IoIcons.IoIosStats />
                         </Button>
                     </div>
                     &nbsp;
@@ -832,7 +823,6 @@ export const PerfilJugador = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
