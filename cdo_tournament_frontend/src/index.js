@@ -44,6 +44,9 @@ import AddJugadorAEquipoForm from "./routes/AddJugadorAEquipoForm"
 import AddJugadorPartidoEquipoForm from "./routes/AddJugadorPartidoEquipoForm"
 import PerfilTorneo from "./routes/PerfilTorneo";
 import ActualizarTorneoForm from "./routes/ActualizarTorneoForm"
+import ActualizarEquipoForm from "./routes/ActualizarEquipoForm";
+import AddUserForm from "./routes/AddUserForm";
+import ActualizarUserForm from "./routes/ActualizarUserForm";
 import "./App.css";
 
 const AppLayout = () => (
@@ -196,7 +199,7 @@ const router = createBrowserRouter([
         element: <AddJugadorAEquipoForm />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
-        path: "/perfilAddJugadorPartidoEquipoForm/:id", // Add a forward slash here
+        path: "/perfilAddJugadorPartidoEquipoForm/:partidoId/:equipoId", // Add a forward slash here
         element: <AddJugadorPartidoEquipoForm />, // Assuming you have a component named Empleados AdministrarTorneos
       },
       {
@@ -206,6 +209,18 @@ const router = createBrowserRouter([
       {
         path: "/updateTorneo/:id", // Add a forward slash here
         element: <ActualizarTorneoForm />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/updateEquipo/:id", // Add a forward slash here
+        element: <ActualizarEquipoForm />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/addUser", // Add a forward slash here
+        element: <AddUserForm />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/updateUser", // Add a forward slash here
+        element: <ActualizarUserForm />, // Assuming you have a component named Empleados AdministrarTorneos
       },
     ],
   },

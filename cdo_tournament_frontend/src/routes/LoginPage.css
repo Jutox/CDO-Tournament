@@ -14,8 +14,8 @@
 }
 
 .login-container {
-    position: relative; /* To stack correctly above the background */
-    z-index: 1; /* Ensuring it's above the background */
+    position: relative;
+    z-index: 1;
 }
 
 .login-container h2 {
@@ -28,6 +28,8 @@
     max-width: 600px;
     margin: 0 auto;
     display: flex;
+    margin-top: 150px; /* Agrega margen superior para dejar espacio para la barra de navegación */
+
 }
 
 .form-group {

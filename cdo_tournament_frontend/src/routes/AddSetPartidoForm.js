@@ -76,11 +76,13 @@ const AddSetPartidoForm = () => {
 
 
     return (
-        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "100vh" , paddingTop: '80px'}}>
             <div className="container" style={{ padding: '20px' }}>
-                <h2 className="text-center" style={{ color: '#000' }}>
+                &nbsp;
+                <h2 className="text-center" style={{ color: '#ffffff' }}>
                     Crear Set de Partido
                 </h2>
+                &nbsp;
                 <div className="row justify-content-center">
                     <div className="card col-md-8" style={{ background: '#bcbdbe', color: '#000' }}>
                         <div className="card-body">

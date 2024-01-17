@@ -69,7 +69,7 @@ const AddJugadorPartidoForm = () => {
     };
 
     return (
-        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "100vh" , paddingTop: '80px'}}>
             <div className="container" style={{ padding: '20px' }}>
                 <h2 className="text-center" style={{ color: '#000' }}>
                     Crear Jugador de Partido

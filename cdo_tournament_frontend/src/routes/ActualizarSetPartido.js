@@ -58,7 +58,7 @@ const ActualizarSetPartido = () => {
             .then((response) => {
                 console.log(setPartido);
                 console.log(response.data);
-                navigate(`/perfilPartido/${partidoId}`);
+                navigate(`/perfilSetPartido/${partidoId}/${setId}`);
             })
             .catch((error) => {
                 console.error('Error creating SetPartido:', error);
@@ -95,7 +95,7 @@ const ActualizarSetPartido = () => {
 
 
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "100vh" , paddingTop: '80px' }}>
             <div className="container" style={{ padding: '20px' }}>
                 &nbsp;
                 <h2 className="text-center" style={{ color: '#ffffff' }}>

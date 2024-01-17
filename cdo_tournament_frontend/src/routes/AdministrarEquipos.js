@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Pagination, Button } from 'react-bootstrap';
+import { Table, Pagination } from 'react-bootstrap';
 import EquipoService from '../services/EquipoService';
 
 const AdministrarEquipos = () => {
@@ -21,18 +21,19 @@ const AdministrarEquipos = () => {
 
     const indexOfLastEquipo = currentPage * equiposPerPage;
     const indexOfFirstEquipo = indexOfLastEquipo - equiposPerPage;
-    const currentEquipos = equipos.slice(indexOfFirstEquipo, indexOfLastEquipo);
+
+    const filteredEquipos = equipos
+        .filter((equipo) =>
+            equipo.nombreEquipo.toLowerCase().includes(searchName.toLowerCase())
+        )
+        .slice(indexOfFirstEquipo, indexOfLastEquipo);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    const filteredEquipos = currentEquipos.filter((equipo) =>
-        equipo.nombreEquipo.toLowerCase().includes(searchName.toLowerCase())
-    );
-
     return (
-        <div style={{ background: "#202124", color: "#fff", minHeight: "100vh", padding: "20px" }}>
+        <div style={{ background: "#202124", color: "#fff", minHeight: "100vh", padding: "20px" , paddingTop: '80px'}}>
             <div className="container">
                 &nbsp;
                 <h2 className="text-center" style={{ color: '#fff' }}>Lista de Equipos</h2>
@@ -76,7 +77,7 @@ const AdministrarEquipos = () => {
                     </Table>
                 </div>
                 <div className="row">
-                    <div className="col-md-4" >
+                    <div className="col-md-4">
                         <Link
                             to="/addEquipo"
                             className="btn btn-primary mb-2"

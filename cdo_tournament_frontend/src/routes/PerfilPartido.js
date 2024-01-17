@@ -7,9 +7,16 @@ import SetPartidoService from '../services/SetPartidoService';
 import ListaJugadoresPartidoService from '../services/ListaJugadoresPartidoService';
 import EquipoService from '../services/EquipoService';
 import {Pagination, Table} from "react-bootstrap";
+import JugadorPartidoService from "../services/JugadorPartidoService";
+import TorneoService from "../services/TorneoService";
 
 const PerfilPartido = () => {
     const { id } = useParams();
+    const [listaJugadoresPartido, setListaJugadoresPartido] = useState([]);
+    const [jugadoresPartido, setJugadorPartido] = useState([]);
+    const [listasJugadores, setListasJugadores] = useState([]);
+    const [listaJugadoresPartidoCasa, setListaJugadoresPartidoCasa] = useState([]);
+    const [listaJugadoresPartidoVisita, setListaJugadoresPartidoVisita] = useState([]);
     const [partido, setPartido] = useState({
         nombreCompeticion: '',
         ciudad: '',
@@ -29,6 +36,9 @@ const PerfilPartido = () => {
     const [binary, setBinary]  = useState(false);
 
     const [equipos, setEquipos] = useState(0);
+    const [equiposId, setEquiposId] = useState(0);
+
+
 
     useEffect(() => {
         // Fetch partido data by ID and set it in the state
@@ -52,6 +62,22 @@ const PerfilPartido = () => {
 
         ListaJugadoresPartidoService.getListasJugadoresPartido()
             .then((response) => {
+                setListasJugadores(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+
+        JugadorPartidoService.getJugadoresPartido()
+            .then((response) => {
+                setJugadorPartido(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+
+        ListaJugadoresPartidoService.getListasJugadoresPartido()
+            .then((response) => {
                 // Map over the response data and create promises for the matches that meet the condition
                 const promises = response.data.map((eventos) => {
                     if (eventos && eventos.partido && eventos.partido.idPartido != null && eventos.partido.idPartido == parseInt(id)) {
@@ -68,12 +94,72 @@ const PerfilPartido = () => {
                 setEquipos(equiposNombres);
             })
 
+        ListaJugadoresPartidoService.getListasJugadoresPartido()
+            .then((response) => {
+                // Map over the response data and create promises for the matches that meet the condition
+                const promises = response.data.map((eventos) => {
+                    if (eventos && eventos.partido && eventos.partido.idPartido != null && eventos.partido.idPartido == parseInt(id)) {
+                        return eventos.equipo.idEquipo; // Return the team name if the condition is met
+                    }
+                    return null; // Return null for events that don't match the condition
+                });
+
+                // Filter out the nulls and resolve all promises
+                return Promise.all(promises.filter(nombre => nombre !== null));
+            })
+            .then(equiposIds => {
+                // Update the state with all filtered team names
+                setEquiposId(equiposIds);
+            })
 
 
     }, [id]);
 
+    useEffect(() => {
+        const filteredJugadores = jugadoresPartido.map((eventos) => {
+            console.log("holaaa"); // Preserve the console.log statement
+            if (
+                eventos &&
+                eventos.listaJugadoresPartido &&
+                eventos.listaJugadoresPartido.partido !== null &&
+                eventos.listaJugadoresPartido.equipo &&
+                eventos.listaJugadoresPartido.equipo.idEquipo == parseInt(equiposId[0]) &&
+                eventos.listaJugadoresPartido.partido.idPartido == parseInt(id)
+            ) {
+                return eventos;
+            }
+            return null; // Return null for items that don't meet the conditions
+        }).filter((eventos) => eventos !== null); // Filter out null values
+
+        console.log(filteredJugadores);
+        setListaJugadoresPartidoCasa(filteredJugadores);
+        console.log(listaJugadoresPartidoCasa);
+    }, [jugadoresPartido, equiposId, id]);
+
+    useEffect(() => {
+        const filteredJugadores = jugadoresPartido.map((eventos) => {
+            console.log("holaaa"); // Preserve the console.log statement
+            if (
+                eventos &&
+                eventos.listaJugadoresPartido &&
+                eventos.listaJugadoresPartido.partido !== null &&
+                eventos.listaJugadoresPartido.equipo &&
+                eventos.listaJugadoresPartido.equipo.idEquipo == parseInt(equiposId[1]) &&
+                eventos.listaJugadoresPartido.partido.idPartido == parseInt(id)
+            ) {
+                return eventos;
+            }
+            return null; // Return null for items that don't meet the conditions
+        }).filter((eventos) => eventos !== null); // Filter out null values
+
+        console.log(filteredJugadores);
+        setListaJugadoresPartidoVisita(filteredJugadores);
+        console.log(listaJugadoresPartidoCasa);
+    }, [jugadoresPartido, equiposId, id]);
+
+
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "100vh", paddingTop: '80px' }}>
             <div className="container" style={{ padding: '20px' }}>
                 &nbsp;
                 <h2 className="text-center" style={{ color: '#ffffff' }}>
@@ -270,12 +356,87 @@ const PerfilPartido = () => {
                 </div>
             </div>
 
+            <div className="container" style={{ padding: '20px' }}>
+                <div className="row">
+                    <div className="col-md-6">
+                        <div style={{ margin: '20px' }}>
+                        <h2 className="text-center" style={{ color: '#ffffff' }}>{equipos[0]}</h2>
+                        <div className="row justify-content-center">
+                            <div className="col-md-6" style={{ textAlign: 'center' }}>
+                                <Link
+                                    to= {`/perfilAddJugadorPartidoEquipoForm/${id}/${equiposId[0]}`}
+
+                                    className="btn btn-primary mb-2"
+                                    style={{ backgroundColor: '#F4B205', color: '#000' }}
+                                >
+                                    Agregar Jugador a Partido
+                                </Link>
+                            </div>
+                            <Table striped bordered hover variant="light" className="table-xl">
+                                <thead>
+                                <tr>
+                                    <th>Jugador</th>
+                                    <th>Número Camiseta</th>
+                                    <th>Capitán</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {listaJugadoresPartidoCasa.map((jugadorPartido) => (
+                                    <tr key={jugadorPartido.idJugadorPartido}>
+                                        <td>{jugadorPartido.jugador.nombres}</td>
+                                        <td>{jugadorPartido.numeroCamiseta}</td>
+                                        <td>{jugadorPartido.capitan ? "Sí" : "No"}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </Table>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                        <div style={{ margin: '20px' }}>
+                            <h2 className="text-center" style={{ color: '#ffffff' }}>{equipos[1]}</h2>
+                            <div className="row justify-content-center">
+                                <div className="col-md-6" style={{ textAlign: 'center' }}>
+                                    <Link
+                                        to= {`/perfilAddJugadorPartidoEquipoForm/${id}/${equiposId[1]}`}
+                                        className="btn btn-primary mb-2"
+                                        style={{ backgroundColor: '#F4B205', color: '#000' }}
+                                    >
+                                        Agregar Jugador a Partido
+                                    </Link>
+                                </div>
+                            <Table striped bordered hover variant="light" className="table-xl">
+                                <thead>
+                                <tr>
+                                    <th>Jugador</th>
+                                    <th>Número Camiseta</th>
+                                    <th>Capitán</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {listaJugadoresPartidoVisita.map((jugadorPartido) => (
+                                    <tr key={jugadorPartido.idJugadorPartido}>
+                                        <td>{jugadorPartido.jugador.nombres}</td>
+                                        <td>{jugadorPartido.numeroCamiseta}</td>
+                                        <td>{jugadorPartido.capitan ? "Sí" : "No"}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </Table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div style={{ background: '#202124', color: '#000', minHeight: '93vh' }}>
                 <div className="container" style={{ padding: '20px' }}>
                     &nbsp;
                     <h2 className="text-center" style={{ color: '#ffffff' }}>Lista de Sets de Partidos</h2>
                     &nbsp;
-                    <Table striped bordered hover variant="grey" className="table-xl" style={{ background: "#d4d1d0", color: "#000" }}>
+                    <Table striped bordered hover variant="grey" className="table-xl" style={{ background: "#ffffff", color: "#000" }}>
                         <thead>
                         <tr>
                             <th>ID Set</th>

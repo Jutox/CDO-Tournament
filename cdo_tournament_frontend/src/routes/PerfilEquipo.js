@@ -174,10 +174,6 @@ export const PerfilEquipo = () => {
 
 
 
-        // Agregar una línea divisoria entre secciones
-        doc.setLineWidth(0.2);
-        doc.line(10, yPosition += 7, 200, yPosition); // Línea después de la información del jugador
-
         // Define table column positions
         const col1X = 10;
         const col2X = 70;
@@ -185,15 +181,9 @@ export const PerfilEquipo = () => {
 
         yPosition += 7;
 
-// Header row
-        doc.text("Número Camiseta", col1X, yPosition);
-        doc.text("Capitán", col2X, yPosition);
-        doc.text("Jugador", col3X, yPosition);
-
-// Increment the Y position for the next row
-        yPosition += 7;
 
 // Iterate through the players and add rows to the table
+        /*
         listaJugadoresPartido.forEach((evento) => {
             console.log("jugadorPartido: ", evento.jugadorPartido);
             if (evento.jugadorPartido && evento.jugadorPartido.numeroCamiseta) {
@@ -216,13 +206,8 @@ export const PerfilEquipo = () => {
 
             // Increment the Y position for the next row
             yPosition += 7;
-        });
+        });*/
 
-
-
-        // Agregar una línea divisoria entre secciones
-        doc.setLineWidth(0.2);
-        doc.line(10, yPosition += 7, 200, yPosition); // Línea después de la información del jugador
 
         // Aquí debes ajustar las coordenadas de las estadísticas
         yPosition += 7; // Incrementa la coordenada Y antes de las estadísticas
@@ -606,7 +591,7 @@ export const PerfilEquipo = () => {
 
     return (
         <div>
-            <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+            <div style={{ background: "#202124", color: "#000", minHeight: "100vh", paddingTop: '80px' }}>
                 <div className="container" style={{ padding: "20px" }}>
                     &nbsp;
                     <h2 className="text-center" style={{ color: '#ffffff' }}>Perfil del Equipo</h2>
@@ -730,16 +715,6 @@ export const PerfilEquipo = () => {
                                 Agregar Jugador
                             </Link>
                         </div>
-
-                        <div className="col-md-6 d-flex justify-content-end">
-                            <Link
-                                to= {`/perfilAddJugadorPartidoEquipoForm/${id}`}
-                                className="btn btn-primary mb-2"
-                                style={{ backgroundColor: '#F4B205', color: '#000' }}
-                            >
-                                Agregar Jugador a Partido
-                            </Link>
-                        </div>
                     </div>
 
                     &nbsp;
@@ -790,41 +765,6 @@ export const PerfilEquipo = () => {
 
                     </div>
 
-                    &nbsp;
-
-                        <div className="container" style={{ padding: '20px' }}>
-                            <h2 className="text-center" style={{ color: '#ffffff' }}>Jugador Partido</h2>
-                            <div className="row justify-content-center">
-                                <Table striped bordered hover variant="light" className="table-xl">
-                                    <thead>
-                                    <tr>
-                                        <th>ID Jugador Partido</th>
-                                        <th>Número Camiseta</th>
-                                        <th>Capitán</th>
-                                        <th>Jugador</th>
-                                        <th>ID Lista</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {listaJugadoresPartido.map((jugadorPartido) => (
-                                        <tr key={jugadorPartido.idJugadorPartido}>
-                                            <td>{jugadorPartido.idJugadorPartido}</td>
-                                            <td>{jugadorPartido.numeroCamiseta}</td>
-                                            <td>{jugadorPartido.capitan ? "Sí" : "No"}</td>
-                                            <td>{jugadorPartido.jugador.nombres}</td>
-                                            <td>{jugadorPartido.listaJugadoresPartido.idListaJugadoresPartido}</td>
-
-                                            <td>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </Table>
-                            </div>
-                        </div>
-                    &nbsp;
-                    <div></div>
                     &nbsp;
                     <div></div>
                     &nbsp;

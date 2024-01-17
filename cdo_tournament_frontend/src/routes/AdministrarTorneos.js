@@ -32,7 +32,7 @@ const AdministrarTorneos = () => {
     );
 
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "100vh" , paddingTop: '80px'}}>
         <div className="container" style={{ padding: '20px' }}>
             &nbsp;
             <h2 className="text-center" style={{ color: '#ffffff' }}>Lista de Torneos</h2>

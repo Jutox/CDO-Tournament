@@ -6,13 +6,16 @@ import JugadorPartidoService from '../services/JugadorPartidoService';
 import PartidoService from "../services/PartidoService";
 
 const AddJugadorPartidoEquipoForm = () => {
-    const { id } = useParams();
+    const { partidoId, equipoId } = useParams();
     const [jugadorPartido, setJugadorPartido] = useState({
         numeroCamiseta: 0,
         capitan: false,
         jugador: null,
         listaJugadoresPartido: null,
     });
+
+
+    const [listaJugadorPartido, setlistaJugadorPartido] = useState([]);
 
     const [jugadores, setJugadores] = useState([]);
     const [selectedPartidoId, setSelectedPartidoId] = useState('');
@@ -29,7 +32,7 @@ const AddJugadorPartidoEquipoForm = () => {
                 console.log(response.data);
 
                 const promises = response.data.map((eventos) => {
-                    if (eventos.equipo.idEquipo === parseInt(id) && eventos.partido !== null) {
+                    if (eventos.equipo.idEquipo === parseInt(equipoId) && eventos.partido !== null) {
                         return eventos;
                     }
                     return null;
@@ -54,7 +57,7 @@ const AddJugadorPartidoEquipoForm = () => {
 
                 const promises = response.data.map((eventos) => {
                     if (
-                        eventos.listaJugadoresPartido.equipo.idEquipo === parseInt(id) &&
+                        eventos.listaJugadoresPartido.equipo.idEquipo === parseInt(equipoId) &&
                         !jugadoresUnicos.has(eventos.jugador.idJugador)
                     ) {
                         console.log(eventos.listaJugadoresPartido.equipo.idEquipo);
@@ -73,6 +76,28 @@ const AddJugadorPartidoEquipoForm = () => {
             .catch((error) => {
                 console.error('Error al obtener jugadores:', error);
             });
+
+        ListaJugadoresPartidoService.getListasJugadoresPartido()
+            .then((response) => {
+                const selectedEventos = response.data.find((eventos) => {
+                    return (
+                        eventos &&
+                        eventos.partido &&
+                        eventos.partido.idPartido != null &&
+                        eventos.partido.idPartido == parseInt(partidoId) &&
+                        eventos.equipo.idEquipo == parseInt(equipoId)
+                    );
+                });
+
+                if (selectedEventos) {
+                    console.log(selectedEventos);
+                    setJugadorPartido({
+                        ...jugadorPartido,
+                        listaJugadoresPartido: selectedEventos,
+                    });
+                    console.log(jugadorPartido);
+                }
+            });
     }, []);
 
     const saveJugadorPartido = (e) => {
@@ -88,7 +113,7 @@ const AddJugadorPartidoEquipoForm = () => {
                     console.log("no null");
                 }
 
-                navigate(`/perfilEquipo/${id}`);
+                navigate(`/perfilPartido/${partidoId}`);
             })
             .catch((error) => {
                 console.error('Error creating player match:', error);
@@ -119,7 +144,7 @@ const AddJugadorPartidoEquipoForm = () => {
     };
 
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "100vh" , paddingTop: '80px'}}>
             <div className="container" style={{ padding: '20px' }}>
                 &nbsp;
                 <h2 className="text-center" style={{ color: '#ffffff' }}>
@@ -170,24 +195,6 @@ const AddJugadorPartidoEquipoForm = () => {
                                     </select>
                                 </div>
 
-                                <div className="form-group mb-2">
-                                    <label style={{ color: '#000' }}>Lista de Jugadores de Partido:</label>
-                                    <select
-                                        name="listaJugadoresPartido"
-                                        value={jugadorPartido.listaJugadoresPartido ? jugadorPartido.listaJugadoresPartido.idListaJugadoresPartido : ''}
-                                        onChange={handleListaJugadoresPartidoChange}
-                                        className="form-control"
-                                        style={{ background: '#e6e5e5', color: '#151414' }}
-                                    >
-                                        <option value="">Seleccione una lista de jugadores de partido</option>
-                                        {listasJugadoresPartido.map((lista) => (
-                                            <option key={lista.idListaJugadoresPartido} value={lista.idListaJugadoresPartido}>
-                                                {lista.partido.nombreCompeticion}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-
                                 <button
                                     onClick={saveJugadorPartido}
                                     className="btn btn-success"
@@ -197,7 +204,7 @@ const AddJugadorPartidoEquipoForm = () => {
                                 </button>
 
                                 <Link
-                                    to={`/perfilEquipo/${id}`}
+                                    to={`/perfilPartido/${partidoId}`}
                                     className="btn btn-danger"
                                     style={{ background: '#dc3545', color: '#fff' }}
                                 >

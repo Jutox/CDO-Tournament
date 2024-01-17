@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose, AiOutlineUser } from 'react-icons/ai';
-import {Link, useLocation} from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { SideBarData } from './SideBarData';
 import '../App.css';
 
@@ -9,6 +9,7 @@ function Navbar() {
     const [sidebar, setSidebar] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
 
     const showSidebar = () => setSidebar(!sidebar);
     const toggleDropdown = () => setShowDropdown(!showDropdown);
@@ -18,10 +19,10 @@ function Navbar() {
     };
 
     const dropdownStyle = {
-        display: showDropdown ? 'block' : 'none', // Conditional rendering
+        display: showDropdown ? 'block' : 'none',
         position: 'absolute',
         maxWidth: "10px",
-        top: '80px', // Adjust as needed
+        top: '80px',
         right: '0',
         backgroundColor: 'white',
         color: 'dark',
@@ -35,18 +36,18 @@ function Navbar() {
     };
 
     const profileIconStyle = {
-        fontSize: '3rem', // Increase font size to make the icon larger
+        fontSize: '3rem',
         cursor: 'pointer',
-        color: '#fefefe', // Change to your desired color
+        color: '#fefefe',
         marginRight: '30px',
     };
 
     const dropdownItemStyle = {
         padding: '10px 20px',
-        textDecoration: 'none', // Remove underline from links
-        color: 'black', // Light text color for contrast
-        display: 'block', // Ensure each link takes up the full width of the dropdown
-        backgroundColor: 'transparent', // Ensure background is transparent
+        textDecoration: 'none',
+        color: 'black',
+        display: 'block',
+        backgroundColor: 'transparent',
         textAlign: "center",
     };
 
@@ -54,29 +55,33 @@ function Navbar() {
         setShowDropdown(false);
     };
 
-    function DropdownMenu() {
+    const logout = () => {
+        document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        navigate('/');
+    };
 
+    function DropdownMenu() {
         return (
             <div className="dropdown-menu" style={dropdownStyle}>
                 <Link to={`/PerfilJugador/${3}`} style={dropdownItemStyle} onClick={closeDropdown}>
-                    Profile
+                    Mi Perfil
                 </Link>
                 <Link to={`/updateJugador/${3}`} style={dropdownItemStyle} onClick={closeDropdown}>
-                    Settings
+                    Configuracion
                 </Link>
-                <Link to="/" style={dropdownItemStyle} onClick={closeDropdown}>
-                    Logout
+                <Link to="/" style={dropdownItemStyle} onClick={() => { closeDropdown(); logout(); }}>
+                    Cerrar Sesion
                 </Link>
             </div>
         );
     }
 
     return (
-        <div className={`navbar ${sidebar ? 'active' : ''}`} style={{ zIndex: 1000 }}>
+        <div className={`navbar ${sidebar ? 'active' : ''}`} style={{ zIndex: 1000, position: 'fixed', width: '100%' }}>
             {location.pathname === '/' ? null : (
-            <div className="menu-bars">
-                <FaBars className="menu-icon" onClick={showSidebar} />
-            </div>
+                <div className="menu-bars">
+                    <FaBars className="menu-icon" onClick={showSidebar} />
+                </div>
             )}
             <div className="menu-center">
                 <img
@@ -116,7 +121,6 @@ function Navbar() {
                     </nav>
                 </>
             )}
-
         </div>
     );
 }

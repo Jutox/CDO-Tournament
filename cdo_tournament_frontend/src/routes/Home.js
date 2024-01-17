@@ -8,18 +8,29 @@ function Home() {
     };
 
     const instagramLink1 = "https://www.instagram.com/p/C0gcv5dOhlc/?img_index=1"; // Enlace de la primera imagen
-    const instagramLink2 = "https://www.instagram.com/p/Cv46hUHOPZj/?img_index=1"; // Enlace de la segunda imagen
+    const instagramLink2 = "https://www.instagram.com/p/C15CtVOusRC/?img_index=1"; // Enlace de la segunda imagen
+    const instagramLink3 = "https://www.instagram.com/p/Cv46hUHOPZj/?img_index=1"; // Enlace de la segunda imagen
 
     return (
-        <div style={{ background: '#202124', color: '#000', minHeight: '93vh', padding: '20px' }}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+            &nbsp;
+            <h2 className="text-center" style={{ color: '#ffffff' }}>
+                Bienvenido!
+            </h2>
+            &nbsp;
             <div className="container mt-5">
                 <div className="row justify-content-center">
+                    &nbsp;
+                    <h3 className="text-center" style={{ color: '#ffffff' }}>
+                        Ultimas Noticias CDO
+                    </h3>
+                    &nbsp;
                     <Carousel style={carouselStyle}>
                         <Carousel.Item>
                             <a href={instagramLink1} target="_blank" rel="noopener noreferrer"> {/* Enlace a la primera imagen */}
                                 <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
                                     <img
-                                        src="https://instagram.fccp3-1.fna.fbcdn.net/v/t39.30808-6/406870402_17938208369771234_4008566964496832234_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDEzNDQuc2RyIn0&_nc_ht=instagram.fccp3-1.fna.fbcdn.net&_nc_cat=102&_nc_ohc=RKxMzLJcQTAAX9ib3yF&edm=ACWDqb8AAAAA&ccb=7-5&ig_cache_key=MzI1MTcyNTM2MjU1NTAyNzg1OA%3D%3D.2-ccb7-5&oh=00_AfDa_spheaWsJH6qg5e08vCYFdhR6QqoTQJgjq2TJDyd8A&oe=657DBE13&_nc_sid=ee9879"
+                                        src="https://i.postimg.cc/9QmTrGYJ/406870402-17938208369771234-4008566964496832234-n.jpg"
                                         alt="First slide"
                                         style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
                                     />
@@ -33,8 +44,24 @@ function Home() {
                             <a href={instagramLink2} target="_blank" rel="noopener noreferrer"> {/* Enlace a la segunda imagen */}
                                 <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
                                     <img
-                                        src="https://instagram.fccp3-1.fna.fbcdn.net/v/t51.2885-15/366961088_1475596486539842_6543219809077923965_n.jpg?stp=dst-jpg_e35_p1080x1080&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE3OTQuc2RyIn0&_nc_ht=instagram.fccp3-1.fna.fbcdn.net&_nc_cat=102&_nc_ohc=NiRYZzrD1P8AX-bwekk&edm=ACWDqb8BAAAA&ccb=7-5&ig_cache_key=MzE2ODUzOTcwNzk3NzU3Mzc1NQ%3D%3D.2-ccb7-5&oh=00_AfDi7ZbolxVZzUWE8Uu85jNA0nSbImgpfdPTgp1lyZxcOw&oe=657E78EB&_nc_sid=ee9879"
+                                        src="https://i.postimg.cc/TwghkwcK/417956713-287036314349618-134275146368272860-n.jpg"
                                         alt="Second slide"
+                                        style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                                    />
+                                </div>
+                            </a>
+                            <Carousel.Caption>
+                                <p>
+                                    Se Viene !!!
+                                    Este año una temática diferente, Gala - Aniversario CDO 23-24... agradecidos de cada persona que permanece en el club y también de los que han pasado por el, todos dejan su huella, se llevan un pedacito nuestro y siempre les deseamos las mejores vibras... ❤️🔥❤️‍🔥🏐💪🏽</p>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <a href={instagramLink3} target="_blank" rel="noopener noreferrer"> {/* Enlace a la segunda imagen */}
+                                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
+                                    <img
+                                        src="https://i.postimg.cc/k4sPXPJj/366961088-1475596486539842-6543219809077923965-n.jpg"
+                                        alt="third slide"
                                         style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
                                     />
                                 </div>

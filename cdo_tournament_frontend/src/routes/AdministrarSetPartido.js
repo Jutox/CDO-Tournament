@@ -21,7 +21,7 @@ const AdministrarSetPartido = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
-        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
+        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '100vh', paddingTop: '80px' }}>
             <div className="container" style={{ padding: '20px' }}>
                 <h2 className="text-center">Lista de Sets de Partidos</h2>
                 <Table striped bordered hover variant="grey" className="table-xl">

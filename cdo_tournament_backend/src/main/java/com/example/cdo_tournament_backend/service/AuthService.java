@@ -69,6 +69,7 @@ public class AuthService {
         extraClaims.put("role", user.getRole());
         extraClaims.put("username", user.getUsername());
         extraClaims.put("permission", user.getAuthorities());
+        extraClaims.put("id", user.getId());
         return extraClaims;
     }
 

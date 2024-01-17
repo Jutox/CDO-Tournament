@@ -24,11 +24,12 @@ export const PerfilTorneo = () => {
     }, [id]);
 
     return (
-        <div style={{ background: '#202124', color: '#000', minHeight: '93vh', padding: '20px' }}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px', paddingTop: '80px' }}>
+            &nbsp;
             <h2 className="text-center" style={{ color: '#ffffff' }}>
                 Detalles del Torneo
             </h2>
-
+            &nbsp;
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <div className="card" style={{ background: '#bcbdbe', color: '#000' }}>

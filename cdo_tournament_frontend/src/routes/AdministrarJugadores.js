@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Pagination } from 'react-bootstrap';
 import JugadorService from '../services/JugadorService';
+import JugadorPartidoService from "../services/JugadorPartidoService";
+import * as IoIcons from "react-icons/io";
+import * as XLSX from 'xlsx';
+import {IoIosArrowDropdown} from "react-icons/io";
 
 export const AdministrarJugadores = () => {
     const [jugadores, setJugadores] = useState([]);
+    const [jugadoresPartido, setJugadoresPartido] = useState([]);
     const [searchName, setSearchName] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const empleadosPerPage = 10;
@@ -17,22 +22,37 @@ export const AdministrarJugadores = () => {
             .catch((error) => {
                 console.log(error);
             });
+        JugadorPartidoService.getJugadoresPartido()
+            .then((response) => {
+                setJugadoresPartido(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }, []);
 
     const indexOfLastJugador = currentPage * empleadosPerPage;
     const indexOfFirstJugador = indexOfLastJugador - empleadosPerPage;
-    const currentJugadores = jugadores.slice(indexOfFirstJugador, indexOfLastJugador);
+
+    const filteredJugadores = jugadores
+        .filter((jugador) =>
+            jugador.nombres.toLowerCase().includes(searchName.toLowerCase())
+        )
+        .slice(indexOfFirstJugador, indexOfLastJugador);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    const filteredJugadores = currentJugadores.filter((jugador) =>
-        jugador.nombres.toLowerCase().includes(searchName.toLowerCase())
-    );
+    const exportToExcel = () => {
+        const ws = XLSX.utils.json_to_sheet(jugadores);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Jugadores");
+        XLSX.writeFile(wb, "jugadores.xlsx");
+    };
 
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "100vh", paddingTop: '80px' }}>
             &nbsp;
             <div className="container" style={{ padding: "20px" }}>
                 <h2 className="text-center" style={{ color: '#ffffff' }}>Lista de Jugadores</h2>
@@ -62,7 +82,6 @@ export const AdministrarJugadores = () => {
                             <th>Peso</th>
                             <th>Alcance Mano</th>
                             <th>Alcance Bloqueo</th>
-                            <th>Equipo</th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -80,7 +99,6 @@ export const AdministrarJugadores = () => {
                                 <td>{jugador.peso}</td>
                                 <td>{jugador.alcanceMano}</td>
                                 <td>{jugador.alcanceBloqueo}</td>
-                                <td>{jugador.equipo}</td>
                                 <td>
                                     <Link
                                         to={`/perfilJugador/${jugador.idJugador}`}
@@ -104,6 +122,22 @@ export const AdministrarJugadores = () => {
                             style={{ backgroundColor: "#F4B205", color: "#000" }}
                         >
                             Agregar Jugador
+                        </Link>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div className="col-md-4 text-end">
+                        <Link
+                            onClick={exportToExcel}
+                            className="btn btn-primary mb-2"
+                            style={{ backgroundColor: "#F4B205", color: "#000" }}
+                        >
+                            Exportar Excel <IoIcons.IoIosArrowDropdown />
                         </Link>
                     </div>
                 </div>

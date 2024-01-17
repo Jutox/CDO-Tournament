@@ -130,7 +130,7 @@ const EstadisticaJugadorIndividual = () => {
     };
 
     return (
-        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' }}>
+        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '93vh' , paddingTop: '80px'}}>
             <div className="container" style={{ padding: '20px' }}>
                 <h2 className="text-center">Estadísticas de Jugador</h2>
                 <div className="row justify-content-center">

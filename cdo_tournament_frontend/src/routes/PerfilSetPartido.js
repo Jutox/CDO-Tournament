@@ -124,7 +124,7 @@ const PerfilSetPartido = () => {
 
 
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "100vh", paddingTop: '80px' }}>
             <div className="container" style={{ padding: '20px' }}>
                 &nbsp;
                 <h2 className="text-center" style={{ color: '#ffffff' }}>
@@ -257,7 +257,7 @@ const PerfilSetPartido = () => {
                             &nbsp;
                             <h2 className="text-center" style={{color: "#fff" }}>Lista de Eventos</h2>
                             &nbsp;
-                            <Table striped bordered hover variant="grey" className="table-xl" style={{ background: "#d4d1d0", color: "#000" }}>
+                            <Table striped bordered hover variant="light" className="table-xl" style={{ background: "#d4d1d0", color: "#000" }}>
                             <thead>
                                 <tr>
                                     <th>ID Evento</th>

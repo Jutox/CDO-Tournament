@@ -37,10 +37,10 @@ export const AddTorneoForm = () => {
     };
 
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "93vh" }}>
+        <div style={{ background: "#202124", color: "#000", minHeight: "100vh" , paddingTop: '80px'}}>
             <div className="container" style={{ padding: "20px" }}>
                 &nbsp;
-                <h2 className="text-center" style={{ color: "#ffffff" }}>Agregar Torneo</h2>
+                <h2 className="text-center" style={{ color: '#ffffff' }}>Agregar Torneo</h2>
                 &nbsp;
                 <div className="row justify-content-center">
                     <div className="card col-md-8" style={{ background: "#bcbdbe", color: "#000" }}>
