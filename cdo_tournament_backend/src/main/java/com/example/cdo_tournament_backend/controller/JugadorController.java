@@ -94,4 +94,19 @@ public class JugadorController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping("/byEmail/{email}")
+    public ResponseEntity<JugadorDTO> getJugadorByEmail(@PathVariable String email) {
+        try {
+            JugadorDTO jugador = jugadorService.getJugadorByEmail(email);
+            if (jugador != null) {
+                return new ResponseEntity<>(jugador, HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 - Not Found
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

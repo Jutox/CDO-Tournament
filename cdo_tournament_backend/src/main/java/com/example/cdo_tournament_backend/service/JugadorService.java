@@ -11,5 +11,5 @@ public interface JugadorService {
    JugadorDTO getJugadorById(int id);
    JugadorDTO updateJugador(int id, JugadorDTO jugadorDTO);
    void deleteJugador(int id);
-   
+   JugadorDTO getJugadorByEmail(String email);
 }

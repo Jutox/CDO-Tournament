@@ -48,6 +48,12 @@ public class JugadorImpl implements JugadorService {
     }
 
     @Override
+    public JugadorDTO getJugadorByEmail(String email) {
+        Optional<Jugador> jugador = jugadorRepository.findByEmail(email);
+        return jugador.map(jugadorMapper::toDTO).orElse(null);
+    }
+
+    @Override
     public JugadorDTO updateJugador(int id, JugadorDTO jugadorDTO) {
         Jugador nuevo = jugadorMapper.toEntity(jugadorDTO);
         Jugador existente = jugadorRepository.findById(id).orElse(null);
