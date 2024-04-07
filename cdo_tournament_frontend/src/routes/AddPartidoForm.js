@@ -78,8 +78,7 @@ const AddPartidoForm = () => {
             !partido.ciudad ||
             !partido.fecha ||
             !partido.hora ||
-            !partido.torneo ||
-            !partido.torneo.idTorneo
+            !partido.torneo
         ) {
             alert('Todos los campos obligatorios deben ser llenados. Por favor, completa el formulario.');
             return;
@@ -190,7 +189,12 @@ const AddPartidoForm = () => {
 
 
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "100vh", paddingTop: '80px' }}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+            &nbsp;
+            <h1 className="text-left" style={{color: '#F4B205'}}>
+                CDO Tournament
+            </h1>
+            &nbsp;
             <div className="container" style={{ padding: '20px' }}>
                 &nbsp;
                 <h2 className="text-center" style={{ color: '#ffffff' }}>
@@ -226,7 +230,7 @@ const AddPartidoForm = () => {
                                     />
                                 </div>
                                 <div className="form-group mb-2">
-                                    <label style={{ color: '#000' }}>Código de País:</label>
+                                    <label style={{ color: '#000' }}>Código de País (ej: CH):</label>
                                     <input
                                         type="text"
                                         placeholder="Código de País"

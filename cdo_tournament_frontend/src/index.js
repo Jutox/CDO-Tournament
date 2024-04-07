@@ -47,6 +47,7 @@ import ActualizarTorneoForm from "./routes/ActualizarTorneoForm"
 import ActualizarEquipoForm from "./routes/ActualizarEquipoForm";
 import AddUserForm from "./routes/AddUserForm";
 import ActualizarUserForm from "./routes/ActualizarUserForm";
+import PerfilUsuarioJugador from "./routes/PerfilUsuarioJugador";
 import "./App.css";
 
 const AppLayout = () => (
@@ -221,6 +222,10 @@ const router = createBrowserRouter([
       {
         path: "/updateUser", // Add a forward slash here
         element: <ActualizarUserForm />, // Assuming you have a component named Empleados AdministrarTorneos
+      },
+      {
+        path: "/perfilUserJugador", // Add a forward slash here
+        element: <PerfilUsuarioJugador />, // Assuming you have a component named Empleados AdministrarTorneos
       },
     ],
   },

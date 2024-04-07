@@ -14,6 +14,11 @@ function Home() {
     return (
         <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
             &nbsp;
+            <h1 className="text-left" style={{color: '#F4B205'}}>
+                CDO Tournament
+            </h1>
+            &nbsp;
+            &nbsp;
             <h2 className="text-center" style={{ color: '#ffffff' }}>
                 Bienvenido!
             </h2>
@@ -22,7 +27,7 @@ function Home() {
                 <div className="row justify-content-center">
                     &nbsp;
                     <h3 className="text-center" style={{ color: '#ffffff' }}>
-                        Ultimas Noticias CDO
+                        Últimas Noticias CDO
                     </h3>
                     &nbsp;
                     <Carousel style={carouselStyle}>

@@ -31,8 +31,24 @@ const AdministrarTorneos = () => {
         torneo.nombre.toLowerCase().includes(searchName.toLowerCase())
     );
 
+    const formatDate = (dateString) => {
+        if (dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+        return '';
+    };
+
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "100vh" , paddingTop: '80px'}}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+            &nbsp;
+            <h1 className="text-left" style={{color: '#F4B205'}}>
+                CDO Tournament
+            </h1>
+            &nbsp;
         <div className="container" style={{ padding: '20px' }}>
             &nbsp;
             <h2 className="text-center" style={{ color: '#ffffff' }}>Lista de Torneos</h2>
@@ -62,8 +78,8 @@ const AdministrarTorneos = () => {
                         {filteredTorneos.map((torneo) => (
                             <tr key={torneo.idTorneo}>
                                 <td>{torneo.nombre}</td>
-                                <td>{torneo.fechaInicio}</td>
-                                <td>{torneo.fechaTermino}</td>
+                                <td>{formatDate(torneo.fechaInicio)}</td>
+                                <td>{formatDate(torneo.fechaTermino)}</td>
                                 <td>{torneo.lugar}</td>
                                 <td>
                                     <Link

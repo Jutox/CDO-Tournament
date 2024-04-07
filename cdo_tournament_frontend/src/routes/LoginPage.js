@@ -66,7 +66,8 @@ const LoginPage = () => {
                                 <input
                                     type="email"
                                     name="username"
-                                    value={formData.email}
+                                    className="form-control"
+                                    value={formData.username}
                                     onChange={handleChange}
                                     required
                                 />

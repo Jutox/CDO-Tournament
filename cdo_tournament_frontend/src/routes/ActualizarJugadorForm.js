@@ -87,7 +87,11 @@ export const ActualizarJugadorForm = () => {
     };
 
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "100vh" , paddingTop: '80px'}}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+            &nbsp;
+            <h1 className="text-left" style={{color: '#F4B205'}}>
+                CDO Tournament
+            </h1>
             &nbsp;
             <div className="container" style={{ padding: "20px" }}>
                 <h2 className="text-center" style={{ color: "#ffffff" }}>Actualizar Jugador</h2>
@@ -96,44 +100,154 @@ export const ActualizarJugadorForm = () => {
                     <div className="card col-md-8" style={{ background: "#bcbdbe", color: "#000" }}>
                         <div className="card-body">
                             <form>
-                                {Object.keys(jugador).map((key) => (
-                                    <div className="form-group mb-2" key={key}>
-                                        <label style={{ color: "#000" }}>{key.charAt(0).toUpperCase() + key.slice(1)}:</label>
-                                        {key === 'fechaNacimiento' ? (
-                                            <div>
-                                                <DatePicker
-                                                    className="form-control"
-                                                    selected={jugador.fechaNacimiento}
-                                                    onChange={handleDateChange}
-                                                    dateFormat="dd/MM/yyyy"
-                                                    placeholderText="Selecciona fecha"
-                                                    style={{ background: "#e6e5e5", color: "#151414" }}
-                                                />
-                                            </div>
-                                        ) : key === 'genero' ? (
-                                            <select
-                                                className="form-control"
-                                                name={key}
-                                                value={jugador.genero || ''}
-                                                onChange={handleGenderChange}
-                                                style={{ background: "#e6e5e5", color: "#151414" }}
-                                            >
-                                                <option value="">Seleccione género</option>
-                                                <option value="M">Masculino</option>
-                                                <option value="F">Femenino</option>
-                                            </select>
-                                        ) : (
-                                            <input
-                                                placeholder={key}
-                                                name={key}
-                                                className="form-control"
-                                                value={jugador[key]}
-                                                onChange={handleInputChange}
-                                                style={{ background: "#e6e5e5", color: "#151414" }}
-                                            />
-                                        )}
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Nombres:</label>
+                                    <input
+                                        placeholder="Nombres"
+                                        name="nombres"
+                                        className="form-control"
+                                        value={jugador.nombres}
+                                        onChange={handleInputChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    />
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Apellido Paterno:</label>
+                                    <input
+                                        placeholder="Apellido Paterno"
+                                        name="apellidoPaterno"
+                                        className="form-control"
+                                        value={jugador.apellidoPaterno}
+                                        onChange={handleInputChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    />
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Apellido Materno:</label>
+                                    <input
+                                        placeholder="Apellido Materno"
+                                        name="apellidoMaterno"
+                                        className="form-control"
+                                        value={jugador.apellidoMaterno}
+                                        onChange={handleInputChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    />
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>RUT:</label>
+                                    <input
+                                        placeholder="RUT"
+                                        name="rut"
+                                        className="form-control"
+                                        value={jugador.rut}
+                                        onChange={handleInputChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    />
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Fecha de Nacimiento:</label>
+                                    <div>
+                                        <DatePicker
+                                            className="form-control"
+                                            selected={jugador.fechaNacimiento}
+                                            onChange={handleDateChange}
+                                            dateFormat="dd/MM/yyyy"
+                                            placeholderText="Selecciona fecha"
+                                            style={{ background: "#e6e5e5", color: "#151414" }}
+                                        />
                                     </div>
-                                ))}
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Género:</label>
+                                    <select
+                                        className="form-control"
+                                        name="genero"
+                                        value={jugador.genero || ''}
+                                        onChange={handleGenderChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    >
+                                        <option value="">Seleccione género</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Femenino</option>
+                                    </select>
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Teléfono:</label>
+                                    <input
+                                        placeholder="Teléfono"
+                                        name="telefono"
+                                        className="form-control"
+                                        value={jugador.telefono}
+                                        onChange={handleInputChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    />
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Email:</label>
+                                    <input
+                                        placeholder="Email"
+                                        name="email"
+                                        className="form-control"
+                                        value={jugador.email}
+                                        onChange={handleInputChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    />
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Estatura:</label>
+                                    <input
+                                        placeholder="Estatura"
+                                        name="estatura"
+                                        className="form-control"
+                                        value={jugador.estatura}
+                                        onChange={handleInputChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    />
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Peso:</label>
+                                    <input
+                                        placeholder="Peso"
+                                        name="peso"
+                                        className="form-control"
+                                        value={jugador.peso}
+                                        onChange={handleInputChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    />
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Alcance de Mano:</label>
+                                    <input
+                                        placeholder="Alcance de Mano"
+                                        name="alcanceMano"
+                                        className="form-control"
+                                        value={jugador.alcanceMano}
+                                        onChange={handleInputChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    />
+                                </div>
+
+                                <div className="form-group mb-2">
+                                    <label style={{ color: "#000" }}>Alcance de Bloqueo:</label>
+                                    <input
+                                        placeholder="Alcance de Bloqueo"
+                                        name="alcanceBloqueo"
+                                        className="form-control"
+                                        value={jugador.alcanceBloqueo}
+                                        onChange={handleInputChange}
+                                        style={{ background: "#e6e5e5", color: "#151414" }}
+                                    />
+                                </div>
 
                                 <button className="btn btn-success" onClick={updateJugador} style={{ background: "#F4B205", color: "#fff" }}>
                                     Actualizar
@@ -147,7 +261,7 @@ export const ActualizarJugadorForm = () => {
                                     to={`/perfilJugador/${jugador.idJugador}`}
                                     className="btn btn-secondary"
                                     style={{ background: "#6C757D", color: "#fff" }}
-                                    >
+                                >
                                     Cancelar
                                 </Link>
                             </form>

@@ -27,6 +27,11 @@ class JugadorService {
         const url = `${JUGADOR_API_BASE_URL}/${jugadorId}`;
         return axios.delete(url);
     }
+
+    getJugadorByEmail(email) {
+        const url = `${JUGADOR_API_BASE_URL}/byEmail/${email}`;
+        return axios.get(url);
+    }
 }
 
 export default new JugadorService();

@@ -1,18 +1,104 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose, AiOutlineUser } from 'react-icons/ai';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { SideBarData } from './SideBarData';
+import { SideBarDataJugador } from './SideBarDataJugador';
 import '../App.css';
+import JugadorService from "../services/JugadorService";
 
 function Navbar() {
     const [sidebar, setSidebar] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
+    const [id, setId] = useState();
+
+    const [userDataCall, setUserDataCall] = useState(0);
+
+    const [jugador, setJugador] = useState({
+        idJugador: '',
+        nombres: '',
+        apellidoPaterno: '',
+        apellidoMaterno: '',
+        rut: '',
+        fechaNacimiento: null,
+        genero: '',
+        telefono: '',
+        email: '',
+        estatura: '',
+        peso: '',
+        alcanceMano: '',
+        alcanceBloqueo: '',
+    });
+
+    const [userData, setUserData] = useState({
+        id:'',
+        name: '',
+        password: '',
+        username: '',
+        role: '',
+    });
+
+/*
+    useEffect(() => {
+        if (userData === null || userDataCall === 0) {
+            // When userData is initially null, make the call to set it
+            const jwt = getCookie('jwt');
+            setUserData(decodeJWT(jwt));
+            setUserDataCall(1); // Update userDataCall to avoid repeated calls
+
+            console.log("HOLAAA")
+
+            JugadorService.getJugadorByEmail(userData.username)
+                .then((jugadorResponse) => {
+                    const jugadorData = jugadorResponse.data;
+                    setJugador({
+                        ...jugadorData,
+                        fechaNacimiento: jugadorData.fechaNacimiento ? new Date(jugadorData.fechaNacimiento) : null,
+                    });
+                    console.log(jugador)
+                    setId(jugador.idJugador);
+                })
+                .catch((jugadorError) => {
+                    console.error('Error fetching jugador:', jugadorError);
+                });
+        }
+    }, [showDropdown, userDataCall]);
+*/
+
+
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
+
+    if (userData === null) {
+        setUserDataCall(1);
+        return null; // or you can return a loading indicator or a different component
+    }
+
+    const decodeJWT = (token) => {
+        try {
+            const base64Url = token.split('.')[1]; // Get the payload part of the JWT
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+                return `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`;
+            }).join(''));
+
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            console.error('Error decoding JWT:', e);
+            return null;
+        }
+    };
 
     const showSidebar = () => setSidebar(!sidebar);
-    const toggleDropdown = () => setShowDropdown(!showDropdown);
+    const toggleDropdown = () =>{
+        setUserDataCall(0)
+        setShowDropdown(!showDropdown)
+    }
 
     const iconStyle = {
         marginRight: '0',
@@ -63,14 +149,14 @@ function Navbar() {
     function DropdownMenu() {
         return (
             <div className="dropdown-menu" style={dropdownStyle}>
-                <Link to={`/PerfilJugador/${3}`} style={dropdownItemStyle} onClick={closeDropdown}>
+                <Link to={`/perfilJugador/2`} style={dropdownItemStyle} onClick={closeDropdown}>
                     Mi Perfil
                 </Link>
-                <Link to={`/updateJugador/${3}`} style={dropdownItemStyle} onClick={closeDropdown}>
-                    Configuracion
+                <Link to={`/updateUser`} style={dropdownItemStyle} onClick={closeDropdown}>
+                    Configuración
                 </Link>
                 <Link to="/" style={dropdownItemStyle} onClick={() => { closeDropdown(); logout(); }}>
-                    Cerrar Sesion
+                    Cerrar Sesión
                 </Link>
             </div>
         );
@@ -86,7 +172,7 @@ function Navbar() {
             <div className="menu-center">
                 <img
                     src="https://i.postimg.cc/kG8f91LY/iconCDO.jpg"
-                    style={{ ...iconStyle, width: '47px', height: '45px' }}
+                    style={{ ...iconStyle, width: '44px', height: '43px' }}
                     alt="Icono CDO"
                 />
             </div>
@@ -109,14 +195,25 @@ function Navbar() {
                                     <AiOutlineClose />
                                 </Link>
                             </li>
-                            {SideBarData.map((item, index) => (
-                                <li key={index} className={item.cName}>
-                                    <Link to={item.path}>
-                                        {item.icon}
-                                        <span>{item.title}</span>
-                                    </Link>
-                                </li>
-                            ))}
+                            {userData && userData.role === 'PLAYER' ? (
+                                SideBarDataJugador.map((item, index) => (
+                                    <li key={index} className={item.cName}>
+                                        <Link to={item.path}>
+                                            {item.icon}
+                                            <span>{item.title}</span>
+                                        </Link>
+                                    </li>
+                                ))
+                            ) : (
+                                SideBarData.map((item, index) => (
+                                    <li key={index} className={item.cName}>
+                                        <Link to={item.path}>
+                                            {item.icon}
+                                            <span>{item.title}</span>
+                                        </Link>
+                                    </li>
+                                ))
+                            )}
                         </ul>
                     </nav>
                 </>

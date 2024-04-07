@@ -7,11 +7,12 @@ import {IoIosAnalytics, IoIosPerson} from "react-icons/io";
 
 export const SideBarData = [
   {
-    title: "Home",
+    title: "Inicio",
     path: "/home",
     icon: <AiIcons.AiFillHome />,
     cName: "nav-text",
   },
+/*
   {
     title: "Jugadores",
     path: "/jugadores", // Make sure this path matches the one in Route
@@ -36,10 +37,12 @@ export const SideBarData = [
     icon: <IoIcons.IoIosTrophy />,
     cName: "nav-text",
   },
+ */
   {
     title: "Contactanos",
     path: "/contactanos", // Make sure this path matches the one in Route
     icon: <IoIcons.IoIosPaper />,
     cName: "nav-text",
   },
+
 ];

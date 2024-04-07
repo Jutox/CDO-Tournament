@@ -4,10 +4,10 @@ import * as AiIcons from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
 import { Route } from "react-router-dom";
 
-export const SideBarDataDerecha = [
+export const SideBarDataJugador = [
   {
-    title: "Home",
-    path: "/",
+    title: "Inicio",
+    path: "/home",
     icon: <AiIcons.AiFillHome />,
     cName: "nav-text",
   },

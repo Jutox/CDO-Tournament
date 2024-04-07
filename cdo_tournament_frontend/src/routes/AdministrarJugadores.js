@@ -51,8 +51,38 @@ export const AdministrarJugadores = () => {
         XLSX.writeFile(wb, "jugadores.xlsx");
     };
 
+    const formatDate = (dateString) => {
+        if (dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+        return '';
+    };
+
+    const formatRUT = (rut) => {
+        // Remove any dots or dashes in the input RUT
+        const cleanRUT = rut.replace(/[.-]/g, '');
+
+        // Split the clean RUT into the main part and the verifier digit
+        const mainPart = cleanRUT.slice(0, -1);
+        const verifierDigit = cleanRUT.slice(-1);
+
+        // Add dots for formatting
+        const formattedRUT = mainPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + verifierDigit;
+
+        return formattedRUT;
+    };
+
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "100vh", paddingTop: '80px' }}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+            &nbsp;
+            <h1 className="text-left" style={{color: '#F4B205'}}>
+                CDO Tournament
+            </h1>
+            &nbsp;
             &nbsp;
             <div className="container" style={{ padding: "20px" }}>
                 <h2 className="text-center" style={{ color: '#ffffff' }}>Lista de Jugadores</h2>
@@ -72,16 +102,16 @@ export const AdministrarJugadores = () => {
                         <thead>
                         <tr>
                             <th>Nombres</th>
-                            <th>Rut</th>
                             <th>Apellidos</th>
+                            <th style={{ width: '10%' }}>Rut</th>
                             <th>Fecha Nacimiento</th>
-                            <th>Genero</th>
-                            <th>Telefono</th>
+                            <th>Género</th>
+                            <th>Teléfono</th>
                             <th>Email</th>
-                            <th>Estatura</th>
-                            <th>Peso</th>
-                            <th>Alcance Mano</th>
-                            <th>Alcance Bloqueo</th>
+                            <th>Estatura (cm.)</th>
+                            <th>Peso (Kg.)</th>
+                            <th>Alcance Mano (cm.)</th>
+                            <th>Alcance Bloqueo (cm.)</th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -89,9 +119,9 @@ export const AdministrarJugadores = () => {
                         {filteredJugadores.map((jugador) => (
                             <tr key={jugador.idJugador}>
                                 <td>{jugador.nombres}</td>
-                                <td>{jugador.rut}</td>
                                 <td>{jugador.apellidoPaterno + ' ' + jugador.apellidoMaterno}</td>
-                                <td>{jugador.fechaNacimiento}</td>
+                                <td>{formatRUT(jugador.rut)}</td>
+                                <td>{formatDate(jugador.fechaNacimiento)}</td>
                                 <td>{jugador.genero}</td>
                                 <td>{jugador.telefono}</td>
                                 <td>{jugador.email}</td>

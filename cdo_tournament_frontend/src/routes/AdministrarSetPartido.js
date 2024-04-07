@@ -21,7 +21,12 @@ const AdministrarSetPartido = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
-        <div style={{ background: '#d4d1d0', color: '#000', minHeight: '100vh', paddingTop: '80px' }}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+            &nbsp;
+            <h1 className="text-left" style={{color: '#F4B205'}}>
+                CDO Tournament
+            </h1>
+            &nbsp;
             <div className="container" style={{ padding: '20px' }}>
                 <h2 className="text-center">Lista de Sets de Partidos</h2>
                 <Table striped bordered hover variant="grey" className="table-xl">

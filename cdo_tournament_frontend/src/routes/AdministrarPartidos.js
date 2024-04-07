@@ -36,8 +36,25 @@ const AdministrarPartidos = () => {
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
+    const formatDateFecha = (dateString) => {
+        if (dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+        return '';
+    };
+
+
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "100vh", paddingTop: '80px' }}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+            &nbsp;
+            <h1 className="text-left" style={{color: '#F4B205'}}>
+                CDO Tournament
+            </h1>
+            &nbsp;
             &nbsp;
             <div className="container" style={{ padding: '20px' }}>
                 <h2 className="text-center" style={{ color: '#ffffff' }}>Lista de Partidos</h2>
@@ -84,7 +101,7 @@ const AdministrarPartidos = () => {
                                 <td>{partido.numeroPartido}</td>
                                 <td>{partido.division}</td>
                                 <td>{partido.categoria}</td>
-                                <td>{partido.fecha}</td>
+                                <td>{formatDateFecha(partido.fecha)}</td>
                                 <td>{formatDate(new Date(partido.hora))}</td>
                                 <td>{partido.torneo ? partido.torneo.nombre : 'N/A'}</td>
                                 <td>

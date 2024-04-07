@@ -33,7 +33,12 @@ const AdministrarEquipos = () => {
     };
 
     return (
-        <div style={{ background: "#202124", color: "#fff", minHeight: "100vh", padding: "20px" , paddingTop: '80px'}}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+            &nbsp;
+            <h1 className="text-left" style={{color: '#F4B205'}}>
+                CDO Tournament
+            </h1>
+            &nbsp;
             <div className="container">
                 &nbsp;
                 <h2 className="text-center" style={{ color: '#fff' }}>Lista de Equipos</h2>

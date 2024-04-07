@@ -159,7 +159,12 @@ const PerfilPartido = () => {
 
 
     return (
-        <div style={{ background: "#202124", color: "#000", minHeight: "100vh", paddingTop: '80px' }}>
+        <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+            &nbsp;
+            <h1 className="text-left" style={{color: '#F4B205'}}>
+                CDO Tournament
+            </h1>
+            &nbsp;
             <div className="container" style={{ padding: '20px' }}>
                 &nbsp;
                 <h2 className="text-center" style={{ color: '#ffffff' }}>
@@ -442,7 +447,7 @@ const PerfilPartido = () => {
                             <th>ID Set</th>
                             <th>Número de Set</th>
                             <th>Hora de Inicio</th>
-                            <th>Hora de Termino</th>
+                            <th>Hora de Término</th>
                             <th>{equipos[0]}</th>
                             <th>{equipos[1]}</th>
                             <th>Acciones</th>

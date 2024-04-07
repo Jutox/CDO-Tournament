@@ -2,37 +2,48 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import jsPDF from 'jspdf';
-import {Button, Pagination, Table} from 'react-bootstrap';
-import Chart from 'chart.js/auto';
-
-import EquipoService from '../services/EquipoService';
+import jsPDF from 'jspdf'; // Importa la librería para generar PDF
+import JugadorService from '../services/JugadorService';
+import eventoService from '../services/EventosService';
 import PartidoService from '../services/PartidoService';
-import JugadorPartidoService from '../services/JugadorPartidoService';
+import TorneoService from '../services/TorneoService';
+import {Button} from "react-bootstrap";
 import EventoService from "../services/EventosService";
-import eventoService from "../services/EventosService";
-import TorneoService from "../services/TorneoService";
+import Chart from 'chart.js/auto';
 import * as IoIcons from "react-icons/io";
 
-export const PerfilEquipo = () => {
-    const { id } = useParams();
+export const PerfilUsuarioJugador = () => {
+    const [jugadorId, setJugadorId] = useState();
     const [partidos, setPartidos] = useState([]);
     const [torneos, setTorneos] = useState([]);
     const [selectedPartidoId, setSelectedPartidoId] = useState('');
     const [selectedTorneoId, setSelectedTorneoId] = useState('');
-    const [showChart, setShowChart] = useState(false);
+
     const [selectedPartido, setSelectedPartido] = useState('');
-    const [jugadoresPartido, setJugadorPartido] = useState([]);
-    const [listaJugadoresPartido, setListaJugadoresPartido] = useState([]);
     const [selectedTorneo, setSelectedTorneo] = useState('');
 
-    const [equipo, setEquipo] = useState({
-        nombreEquipo: '',
-        entrenador: '',
-        // Add other relevant fields here
-    });
+    const [puntosFavor, setPuntosFavor] = useState(0);
+    const [puntosContra, setPuntosContra] = useState(0);
+
+    const [showChart, setShowChart] = useState(false);
+    const [ataquesExitosos, setAtaquesExitosos] = useState(0);
+    const [ataquesFallidos, setAtaquesFallidos] = useState(0);
+    const [saquesExitosos, setSaquesExitosos] = useState(0);
+    const [saquesFallidos, setSaquesFallidos] = useState(0);
+    const [advertencias, setAdvertencias] = useState(0);
+    const [descalificaciones, setDescalificaciones] = useState(0);
+    const [penalizaciones, setPenalizaciones] = useState(0);
+    const [cantidadBloqueosExitosos, setCantidadBloqueosExitosos] = useState(0);
+
+    const ataquesChartRef = useRef(null);
+    const saquesChartRef = useRef(null);
+
+    const [userDataCall, setUserDataCall] = useState(0);
+
+    const [id, setId] = useState();
 
     const [jugador, setJugador] = useState({
+        idJugador: '',
         nombres: '',
         apellidoPaterno: '',
         apellidoMaterno: '',
@@ -47,31 +58,75 @@ export const PerfilEquipo = () => {
         alcanceBloqueo: '',
     });
 
-    const [ataquesExitosos, setAtaquesExitosos] = useState(0);
-    const [ataquesFallidos, setAtaquesFallidos] = useState(0);
-    const [saquesExitosos, setSaquesExitosos] = useState(0);
-    const [saquesFallidos, setSaquesFallidos] = useState(0);
-    const [advertencias, setAdvertencias] = useState(0);
-    const [descalificaciones, setDescalificaciones] = useState(0);
-    const [penalizaciones, setPenalizaciones] = useState(0);
-    const [cantidadBloqueosExitosos, setCantidadBloqueosExitosos] = useState(0);
+    const [userData, setUserData] = useState({
+        id:'',
+        name: '',
+        password: '',
+        username: '',
+        role: '',
+    });
 
+    const decodeJWT = (token) => {
+        try {
+            const base64Url = token.split('.')[1]; // Get the payload part of the JWT
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+                return `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`;
+            }).join(''));
 
-    const [jugadores, setJugadores] = useState([]);
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            console.error('Error decoding JWT:', e);
+            return null;
+        }
+    };
 
-    const ataquesChartRef = useRef(null);
-    const saquesChartRef = useRef(null);
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
 
     useEffect(() => {
-        EquipoService.getEquipoById(id)
+        if (userData === null || userDataCall === 0) {
+            // When userData is initially null, make the call to set it
+            const jwt = getCookie('jwt');
+            setUserData(decodeJWT(jwt));
+            setUserDataCall(1); // Update userDataCall to avoid repeated calls
+
+            JugadorService.getJugadorByEmail(userData.username)
+                .then((jugadorResponse) => {
+                    const jugadorData = jugadorResponse.data;
+                    setJugador({
+                        ...jugadorData,
+                        fechaNacimiento: jugadorData.fechaNacimiento ? new Date(jugadorData.fechaNacimiento) : null,
+                    });
+                    console.log(jugador)
+                    setId(jugador.idJugador);
+                })
+                .catch((jugadorError) => {
+                    console.error('Error fetching jugador:', jugadorError);
+                });
+        }
+
+    }, [userData, userDataCall]);
+
+
+    useEffect(() => {
+        // Fetch jugador data by id and set it in the state
+        JugadorService.getJugadorById(id)
             .then((response) => {
-                const equipoData = response.data;
-                setEquipo(equipoData);
+                const jugadorData = response.data;
+                setJugador({
+                    ...jugadorData,
+                    fechaNacimiento: jugadorData.fechaNacimiento ? new Date(jugadorData.fechaNacimiento) : null,
+                });
+                setJugadorId(jugadorData.idJugador);
             })
             .catch((error) => {
-                console.error('Error fetching equipo:', error);
+                console.log(error);
+                // Handle error
             });
-
         PartidoService.getPartidos()
             .then((partidosResponse) => {
                 const partidosData = partidosResponse.data;
@@ -90,55 +145,36 @@ export const PerfilEquipo = () => {
                 console.error('Error fetching partidos:', partidosError);
             });
 
-        JugadorPartidoService.getJugadoresPartido()
-            .then((response) => {
-                if (!Array.isArray(response.data)) {
-                    throw new Error('La respuesta no es un array');
-                }
-
-                const jugadoresUnicos = new Set();
-
-                const promises = response.data.map((eventos) => {
-                    if (
-                        eventos.listaJugadoresPartido.equipo.idEquipo === parseInt(id) &&
-                        !jugadoresUnicos.has(eventos.jugador.idJugador)
-                    ) {
-                        jugadoresUnicos.add(eventos.jugador.idJugador);
-                        return eventos.jugador;
-                    }
-                    return null;
-                });
-                return Promise.all(promises.filter(Boolean));
+        PartidoService.getPartidoById(selectedPartidoId)
+            .then((partidosResponse) => {
+                const partidosData = partidosResponse.data;
+                setPartidos(partidosData);
             })
-            .then((jugadores) => {
-                setJugadores(jugadores);
+            .catch((partidosError) => {
+                console.error('Error fetching partidos:', partidosError);
+            });
+    }, [id]);
+
+    useEffect(() => {
+        PartidoService.getPartidoById(selectedPartidoId)
+            .then((partidosResponse) => {
+                const partidosData = partidosResponse.data;
+                setSelectedPartido(partidosData);
             })
-            .catch((error) => {
-                console.error('Error al obtener jugadores:', error);
+            .catch((partidosError) => {
+                console.error('Error fetching partidos:', partidosError);
             });
 
-        JugadorPartidoService.getJugadoresPartido()
-            .then((response) => {
-                console.log("API Response:", response.data);
-                if (!Array.isArray(response.data)) {
-                    throw new Error('La respuesta no es un array');
-                }
-
-                // Filter the events directly based on the condition
-                const filteredEventos = response.data.filter(evento =>
-                    evento.listaJugadoresPartido &&
-                    evento.listaJugadoresPartido.equipo &&
-                    evento.listaJugadoresPartido.equipo.idEquipo == parseInt(id)
-                );
-
-                setJugadorPartido(filteredEventos);
+        TorneoService.getTorneoById(selectedTorneoId)
+            .then((torneosResponse) => {
+                const torneosData = torneosResponse.data;
+                setSelectedTorneo(torneosData);
             })
-            .catch((error) => {
-                // Enhanced error logging
-                console.error('Error al obtener jugadores:', error.message, error);
+            .catch((partidosError) => {
+                console.error('Error fetching partidos:', partidosError);
             });
+    }, [selectedPartidoId, selectedTorneoId]);
 
-    }, []);
 
     // Función para exportar a PDF
     const exportToPDF = () => {
@@ -151,7 +187,7 @@ export const PerfilEquipo = () => {
         // Agregar una línea debajo del título
         doc.setTextColor(0, 0, 0); // Color negro
         doc.setFontSize(24);
-        doc.text("Reporte " + equipo.nombreEquipo, 10, 20);
+        doc.text("Reporte " + jugador.nombres, 10, 20);
 
         let yPosition = 30; // Coordenada Y inicial para la información del jugador
 
@@ -169,45 +205,22 @@ export const PerfilEquipo = () => {
         // Alinear y espaciar el texto
         doc.setTextColor(0, 0, 0); // Color negro
         doc.setFontSize(14);
-        doc.text("Nombre: " + equipo.nombreEquipo, 10, yPosition += 7);
-        doc.text("Entrenador: " + equipo.nombreEntrenador, 10, yPosition += 7);
+        doc.text("Nombres: " + jugador.nombres, 10, yPosition += 7);
+        doc.text("Apellido Paterno: " + jugador.apellidoPaterno, 10, yPosition += 7);
+        doc.text("Apellido Materno: " + jugador.apellidoMaterno, 10, yPosition += 7);
+        doc.text("RUT: " + jugador.rut, 10, yPosition += 7);
+        doc.text("Fecha de Nacimiento: " + (jugador.fechaNacimiento ? jugador.fechaNacimiento.toLocaleDateString() : ''), 10, yPosition += 7);
+        doc.text("Género: " + jugador.genero, 10, yPosition += 7);
+        doc.text("Teléfono: " + jugador.telefono, 10, yPosition += 7);
+        doc.text("Email: " + jugador.email, 10, yPosition += 7);
+        doc.text("Estatura: " + jugador.estatura, 10, yPosition += 7);
+        doc.text("Peso: " + jugador.peso, 10, yPosition += 7);
+        doc.text("Alcance de Mano: " + jugador.alcanceMano, 10, yPosition += 7);
+        doc.text("Alcance de Bloqueo: " + jugador.alcanceBloqueo, 10, yPosition += 7);
 
-
-
-        // Define table column positions
-        const col1X = 10;
-        const col2X = 70;
-        const col3X = 110;
-
-        yPosition += 7;
-
-
-// Iterate through the players and add rows to the table
-        /*
-        listaJugadoresPartido.forEach((evento) => {
-            console.log("jugadorPartido: ", evento.jugadorPartido);
-            if (evento.jugadorPartido && evento.jugadorPartido.numeroCamiseta) {
-                doc.text(evento.jugadorPartido.numeroCamiseta, col1X, yPosition);
-            } else {
-                doc.text("N/A", col1X, yPosition); // Handle missing data
-            }
-
-            if (evento.jugadorPartido && evento.jugadorPartido.capitan) {
-                doc.text(evento.jugadorPartido.capitan, col2X, yPosition);
-            } else {
-                doc.text("N/A", col2X, yPosition); // Handle missing data
-            }
-
-            if (evento.jugadorPartido && evento.jugadorPartido.jugador && evento.jugadorPartido.jugador.nombres) {
-                doc.text(evento.jugadorPartido.jugador.nombres, col3X, yPosition);
-            } else {
-                doc.text("N/A", col3X, yPosition); // Handle missing data
-            }
-
-            // Increment the Y position for the next row
-            yPosition += 7;
-        });*/
-
+        // Agregar una línea divisoria entre secciones
+        doc.setLineWidth(0.2);
+        doc.line(10, yPosition += 7, 200, yPosition); // Línea después de la información del jugador
 
         // Aquí debes ajustar las coordenadas de las estadísticas
         yPosition += 7; // Incrementa la coordenada Y antes de las estadísticas
@@ -250,11 +263,21 @@ export const PerfilEquipo = () => {
         // Agregar la fecha y la hora en la esquina inferior izquierda
         doc.setTextColor(0, 0, 0); // Color negro
         doc.setFontSize(10); // Tamaño de fuente más pequeño para la fecha y la hora
-        doc.text("Reporte Generado el: "+ currentDateTime, 10, doc.internal.pageSize.height - 10);
+        doc.text(currentDateTime, 10, doc.internal.pageSize.height - 10);
 
-        doc.save('perfil_equipo.pdf');
+        doc.save('perfil_jugador.pdf');
     }
 
+
+
+
+    const handlePartidoSelection = (partidoId) => {
+        setSelectedPartidoId(partidoId);
+    };
+
+    const handleGenerateChart = () => {
+        setShowChart(true); // Cuando se haga clic en Generar Gráficos, establece el estado en true
+    };
 
     const fetchJugadorStatistics = (id) => {
         setAtaquesExitosos(0);
@@ -263,10 +286,10 @@ export const PerfilEquipo = () => {
         setSaquesFallidos(0);
 
 
-        console.log("jugador: ",equipo.idEquipo, "partido: ", parseInt(selectedPartidoId), "torneo: ", selectedTorneoId);
+        console.log("jugador: ",jugadorId, "partido: ", selectedPartidoId, "torneo: ", selectedTorneoId);
 
 
-        EventoService.getAtaquesExitososByIdEquipo(equipo.idEquipo)
+        EventoService.getAtaquesExitososByIdJugador(jugadorId)
             .then((response) => {
                 let totalExitosos = 0;
 
@@ -298,7 +321,7 @@ export const PerfilEquipo = () => {
                 console.error('Error fetching ataques exitosos:', error);
             });
 
-        EventoService.getAtaquesFallidosByIdEquipo(equipo.idEquipo)
+        EventoService.getAtaquesFallidosByIdJugador(jugadorId)
             .then((response) => {
                 let totalFallidos = 0;
 
@@ -329,8 +352,8 @@ export const PerfilEquipo = () => {
                 console.error('Error fetching ataques fallidos:', error);
             });
 
-        // Obtener el total de saques exitosos
-        EventoService.getSaquesExitososByIdEquipo(equipo.idEquipo)
+            // Obtener el total de saques exitosos
+        EventoService.getSaquesExitososByIdJugador(jugadorId)
             .then((response) => {
                 let totalExitosos = 0;
 
@@ -361,7 +384,7 @@ export const PerfilEquipo = () => {
                 console.error('Error fetching saques exitosos:', error);
             });
 
-        EventoService.getSaquesFallidosByIdEquipo(equipo.idEquipo)
+        EventoService.getSaquesFallidosByIdJugador(jugadorId)
             .then((response) => {
                 let totalFallidos = 0;
 
@@ -393,7 +416,7 @@ export const PerfilEquipo = () => {
                 console.error('Error fetching saques fallidos:', error);
             });
 
-        eventoService.getBloqueosExitososByIdEquipo(equipo.idEquipo)
+        eventoService.getBloqueosExitososByIdJugador(jugadorId)
             .then((response) => {
                 const eventos = response.data;
                 let cantidadExitosos = 0;
@@ -424,7 +447,7 @@ export const PerfilEquipo = () => {
                 console.error('Error fetching bloqueos exitosos:', error);
             });
 
-        eventoService.getAdvertenciasByIdEquipo(equipo.idEquipo)
+        eventoService.getAdvertenciasByIdJugador(jugadorId)
             .then((response) => {
                 const eventos = response.data;
                 let cantidadAdvertencias = 0;
@@ -455,7 +478,7 @@ export const PerfilEquipo = () => {
                 console.error('Error fetching advertencias:', error);
             });
 
-        eventoService.getDescalificacionesByIdEquipo(equipo.idEquipo)
+        eventoService.getDescalificacionesByIdJugador(jugadorId)
             .then((response) => {
                 const eventos = response.data;
                 let cantidadDescalificaciones = 0;
@@ -488,7 +511,7 @@ export const PerfilEquipo = () => {
                 // Manejar el error
             });
 
-        eventoService.getPenalizacionesByIdEquipo(equipo.idEquipo)
+        eventoService.getPenalizacionesByIdJugador(jugadorId)
             .then((response) => {
                 const eventos = response.data;
                 let cantidadPenalizaciones = 0;
@@ -519,6 +542,8 @@ export const PerfilEquipo = () => {
             .catch((error) => {
                 console.error('Error fetching penalizaciones:', error);
             });
+
+
     };
 
     useEffect(() => {
@@ -531,15 +556,15 @@ export const PerfilEquipo = () => {
         }
         const ataquesCtx = document.getElementById('grafico-ataques').getContext('2d');
 
-        // Calcular los porcentajes
-        const totalAtaques = ataquesExitosos + Math.abs(ataquesFallidos); // Sumar los éxitos y los fallos
-        const porcentajeExitosos = ((ataquesExitosos / totalAtaques) * 100).toFixed(2);
-        const porcentajeFallidos = ((Math.abs(ataquesFallidos) / totalAtaques) * 100).toFixed(2);
+        // Calcular los porcentajes para ataques
+        const totalAtaques = ataquesExitosos + Math.abs(ataquesFallidos);
+        const porcentajeExitososAtaques = ((ataquesExitosos / totalAtaques) * 100).toFixed(2);
+        const porcentajeFallidosAtaques = ((Math.abs(ataquesFallidos) / totalAtaques) * 100).toFixed(2);
 
         ataquesChartRef.current = new Chart(ataquesCtx, {
             type: 'pie',
             data: {
-                labels: ['Ataques Exitosos ' + porcentajeExitosos + '%', 'Ataques Fallidos ' + porcentajeFallidos + '%'],
+                labels: ['Ataques Exitosos ' + porcentajeExitososAtaques + '%', 'Ataques Fallidos ' + porcentajeFallidosAtaques + '%'],
                 datasets: [
                     {
                         data: [ataquesExitosos, ataquesFallidos*-1],
@@ -549,14 +574,13 @@ export const PerfilEquipo = () => {
             },
         });
 
-
         if (saquesChartRef.current) {
             saquesChartRef.current.destroy();
         }
         const saquesCtx = document.getElementById('grafico-saques').getContext('2d');
 
-// Calcular los porcentajes
-        const totalSaques = saquesExitosos + Math.abs(saquesFallidos); // Sumar los éxitos y los fallos
+        // Calcular los porcentajes para saques
+        const totalSaques = saquesExitosos + Math.abs(saquesFallidos);
         const porcentajeExitososSaques = ((saquesExitosos / totalSaques) * 100).toFixed(2);
         const porcentajeFallidosSaques = ((Math.abs(saquesFallidos) / totalSaques) * 100).toFixed(2);
 
@@ -574,63 +598,28 @@ export const PerfilEquipo = () => {
         });
     };
 
-    useEffect(() => {
-        PartidoService.getPartidoById(selectedPartidoId)
-            .then((partidosResponse) => {
-                const partidosData = partidosResponse.data;
-                setSelectedPartido(partidosData);
-            })
-            .catch((partidosError) => {
-                console.error('Error fetching partidos:', partidosError);
-            });
-
-        TorneoService.getTorneoById(selectedTorneoId)
-            .then((torneosResponse) => {
-                const torneosData = torneosResponse.data;
-                setSelectedTorneo(torneosData);
-            })
-            .catch((partidosError) => {
-                console.error('Error fetching partidos:', partidosError);
-            });
-
-    }, [selectedPartidoId, selectedTorneoId]);
-
-    const handlePartidoChange = (event) => {
-        setSelectedPartidoId(event.target.value);
-
-        const filteredJugadores = jugadoresPartido.filter((eventos) => {
-            if(eventos.listaJugadoresPartido.partido !== null && eventos.listaJugadoresPartido.equipo.idEquipo === parseInt(id) && eventos.listaJugadoresPartido.partido.idPartido === parseInt(event.target.value)){
-                return eventos.listaJugadoresPartido.partido.idPartido;
-            }else{
-                return null
-            }
-        });
-        console.log(filteredJugadores)
-        setListaJugadoresPartido(filteredJugadores);
-    };
+    if (userData === null) {
+        setUserDataCall(1);
+        return null; // or you can return a loading indicator or a different component
+    }
 
     return (
         <div>
-            <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
-                &nbsp;
-                <h1 className="text-left" style={{color: '#F4B205'}}>
-                    CDO Tournament
-                </h1>
-                &nbsp;
+            <div style={{ background: "#202124", color: "#000", minHeight: "100vh" , paddingTop: '80px' }}>
                 <div className="container" style={{ padding: "20px" }}>
                     &nbsp;
-                    <h2 className="text-center" style={{ color: '#ffffff' }}>Perfil del Equipo</h2>
+                    <h2 className="text-center" style={{ color: '#ffffff' }}>Perfil del Jugador</h2>
                     &nbsp;
                     <div className="row justify-content-center">
                         <div className="card col-md-8" style={{ background: "#bcbdbe", color: "#000" }}>
                             <div className="card-body">
                                 <div style={{ height: "70px", display: "flex", alignItems: "center" }}>
-                                    <Link to="/equipos" className="btn btn-secondary" style={{ background: "#6C757D", color: "#fff" }}>
+                                    <Link to="/jugadores" className="btn btn-secondary" style={{ background: "#6C757D", color: "#fff" }}>
                                         Volver
                                     </Link>
                                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                                     <Link
-                                        to={`/updateEquipo/${equipo.idEquipo}`}
+                                        to={`/updateJugador/${jugador.idJugador}`}
                                         className="btn btn-warning"
                                         style={{ background: "#F4B205", color: "#000", width: "auto" }}
                                     >
@@ -645,154 +634,191 @@ export const PerfilEquipo = () => {
                                     </button>
                                 </div>
                                 <form>
-                                        <div className="form-group row mb-2" >
-                                            <div className="row mb-2">
-                                                <div className="col-sm-3">
-                                                    <label style={{ color: '#000' }}>Nombre Equipo:</label>
-                                                </div>
-                                                <div className="col-sm-9">
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Nombre de la Competición"
-                                                        name="nombreCompeticion"
-                                                        className="form-control"
-                                                        value={equipo.nombreEquipo}
-                                                        readOnly
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="row mb-2">
-                                                <div className="col-sm-3">
-                                                    <label style={{ color: '#000' }}>Entrenador:</label>
-                                                </div>
-                                                <div className="col-sm-9">
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Ciudad"
-                                                        name="ciudad"
-                                                        className="form-control"
-                                                        value={equipo.nombreEntrenador}
-                                                        readOnly
-                                                    />
-                                                </div>
-                                            </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Nombres:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="nombres"
+                                                className="form-control"
+                                                value={jugador.nombres}
+                                                readOnly
+                                            />
                                         </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Apellido Paterno:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="apellidoPaterno"
+                                                className="form-control"
+                                                value={jugador.apellidoPaterno}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Apellido Materno:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="apellidoMaterno"
+                                                className="form-control"
+                                                value={jugador.apellidoMaterno}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>RUT:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="rut"
+                                                className="form-control"
+                                                value={jugador.rut}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Fecha de Nacimiento:</label>
+                                        <div className="col-sm-9">
+                                            <DatePicker
+                                                className="form-control"
+                                                selected={jugador.fechaNacimiento}
+                                                disabled
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Género:</label>
+                                        <div className="col-sm-9">
+                                            <select
+                                                className="form-control"
+                                                name="genero"
+                                                value={jugador.genero || ''}
+                                                disabled
+                                            >
+                                                <option value="">Seleccione género</option>
+                                                <option value="M">Masculino</option>
+                                                <option value="F">Femenino</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Teléfono:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="telefono"
+                                                className="form-control"
+                                                value={jugador.telefono}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Email:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="email"
+                                                className="form-control"
+                                                value={jugador.email}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Estatura:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="estatura"
+                                                className="form-control"
+                                                value={jugador.estatura}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Peso:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="peso"
+                                                className="form-control"
+                                                value={jugador.peso}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Alcance de Mano:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="alcanceMano"
+                                                className="form-control"
+                                                value={jugador.alcanceMano}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row mb-2">
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Alcance de Bloqueo:</label>
+                                        <div className="col-sm-9">
+                                            <input
+                                                name="alcanceBloqueo"
+                                                className="form-control"
+                                                value={jugador.alcanceBloqueo}
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-                    &nbsp;
-
-                    <div className="row justify-content-center">
-                        <Table striped bordered hover variant="light" className="table-xl">
-                            <thead>
-                            <tr>
-                                <th>Nombres</th>
-                                <th>Rut</th>
-                                <th>Apellidos</th>
-                                <th>Fecha Nacimiento</th>
-                                <th>Genéro</th>
-                                <th>Teléfono</th>
-                                <th>Email</th>
-                                <th>Estatura</th>
-                                <th>Peso</th>
-                                <th>Alcance Mano</th>
-                                <th>Alcance Bloqueo</th>
-                                <th>Acciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {jugadores.map((jugador) => (
-                                <tr key={jugador.idJugador}>
-                                    <td>{jugador.nombres}</td>
-                                    <td>{jugador.rut}</td>
-                                    <td>{jugador.apellidoPaterno + ' ' + jugador.apellidoMaterno}</td>
-                                    <td>{jugador.fechaNacimiento}</td>
-                                    <td>{jugador.genero}</td>
-                                    <td>{jugador.telefono}</td>
-                                    <td>{jugador.email}</td>
-                                    <td>{jugador.estatura}</td>
-                                    <td>{jugador.peso}</td>
-                                    <td>{jugador.alcanceMano}</td>
-                                    <td>{jugador.alcanceBloqueo}</td>
-                                    <td>
-                                        <Link
-                                            to={`/perfilJugador/${jugador.idJugador}`}
-                                            className="btn btn-warning"
-                                            style={{ background: "#F4B205", color: "#000", width: "auto" }}
-                                        >
-                                            Ver Perfil
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </Table>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <Link
-                                to= {`/perfilAddJugadorAEquipo/${id}`}
-                                className="btn btn-primary mb-2"
-                                style={{ backgroundColor: '#F4B205', color: '#000' }}
-                            >
-                                Agregar Jugador
-                            </Link>
-                        </div>
-                    </div>
-
-                    &nbsp;
-
-                    <div className="row">
-
-                        &nbsp;
-                        <div className="form-group mb-2" style={{ display: 'flex', gap: '20px' }}>
-                            <label style={{ color: '#ffffff' }}>Partido:</label>
-                            <select
-                                className="form-control"
-                                onChange={handlePartidoChange}
-                                value={selectedPartidoId}
-                            >
-                                <option value="">Seleccionar Partido</option>
-                                {partidos.map((partido) => (
-                                    <option key={partido.idPartido} value={partido.idPartido}>
-                                        {partido.nombreCompeticion}
-                                    </option>
-                                ))}
-                            </select>
-
-                            <label style={{ color: '#ffffff' }}>Torneo:</label>
-                            <select
-                                className="form-control"
-                                onChange={(e) => setSelectedTorneoId(e.target.value)}
-                                value={selectedTorneoId}
-                                style={{ background: '#e6e5e5', color: '#151414' }}
-                            >
-                                <option value="">Todos los torneos</option>
-                                {torneos.map((torneo) => (
-                                    <option key={torneo.idTorneo} value={torneo.idTorneo}>
-                                        {torneo.nombre}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        &nbsp;
-                        <div className="row justify-content-start">
-                            <Button
-                                variant="primary"
-                                onClick={fetchJugadorStatistics}
-                                style={{ backgroundColor: '#F4B205', color: '#000', marginTop: '10px', width: '210px', height: '40px', fontSize: '16px' }}
-                            >
-                             Generar Estadísticas <IoIcons.IoIosStats />
-                            </Button>
-                        </div>
-
-                    </div>
-
                     &nbsp;
                     <div></div>
                     &nbsp;
+                    <div></div>
+                    &nbsp;
+                    <div className="form-group mb-2" style={{ display: 'flex', gap: '20px' }}>
+                        <label style={{ color: '#ffffff' }}>Partido:</label>
+                        <select
+                            className="form-control"
+                            onChange={(e) => setSelectedPartidoId(e.target.value)}
+                            value={selectedPartidoId}
+                            style={{ background: '#e6e5e5', color: '#151414', marginRight: '20px' }}
+                        >
+                            <option value="">Todos los partidos</option>
+                            {partidos.map((partido) => (
+                                <option key={partido.idPartido} value={partido.idPartido}>
+                                    {partido.nombreCompeticion}
+                                </option>
+                            ))}
+                        </select>
+
+                        <label style={{ color: '#ffffff' }}>Torneo:</label>
+                        <select
+                            className="form-control"
+                            onChange={(e) => setSelectedTorneoId(e.target.value)}
+                            value={selectedTorneoId}
+                            style={{ background: '#e6e5e5', color: '#151414' }}
+                        >
+                            <option value="">Todos los torneos</option>
+                            {torneos.map((torneo) => (
+                                <option key={torneo.idTorneo} value={torneo.idTorneo}>
+                                    {torneo.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    &nbsp;
+                    <div className="row justify-content-start">
+                        <Button
+                            variant="primary"
+                            onClick={fetchJugadorStatistics}
+                            style={{ backgroundColor: '#F4B205', color: '#000', marginTop: '10px', width: '210px', height: '40px', fontSize: '16px' }}
+                        >
+                            Generar Estadísticas <IoIcons.IoIosStats />
+                        </Button>
+                    </div>
                     &nbsp;
                     <div className="row justify-content-center">
                         <div className="card col-md-8" style={{ background: "#bcbdbe", color: "#000" }}>
@@ -868,12 +894,12 @@ export const PerfilEquipo = () => {
                             <div className="row justify-content-center">
                                 <div className="col-md-6" style={{ color: '#ffffff' }}>
                                     <h3 className="text-center" >Estadísticas de Ataques</h3>
-                                    <h5 className="text-center">Aqui se puede visualizar los Ataques Exitosos VS los Ataques Fallidos</h5>
+                                    <h5 className="text-center">Aquí se puede visualizar los Ataques Exitosos VS los Ataques Fallidos</h5>
                                     <canvas id="grafico-ataques" width="300" height="150"></canvas>
                                 </div>
                                 <div className="col-md-6" style={{ color: '#ffffff' }}>
                                     <h3 className="text-center">Estadísticas de Saques</h3>
-                                    <h5 className="text-center">Aqui se puede visualizar los Saques Exitosos VS los Saques Fallidos</h5>
+                                    <h5 className="text-center">Aquí se puede visualizar los Saques Exitosos VS los Saques Fallidos</h5>
                                     <canvas id="grafico-saques" width="300" height="150"></canvas>
                                 </div>
                             </div>
@@ -885,4 +911,4 @@ export const PerfilEquipo = () => {
     );
 };
 
-export default PerfilEquipo;
+export default PerfilUsuarioJugador;

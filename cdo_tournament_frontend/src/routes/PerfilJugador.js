@@ -150,15 +150,15 @@ export const PerfilJugador = () => {
         doc.text("Nombres: " + jugador.nombres, 10, yPosition += 7);
         doc.text("Apellido Paterno: " + jugador.apellidoPaterno, 10, yPosition += 7);
         doc.text("Apellido Materno: " + jugador.apellidoMaterno, 10, yPosition += 7);
-        doc.text("RUT: " + jugador.rut, 10, yPosition += 7);
+        doc.text("RUT: " + formatRUT(jugador.rut), 10, yPosition += 7);
         doc.text("Fecha de Nacimiento: " + (jugador.fechaNacimiento ? jugador.fechaNacimiento.toLocaleDateString() : ''), 10, yPosition += 7);
         doc.text("Género: " + jugador.genero, 10, yPosition += 7);
         doc.text("Teléfono: " + jugador.telefono, 10, yPosition += 7);
         doc.text("Email: " + jugador.email, 10, yPosition += 7);
-        doc.text("Estatura: " + jugador.estatura, 10, yPosition += 7);
-        doc.text("Peso: " + jugador.peso, 10, yPosition += 7);
-        doc.text("Alcance de Mano: " + jugador.alcanceMano, 10, yPosition += 7);
-        doc.text("Alcance de Bloqueo: " + jugador.alcanceBloqueo, 10, yPosition += 7);
+        doc.text("Estatura (cm.): " + jugador.estatura, 10, yPosition += 7);
+        doc.text("Peso (Kg.): " + jugador.peso, 10, yPosition += 7);
+        doc.text("Alcance de Mano (cm.): " + jugador.alcanceMano, 10, yPosition += 7);
+        doc.text("Alcance de Bloqueo (cm.): " + jugador.alcanceBloqueo, 10, yPosition += 7);
 
         // Agregar una línea divisoria entre secciones
         doc.setLineWidth(0.2);
@@ -199,6 +199,13 @@ export const PerfilJugador = () => {
             doc.addImage(ataquesDataURL, 'JPEG', 10, yPosition += 7, 90, 90);
             doc.addImage(saquesDataURL, 'JPEG', 110, yPosition, 90, 90);
         }
+
+        const currentDateTime = new Date().toLocaleString();
+
+        // Agregar la fecha y la hora en la esquina inferior izquierda
+        doc.setTextColor(0, 0, 0); // Color negro
+        doc.setFontSize(10); // Tamaño de fuente más pequeño para la fecha y la hora
+        doc.text("Reporte Generado el: "+ currentDateTime, 10, doc.internal.pageSize.height - 10);
 
         doc.save('perfil_jugador.pdf');
     }
@@ -490,13 +497,19 @@ export const PerfilJugador = () => {
             ataquesChartRef.current.destroy();
         }
         const ataquesCtx = document.getElementById('grafico-ataques').getContext('2d');
+
+        // Calcular los porcentajes para ataques
+        const totalAtaques = ataquesExitosos + Math.abs(ataquesFallidos);
+        const porcentajeExitososAtaques = ((ataquesExitosos / totalAtaques) * 100).toFixed(2);
+        const porcentajeFallidosAtaques = ((Math.abs(ataquesFallidos) / totalAtaques) * 100).toFixed(2);
+
         ataquesChartRef.current = new Chart(ataquesCtx, {
             type: 'pie',
             data: {
-                labels: ['Ataques Exitosos', 'Ataques Fallidos'],
+                labels: ['Ataques Exitosos ' + porcentajeExitososAtaques + '%', 'Ataques Fallidos ' + porcentajeFallidosAtaques + '%'],
                 datasets: [
                     {
-                        data: [ataquesExitosos, ataquesFallidos],
+                        data: [ataquesExitosos, ataquesFallidos*-1],
                         backgroundColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
                     },
                 ],
@@ -507,13 +520,19 @@ export const PerfilJugador = () => {
             saquesChartRef.current.destroy();
         }
         const saquesCtx = document.getElementById('grafico-saques').getContext('2d');
+
+        // Calcular los porcentajes para saques
+        const totalSaques = saquesExitosos + Math.abs(saquesFallidos);
+        const porcentajeExitososSaques = ((saquesExitosos / totalSaques) * 100).toFixed(2);
+        const porcentajeFallidosSaques = ((Math.abs(saquesFallidos) / totalSaques) * 100).toFixed(2);
+
         saquesChartRef.current = new Chart(saquesCtx, {
             type: 'pie',
             data: {
-                labels: ['Saques Exitosos', 'Saques Fallidos'],
+                labels: ['Saques Exitosos ' + porcentajeExitososSaques + '%', 'Saques Fallidos ' + porcentajeFallidosSaques + '%'],
                 datasets: [
                     {
-                        data: [saquesExitosos, saquesFallidos],
+                        data: [saquesExitosos, saquesFallidos*-1],
                         backgroundColor: ['rgba(255, 205, 86, 1)', 'rgba(54, 162, 235, 1)'],
                     },
                 ],
@@ -521,9 +540,27 @@ export const PerfilJugador = () => {
         });
     };
 
+    const formatRUT = (rut) => {
+        // Remove any dots or dashes in the input RUT
+        const cleanRUT = rut.replace(/[.-]/g, '');
+
+        // Split the clean RUT into the main part and the verifier digit
+        const mainPart = cleanRUT.slice(0, -1);
+        const verifierDigit = cleanRUT.slice(-1);
+
+        // Add dots for formatting
+        const formattedRUT = mainPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + verifierDigit;
+
+        return formattedRUT;
+    };
+
     return (
         <div>
-            <div style={{ background: "#202124", color: "#000", minHeight: "100vh" , paddingTop: '80px' }}>
+            <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+                &nbsp;
+                <h1 className="text-left" style={{color: '#F4B205'}}>
+                    CDO Tournament
+                </h1>
                 <div className="container" style={{ padding: "20px" }}>
                     &nbsp;
                     <h2 className="text-center" style={{ color: '#ffffff' }}>Perfil del Jugador</h2>
@@ -591,7 +628,7 @@ export const PerfilJugador = () => {
                                             <input
                                                 name="rut"
                                                 className="form-control"
-                                                value={jugador.rut}
+                                                value={formatRUT(jugador.rut)}
                                                 readOnly
                                             />
                                         </div>
@@ -644,7 +681,7 @@ export const PerfilJugador = () => {
                                         </div>
                                     </div>
                                     <div className="form-group row mb-2">
-                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Estatura:</label>
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Estatura (cm.):</label>
                                         <div className="col-sm-9">
                                             <input
                                                 name="estatura"
@@ -655,7 +692,7 @@ export const PerfilJugador = () => {
                                         </div>
                                     </div>
                                     <div className="form-group row mb-2">
-                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Peso:</label>
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Peso (Kg.):</label>
                                         <div className="col-sm-9">
                                             <input
                                                 name="peso"
@@ -666,7 +703,7 @@ export const PerfilJugador = () => {
                                         </div>
                                     </div>
                                     <div className="form-group row mb-2">
-                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Alcance de Mano:</label>
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Alcance de Mano (cm.):</label>
                                         <div className="col-sm-9">
                                             <input
                                                 name="alcanceMano"
@@ -677,7 +714,7 @@ export const PerfilJugador = () => {
                                         </div>
                                     </div>
                                     <div className="form-group row mb-2">
-                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Alcance de Bloqueo:</label>
+                                        <label className="col-sm-3 col-form-label" style={{ color: "#000" }}>Alcance de Bloqueo (cm.):</label>
                                         <div className="col-sm-9">
                                             <input
                                                 name="alcanceBloqueo"
@@ -734,7 +771,7 @@ export const PerfilJugador = () => {
                             onClick={fetchJugadorStatistics}
                             style={{ backgroundColor: '#F4B205', color: '#000', marginTop: '10px', width: '210px', height: '40px', fontSize: '16px' }}
                         >
-                            Generar Estadisticas <IoIcons.IoIosStats />
+                            Generar Estadísticas <IoIcons.IoIosStats />
                         </Button>
                     </div>
                     &nbsp;
@@ -812,12 +849,12 @@ export const PerfilJugador = () => {
                             <div className="row justify-content-center">
                                 <div className="col-md-6" style={{ color: '#ffffff' }}>
                                     <h3 className="text-center" >Estadísticas de Ataques</h3>
-                                    <h5 className="text-center">Aqui se puede visualizar los Ataques Exitosos VS los Ataques Fallidos</h5>
+                                    <h5 className="text-center">Aquí se puede visualizar los Ataques Exitosos VS los Ataques Fallidos</h5>
                                     <canvas id="grafico-ataques" width="300" height="150"></canvas>
                                 </div>
                                 <div className="col-md-6" style={{ color: '#ffffff' }}>
                                     <h3 className="text-center">Estadísticas de Saques</h3>
-                                    <h5 className="text-center">Aqui se puede visualizar los Saques Exitosos VS los Saques Fallidos</h5>
+                                    <h5 className="text-center">Aquí se puede visualizar los Saques Exitosos VS los Saques Fallidos</h5>
                                     <canvas id="grafico-saques" width="300" height="150"></canvas>
                                 </div>
                             </div>

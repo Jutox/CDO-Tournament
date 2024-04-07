@@ -151,6 +151,11 @@ const AddEventoForm = () => {
 
     return (
         <div style={{ background: '#202124', color: '#000', minHeight: '100vh', padding: '20px' , paddingTop: '80px' }}>
+            &nbsp;
+            <h1 className="text-left" style={{color: '#F4B205'}}>
+                CDO Tournament
+            </h1>
+            &nbsp;
             <div className="container" style={{ padding: '20px' }}>
                 &nbsp;
                 <h2 className="text-center" style={{ color: "#ffffff" }}>Agregar Evento</h2>

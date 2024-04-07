@@ -18,6 +18,9 @@ class LoginService {
         const url = `${LOGIN_API_BASE_URL}/users/${userId}`;
         return axios.put(url, user);
     }
+
+
+
 }
 
 export default new LoginService();
