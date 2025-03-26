@@ -1,1 +1,1 @@
-Hola
+Aplicación web desarrollada para entrenadores y jugadores de voleibol, diseñada para gestionar estadísticas, planificar entrenamientos y mejorar el rendimiento. Permite registrar datos como puntos, bloqueos y ataques, y ofrece gráficos para el análisis del rendimiento. La plataforma facilita el seguimiento individualizado de jugadores y optimiza la planificación de entrenamientos.
